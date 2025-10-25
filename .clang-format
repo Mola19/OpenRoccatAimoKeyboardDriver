@@ -1,0 +1,11 @@
+BasedOnStyle: Google
+UseTab: ForContinuationAndIndentation
+SpacesBeforeTrailingComments: '1'
+IndentWidth: 4
+TabWidth: 4
+AccessModifierOffset: -2
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortEnumsOnASingleLine: no
+IndentCaseLabels: yes
+ColumnLimit: 100
+PackConstructorInitializers: CurrentLine
