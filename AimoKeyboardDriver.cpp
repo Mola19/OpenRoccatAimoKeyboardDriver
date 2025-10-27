@@ -74,6 +74,8 @@ std::expected<AimoKeyboardDriver::DeviceInfo, std::string> AimoKeyboardDriver::g
 			._unknown4 = buf[4],
 			._unknown5 = buf[5]};
 	}
+
+    delete[] buf;
 }
 
 bool AimoKeyboardDriver::check_checksum(uint8_t* buf, int size, uint8_t checksum_size) {
