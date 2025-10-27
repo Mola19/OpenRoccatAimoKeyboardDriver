@@ -50,14 +50,24 @@ class AimoKeyboardDriver {
 		std::optional<uint8_t> _unknown5;
 	};
 
+	enum BusyState {
+		READY = 1,
+		ERROR = 2,
+		BUSY = 3,
+	};
+
 	template <class T>
 	using Error = std::expected<T, std::string>;
+
+	using VoidError = std::optional<std::string>;
 
 	AimoKeyboardDriver(){};
 	AimoKeyboardDriver(std::string name, std::vector<hid_device *> hiddev, uint16_t pid);
 	~AimoKeyboardDriver();
 
 	Error<DeviceInfo> get_device_info ();
+	Error<uint8_t> get_busy_state ();
+	VoidError wait_until_ready ();
 
 	Config config;
 	hid_device *ctrl_device;
