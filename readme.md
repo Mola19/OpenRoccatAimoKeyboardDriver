@@ -25,7 +25,7 @@ Note: I don't plan to add firmware updates in the near future, as those are very
 
 [feature support list](supported_devices.md)
 
-Note: Roccat has been bought by Turtle Beach some time ago and now they are rebranding all products, even retroactively, i don't know f there is any way to distinguish between new and old, but for now i am referring to all devices as Roccat
+Note: Roccat has been bought by Turtle Beach some time ago and now they are rebranding all products, even retroactively, i don't know if there is any way to distinguish between new and old, but for now i am referring to all devices as Roccat
 
 | Device                         | Support |
 | ------------------------------ | :-----: |
