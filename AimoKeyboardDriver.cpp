@@ -7,6 +7,7 @@
 #include <cstring>
 #include <expected>
 #include <iostream>
+#include <optional>
 #include <string>
 #include <thread>
 #include <vector>
@@ -31,7 +32,7 @@ AimoKeyboardDriver::~AimoKeyboardDriver() {
 	hid_close(led_device);
 }
 
-std::expected<AimoKeyboardDriver::DeviceInfo, std::string> AimoKeyboardDriver::get_device_info() {
+AimoKeyboardDriver::Error<AimoKeyboardDriver::DeviceInfo> AimoKeyboardDriver::get_device_info() {
 	uint8_t packet_length = (config.protocol_version == 1) ? 8 : 9;
 	uint8_t report_id = (config.protocol_version == 1) ? 0x0F : 0x09;
 
@@ -76,6 +77,43 @@ std::expected<AimoKeyboardDriver::DeviceInfo, std::string> AimoKeyboardDriver::g
 	}
 
     delete[] buf;
+}
+
+AimoKeyboardDriver::Error<uint8_t> AimoKeyboardDriver::get_busy_state() {
+	uint8_t packet_length = (config.protocol_version == 1) ? 3 : 4;
+
+	uint8_t* buf = new uint8_t[packet_length];
+	memset(buf, 0x00, packet_length);
+
+	buf[0] = 0x04;
+    int read = hid_get_feature_report(ctrl_device, buf, packet_length);
+
+	if (read == -1)
+		return std::unexpected("HIDAPI Error");
+	
+	// this packet doesn't send packet length 
+	if (buf[0] != 0x04)
+		return std::unexpected("packet header is malformed");
+
+    uint8_t state = buf[1];
+	delete[] buf;
+	return state;
+}
+
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::wait_until_ready() {
+	// not waiting for at least 2 miliseconds will yield relatively frequent errors
+	std::this_thread::sleep_for(std::chrono::milliseconds(5));
+	for(uint8_t i = 0; i < 100; i++)
+    {
+		auto res = get_busy_state();
+		if (!res) {
+			return res.error();
+		} else if (res.value() == AimoKeyboardDriver::READY) {
+			return std::nullopt;
+		}
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+	return "Timeout";
 }
 
 bool AimoKeyboardDriver::check_checksum(uint8_t* buf, int size, uint8_t checksum_size) {
