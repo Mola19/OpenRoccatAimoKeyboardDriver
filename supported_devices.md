@@ -31,20 +31,20 @@
 
 ## General Information
 
-| Device                         | get_device_info | set_page_to_read | get_busy_state | get_sleep | set_sleep |
-| ------------------------------ | :-------------: | :--------------: | :------------: | :-------: | :-------: |
-| Roccat Vulcan 80 Aimo          |        🚧        |        🚧         |       🚧        |     🚧     |     🚧     |
-| Roccat Vulcan 100 Aimo         |        ✔        |        🚧         |       ✔        |     🚧     |     🚧     |
-| Roccat Vulcan 120/121/122 Aimo |        🚧        |        🚧         |       🚧        |     🚧     |     🚧     |
-| Roccat Vulcan TKL              |        🚧        |        🚧         |       🚧        |     🚧     |     🚧     |
-| Roccat Vulcan Pro              |        🚧        |        🚧         |       🚧        |     ❌     |     ❌     |
-| Roccat Vulcan TKL Pro          |        ✔        |        🚧         |       ✔        |     ❌     |     ❌     |
-| Roccat Pyro                    |        🚧        |        🚧         |       🚧        |     ❌     |     ❌     |
-| Roccat Magma                   |        🚧        |        🚧         |       🚧        |     ❌     |     ❌     |
-| Roccat Magma Mini              |        🚧        |        🚧         |       🚧        |     ❌     |     ❌     |
-| Roccat Vulcan II               |        🚧        |        🚧         |       🚧        |     ❌     |     ❌     |
-| Roccat Vulcan II Max           |        🚧        |        🚧         |       🚧        |     ❌     |     ❌     |
-| Roccat Vulcan II Mini          |        🚧        |        🚧         |       🚧        |     ❌     |     ❌     |
+| Device                         | get_device_info | set_page_to_read | get_busy_state |
+| ------------------------------ | :-------------: | :--------------: | :------------: |
+| Roccat Vulcan 80 Aimo          |        🚧        |        🚧         |       🚧        |
+| Roccat Vulcan 100 Aimo         |        ✔        |        🚧         |       ✔        |
+| Roccat Vulcan 120/121/122 Aimo |        🚧        |        🚧         |       🚧        |
+| Roccat Vulcan TKL              |        🚧        |        🚧         |       🚧        |
+| Roccat Vulcan Pro              |        🚧        |        🚧         |       🚧        |
+| Roccat Vulcan TKL Pro          |        ✔        |        🚧         |       ✔        |
+| Roccat Pyro                    |        🚧        |        🚧         |       🚧        |
+| Roccat Magma                   |        🚧        |        🚧         |       🚧        |
+| Roccat Magma Mini              |        🚧        |        🚧         |       🚧        |
+| Roccat Vulcan II               |        🚧        |        🚧         |       🚧        |
+| Roccat Vulcan II Max           |        🚧        |        🚧         |       🚧        |
+| Roccat Vulcan II Mini          |        🚧        |        🚧         |       🚧        |
 
 These functions are not the same for Generation 1 and 2. For convenience use the wrapper functions `get_software_state` and `set_software_state` in combination with the config variable `has_adjustable_time_to_sleep`.
 
@@ -105,19 +105,19 @@ Generation 1 devices don't support setting time to sleep (as far as we know).
 
 ## Lighting
 
-| Device                         | get_lighting | set_lighting | set_direct_lighting |
-| ------------------------------ | :----------: | :----------: | :-----------------: |
-| Roccat Vulcan 80 Aimo*         |      🚧       |      🚧       |          🚧          |
-| Roccat Vulcan 100 Aimo         |      🚧       |      🚧       |          🚧          |
-| Roccat Vulcan 120/121/122 Aimo |      🚧       |      🚧       |          🚧          |
-| Roccat Vulcan TKL              |      🚧       |      🚧       |          🚧          |
-| Roccat Vulcan Pro              |      🚧       |      🚧       |          🚧          |
-| Roccat Vulcan TKL Pro          |      🚧       |      🚧       |          🚧          |
-| Roccat Pyro                    |      🚧       |      🚧       |          🚧          |
-| Roccat Magma                   |      🚧       |      🚧       |          🚧          |
-| Roccat Magma Mini              |      🚧       |      🚧       |          🚧          |
-| Roccat Vulcan II               |      🚧       |      🚧       |          🚧          |
-| Roccat Vulcan II Max           |      🚧       |      🚧       |          🚧          |
-| Roccat Vulcan II Mini          |      🚧       |      🚧       |          🚧          |
+| Device                         | get_lighting | set_lighting | set_direct_lighting | get_lighting_state | set_lighting_state |
+| ------------------------------ | :----------: | :----------: | :-----------------: | :----------------: | :----------------: |
+| Roccat Vulcan 80 Aimo*         |      🚧       |      🚧       |          🚧          |         🚧          |         🚧          |
+| Roccat Vulcan 100 Aimo         |      🚧       |      🚧       |          🚧          |         ✔          |         ✔          |
+| Roccat Vulcan 120/121/122 Aimo |      🚧       |      🚧       |          🚧          |         🚧          |         🚧          |
+| Roccat Vulcan TKL              |      🚧       |      🚧       |          🚧          |         🚧          |         🚧          |
+| Roccat Vulcan Pro              |      🚧       |      🚧       |          🚧          |         ❌          |         ❌          |
+| Roccat Vulcan TKL Pro          |      🚧       |      🚧       |          🚧          |         ❌          |         ❌          |
+| Roccat Pyro                    |      🚧       |      🚧       |          🚧          |         ❌          |         ❌          |
+| Roccat Magma                   |      🚧       |      🚧       |          🚧          |         ❌          |         ❌          |
+| Roccat Magma Mini              |      🚧       |      🚧       |          🚧          |         ❌          |         ❌          |
+| Roccat Vulcan II               |      🚧       |      🚧       |          🚧          |         ❌          |         ❌          |
+| Roccat Vulcan II Max           |      🚧       |      🚧       |          🚧          |         ❌          |         ❌          |
+| Roccat Vulcan II Mini          |      🚧       |      🚧       |          🚧          |         ❌          |         ❌          |
 
 * this device only supports blue lighting
