@@ -117,8 +117,8 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::wait_until_ready() {
 }
 
 AimoKeyboardDriver::Error<AimoKeyboardDriver::SoftwareStateGen1> AimoKeyboardDriver::get_software_state_gen1() {
-	if (config.protocol_version == 1)
-		return std::unexpected("can't use this function with gen 1");
+	if (config.protocol_version == 2)
+		return std::unexpected("can't use this function with gen 2");
 	
 	uint8_t buf[3] = {};
 	memset(buf, 0x00, 3);
