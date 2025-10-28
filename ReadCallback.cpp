@@ -6,8 +6,8 @@
 #include <string>
 #include <vector>
 
-ReadCallback::ReadCallback(hid_device* dev) {
-	packets = new std::vector<Packet*>();
+ReadCallback::ReadCallback(hid_device *dev) {
+	packets = new std::vector<Packet *>();
 	hiddev = dev;
 
 	read_thread = new std::thread(&ReadCallback::read_thread_fn, this);
@@ -24,11 +24,13 @@ void ReadCallback::read_thread_fn() {
 		memset(res, 0x00, 64);
 		int ret = hid_read_timeout(hiddev, res, 64, 100);
 
-		if (ret < 1) continue;
+		if (ret < 1)
+			continue;
 
 		if (res[0] == 0xFF && res[1] == 0xAA) {
 			// todo return first element as error
-			if (packets->size() == 0) continue;
+			if (packets->size() == 0)
+				continue;
 			std::vector res_vec(res, res + 64);
 			packets->at(0)->prom.set_value(res_vec);
 			packets->erase(packets->begin());
@@ -36,10 +38,11 @@ void ReadCallback::read_thread_fn() {
 		}
 
 		uint64_t i = 0;
-		for (Packet* packet : *packets) {
+		for (Packet *packet : *packets) {
 			bool failed = false;
 			for (uint8_t j = 0; j < packet->command_length; j++) {
-				if (res[j] != packet->command[j]) failed = true;
+				if (res[j] != packet->command[j])
+					failed = true;
 			}
 
 			if (!failed) {
@@ -52,8 +55,9 @@ void ReadCallback::read_thread_fn() {
 	}
 }
 
-void ReadCallback::add_packet(std::promise<std::vector<uint8_t>>&& prom, uint8_t* command,
-							  uint8_t command_length) {
-	Packet* packet = new Packet(move(prom), command, command_length);
+void ReadCallback::add_packet(
+	std::promise<std::vector<uint8_t>> &&prom, uint8_t *command, uint8_t command_length
+) {
+	Packet *packet = new Packet(move(prom), command, command_length);
 	packets->push_back(packet);
 }

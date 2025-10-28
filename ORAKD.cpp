@@ -38,8 +38,10 @@ ORAKD::ORAKD() {
 					hid_device *dev = hid_open_path(local_dev_list->path);
 
 					if (dev == NULL) {
-						printf("HIDAPI could not open device \"%s\"",
-							   hid_devices[device_index].name.c_str());
+						printf(
+							"HIDAPI could not open device \"%s\"",
+							hid_devices[device_index].name.c_str()
+						);
 						continue;
 					}
 
@@ -50,7 +52,8 @@ ORAKD::ORAKD() {
 
 		if (hiddevs.size() == hid_devices[device_index].usages.size()) {
 			AimoKeyboardDriver *mouse = new AimoKeyboardDriver(
-				hid_devices[device_index].name, hiddevs, hid_devices[device_index].pid);
+				hid_devices[device_index].name, hiddevs, hid_devices[device_index].pid
+			);
 			device_list.push_back(mouse);
 		}
 	}
