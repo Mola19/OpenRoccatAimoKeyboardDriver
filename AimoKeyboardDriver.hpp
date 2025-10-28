@@ -23,6 +23,7 @@ class AimoKeyboardDriver {
 	struct Config {
 		uint8_t protocol_version;
 		bool has_adjustable_time_to_sleep;
+		bool has_lighting_toggle;
 	};
 
 	enum PhysicalLayout {
@@ -107,6 +108,9 @@ class AimoKeyboardDriver {
 		std::optional<uint8_t> minutes_until_sleep
 	);
 
+	Error<bool> get_lighting_state ();
+	VoidError set_lighting_state (bool off);
+
 	Config config;
 	hid_device *ctrl_device;
 	hid_device *event_device;
@@ -120,5 +124,5 @@ class AimoKeyboardDriver {
 };
 
 static std::map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {
-	{ROCCAT_VULCAN_100_AIMO_PID, {1, false}}, {ROCCAT_VULCAN_TKL_PRO_PID, {2, true}}
+	{ROCCAT_VULCAN_100_AIMO_PID, {1, false, true}}, {ROCCAT_VULCAN_TKL_PRO_PID, {2, true, false}}
 };

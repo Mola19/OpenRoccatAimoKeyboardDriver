@@ -195,7 +195,7 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_software_state_gen2(
 	uint8_t sleep_val = (sleep_enabled) ? minutes_until_sleep : 0;
 
 	// this packet contains a lot of values that are unknown
-	// they make no bvious difference, so i just tok the values swarm sends,
+	// they make no bvious difference, so i just took the values swarm sends,
 	// but it also works with any values
 	uint8_t buf[16] = {0x0D, 0x10, mute_light_on, 0x00, 0x02, sleep_val, 0x45, 0x00,
 					   0x00, 0x00, 0x00,          0x00, 0x00, 0x00,      0x00, 0x00};
@@ -297,6 +297,38 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_software_state(
 		);
 	}
 };
+
+AimoKeyboardDriver::Error<bool> AimoKeyboardDriver::get_lighting_state() {
+	if (config.protocol_version == 2)
+		return std::unexpected("can't use this function with gen 2");
+
+	uint8_t buf[8] = {};
+	memset(buf, 0x00, 8);
+
+	buf[0] = 0x13;
+	int read = hid_get_feature_report(ctrl_device, buf, 8);
+
+	if (read == -1)
+		return std::unexpected("HIDAPI Error");
+
+	if (buf[0] != 0x13 || buf[0] != 0x13)
+		return std::unexpected("packet header is malformed");
+
+	return (bool)buf[4];
+}
+
+AimoKeyboardDriver::VoidError
+AimoKeyboardDriver::set_lighting_state(bool dimmed) {
+	// no idea if the rest of does anything,
+	// [5] is not even returned when getting information ([2] though)
+	uint8_t buf[8] = {0x13, 0x08,  0x00, 0x00, dimmed, 0x45, 0x00,  0x00};
+	int written = hid_send_feature_report(ctrl_device, buf, 8);
+
+	if (written == -1)
+		return "HIDAPI Error";
+
+	return std::nullopt;
+}
 
 bool AimoKeyboardDriver::check_checksum(uint8_t *buf, int size, uint8_t checksum_size) {
 	int sum = 0;
