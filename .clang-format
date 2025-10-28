@@ -1,4 +1,4 @@
-BasedOnStyle: Google
+BasedOnStyle: LLVM
 UseTab: ForContinuationAndIndentation
 SpacesBeforeTrailingComments: '1'
 IndentWidth: 4
@@ -9,3 +9,4 @@ AllowShortEnumsOnASingleLine: no
 IndentCaseLabels: yes
 ColumnLimit: 100
 PackConstructorInitializers: CurrentLine
+AlignAfterOpenBracket: BlockIndent

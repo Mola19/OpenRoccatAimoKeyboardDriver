@@ -9,7 +9,6 @@
 
 #include "ReadCallback.hpp"
 
-
 #define ROCCAT_VULCAN_100_AIMO_PID 0x307A
 #define ROCCAT_VULCAN_TKL_PRO_PID 0x311A
 
@@ -61,13 +60,13 @@ class AimoKeyboardDriver {
 		bool mute_light_on;
 		bool software_control_enabled;
 	};
-	
+
 	struct SoftwareStateGen2 {
 		bool mute_light_on;
 		bool sleep_enabled;
 		uint8_t minutes_until_sleep;
 	};
-	
+
 	struct SoftwareState {
 		bool software_control_enabled;
 		bool mute_light_on;
@@ -75,8 +74,7 @@ class AimoKeyboardDriver {
 		std::optional<uint8_t> minutes_until_sleep;
 	};
 
-	template <class T>
-	using Error = std::expected<T, std::string>;
+	template <class T> using Error = std::expected<T, std::string>;
 
 	using VoidError = std::optional<std::string>;
 
@@ -98,12 +96,16 @@ class AimoKeyboardDriver {
 
 	Error<SoftwareStateGen2> get_software_state_gen2();
 	VoidError set_software_state_gen2(SoftwareStateGen2 state);
-	VoidError set_software_state_gen2(bool mute_light_on, bool sleep_enabled, uint8_t minutes_until_sleep);
-	
+	VoidError
+	set_software_state_gen2(bool mute_light_on, bool sleep_enabled, uint8_t minutes_until_sleep);
+
 	// wrapper
 	Error<SoftwareState> get_software_state();
 	VoidError set_software_state(SoftwareState state);
-	VoidError set_software_state(bool software_control_enabled, bool mute_light_on, std::optional<bool> sleep_enabled, std::optional<uint8_t> minutes_until_sleep);
+	VoidError set_software_state(
+		bool software_control_enabled, bool mute_light_on, std::optional<bool> sleep_enabled,
+		std::optional<uint8_t> minutes_until_sleep
+	);
 
 	Config config;
 	hid_device *ctrl_device;
@@ -114,9 +116,9 @@ class AimoKeyboardDriver {
   private:
 	ReadCallback *cb;
 	std::vector<uint8_t> await_response(uint8_t *command, uint8_t command_length);
-	bool check_checksum(uint8_t* buf, int size, uint8_t checksum_size);
+	bool check_checksum(uint8_t *buf, int size, uint8_t checksum_size);
 };
 
 static std::map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {
-	{ROCCAT_VULCAN_100_AIMO_PID, {1, false}},
-	{ROCCAT_VULCAN_TKL_PRO_PID, {2, true}}};
+	{ROCCAT_VULCAN_100_AIMO_PID, {1, false}}, {ROCCAT_VULCAN_TKL_PRO_PID, {2, true}}
+};
