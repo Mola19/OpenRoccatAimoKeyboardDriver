@@ -14,20 +14,20 @@
 
 ## Overview
 
-| Device                         | Generation | General Information | Profile Management | Key Remapping | Lighting |
-| ------------------------------ | :--------: | :-----------------: | :----------------: | :-----------: | :------: |
-| Roccat Vulcan 80 Aimo          |     1      |          🚧          |         🚧          |       🚧       |    🚧     |
-| Roccat Vulcan 100 Aimo         |     1      |          🛠          |         🚧          |       🚧       |    🚧     |
-| Roccat Vulcan 120/121/122 Aimo |     1      |          🚧          |         🚧          |       🚧       |    🚧     |
-| Roccat Vulcan TKL              |     1      |          🚧          |         🚧          |       🚧       |    🚧     |
-| Roccat Vulcan Pro              |     2      |          🚧          |         🚧          |       🚧       |    🚧     |
-| Roccat Vulcan TKL Pro          |     2      |          🛠          |         🚧          |       🚧       |    🚧     |
-| Roccat Pyro                    |     2      |          🚧          |         🚧          |       🚧       |    🚧     |
-| Roccat Magma                   |     2      |          🚧          |         🚧          |       🚧       |    🚧     |
-| Roccat Magma Mini              |     2      |          🚧          |         🚧          |       🚧       |    🚧     |
-| Roccat Vulcan II               |     2      |          🚧          |         🚧          |       🚧       |    🚧     |
-| Roccat Vulcan II Max           |     2      |          🚧          |         🚧          |       🚧       |    🚧     |
-| Roccat Vulcan II Mini          |     2      |          🚧          |         🚧          |       🚧       |    🚧     |
+| Device                         | Generation | General Information | Profile Management | Key Remapping | Lighting | Events |
+| ------------------------------ | :--------: | :-----------------: | :----------------: | :-----------: | :------: | :----: |
+| Roccat Vulcan 80 Aimo          |     1      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
+| Roccat Vulcan 100 Aimo         |     1      |          🛠          |         🚧          |       🚧       |    🚧     |   🚧    |
+| Roccat Vulcan 120/121/122 Aimo |     1      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
+| Roccat Vulcan TKL              |     1      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
+| Roccat Vulcan Pro              |     2      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
+| Roccat Vulcan TKL Pro          |     2      |          🛠          |         🚧          |       🚧       |    🚧     |   🚧    |
+| Roccat Pyro                    |     2      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
+| Roccat Magma                   |     2      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
+| Roccat Magma Mini              |     2      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
+| Roccat Vulcan II               |     2      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
+| Roccat Vulcan II Max           |     2      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
+| Roccat Vulcan II Mini          |     2      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
 
 ## General Information
 
