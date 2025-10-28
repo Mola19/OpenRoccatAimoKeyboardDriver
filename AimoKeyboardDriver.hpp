@@ -23,6 +23,7 @@ class AimoKeyboardDriver {
 
 	struct Config {
 		uint8_t protocol_version;
+		bool has_adjustable_time_to_sleep;
 	};
 
 	enum PhysicalLayout {
@@ -56,6 +57,24 @@ class AimoKeyboardDriver {
 		BUSY = 3,
 	};
 
+	struct SoftwareStateGen1 {
+		bool mute_light_on;
+		bool software_control_enabled;
+	};
+	
+	struct SoftwareStateGen2 {
+		bool mute_light_on;
+		bool sleep_enabled;
+		uint8_t minutes_until_sleep;
+	};
+	
+	struct SoftwareState {
+		bool software_control_enabled;
+		bool mute_light_on;
+		std::optional<bool> sleep_enabled;
+		std::optional<uint8_t> minutes_until_sleep;
+	};
+
 	template <class T>
 	using Error = std::expected<T, std::string>;
 
@@ -65,9 +84,26 @@ class AimoKeyboardDriver {
 	AimoKeyboardDriver(std::string name, std::vector<hid_device *> hiddev, uint16_t pid);
 	~AimoKeyboardDriver();
 
-	Error<DeviceInfo> get_device_info ();
-	Error<uint8_t> get_busy_state ();
-	VoidError wait_until_ready ();
+	Error<DeviceInfo> get_device_info();
+	Error<uint8_t> get_busy_state();
+	VoidError wait_until_ready();
+
+	// this is a bit clunky, as the versions differ, for convenience use the wrapper function
+	Error<SoftwareStateGen1> get_software_state_gen1();
+	VoidError set_software_state_gen1(SoftwareStateGen1 state);
+	VoidError set_software_state_gen1(bool mute_light_on, bool software_control_enabled);
+
+	Error<bool> get_software_control_state_gen2();
+	VoidError set_software_control_state_gen2(bool software_control_enabled);
+
+	Error<SoftwareStateGen2> get_software_state_gen2();
+	VoidError set_software_state_gen2(SoftwareStateGen2 state);
+	VoidError set_software_state_gen2(bool mute_light_on, bool sleep_enabled, uint8_t minutes_until_sleep);
+	
+	// wrapper
+	Error<SoftwareState> get_software_state();
+	VoidError set_software_state(SoftwareState state);
+	VoidError set_software_state(bool software_control_enabled, bool mute_light_on, std::optional<bool> sleep_enabled, std::optional<uint8_t> minutes_until_sleep);
 
 	Config config;
 	hid_device *ctrl_device;
@@ -82,5 +118,5 @@ class AimoKeyboardDriver {
 };
 
 static std::map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {
-	{ROCCAT_VULCAN_100_AIMO_PID, {1}},
-	{ROCCAT_VULCAN_TKL_PRO_PID, {2}}};
+	{ROCCAT_VULCAN_100_AIMO_PID, {1, false}},
+	{ROCCAT_VULCAN_TKL_PRO_PID, {2, true}}};
