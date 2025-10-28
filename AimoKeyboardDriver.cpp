@@ -116,6 +116,161 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::wait_until_ready() {
 	return "Timeout";
 }
 
+AimoKeyboardDriver::Error<AimoKeyboardDriver::SoftwareStateGen1> AimoKeyboardDriver::get_software_state_gen1() {
+	if (config.protocol_version == 1)
+		return std::unexpected("can't use this function with gen 1");
+	
+	uint8_t buf[3] = {};
+	memset(buf, 0x00, 3);
+
+	buf[0] = 0x15;
+	int read = hid_get_feature_report(ctrl_device, buf, 3);
+
+	if (read == -1)
+		return std::unexpected("HIDAPI Error");
+	
+	// this packet doesn't send packet length 
+	if (buf[0] != 0x15)
+		return std::unexpected("packet header is malformed");
+
+	return AimoKeyboardDriver::SoftwareStateGen1{
+		.mute_light_on = (bool) buf[1],
+		.software_control_enabled = (bool) buf[2],
+	};
+}
+
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_software_state_gen1(AimoKeyboardDriver::SoftwareStateGen1 state) {
+	return set_software_state_gen1(state.mute_light_on, state.software_control_enabled);
+}
+
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_software_state_gen1(bool mute_light_on, bool software_control_enabled) {
+	uint8_t buf[3] = { 0x15, mute_light_on, software_control_enabled };
+	int written = hid_send_feature_report(ctrl_device, buf, 3);
+
+	if (written == -1)
+		return "HIDAPI Error";
+
+	return std::nullopt;
+}
+
+AimoKeyboardDriver::Error<AimoKeyboardDriver::SoftwareStateGen2> AimoKeyboardDriver::get_software_state_gen2() {
+	if (config.protocol_version == 1)
+		return std::unexpected("can't use this function with gen 1");
+	
+	uint8_t buf[16] = {};
+	memset(buf, 0x00, 16);
+
+	buf[0] = 0x0D;
+	int read = hid_get_feature_report(ctrl_device, buf, 16);
+
+	if (read == -1)
+		return std::unexpected("HIDAPI Error");
+	
+	// this packet doesn't send packet length 
+	if (buf[0] != 0x0D || buf[1] != 0x10)
+		return std::unexpected("packet header is malformed");
+
+	return AimoKeyboardDriver::SoftwareStateGen2{
+		.mute_light_on = (bool) buf[2],
+		.sleep_enabled = (bool) buf[5],
+		.minutes_until_sleep = buf[5],
+	};
+}
+
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_software_state_gen2(AimoKeyboardDriver::SoftwareStateGen2 state) {
+	return set_software_state_gen2(state.mute_light_on, state.sleep_enabled, state.minutes_until_sleep);
+}
+
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_software_state_gen2(bool mute_light_on, bool sleep_enabled, uint8_t minutes_until_sleep) {
+	uint8_t sleep_val = (sleep_enabled) ? minutes_until_sleep : 0;
+	
+	// this packet contains a lot of values that are unknown
+	// they make no bvious difference, so i just tok the values swarm sends,
+	// but it also works with any values
+	uint8_t buf[16] = { 0x0D, 0x10, mute_light_on, 0x00, 0x02, sleep_val, 0x45, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+	int written = hid_send_feature_report(ctrl_device, buf, 16);
+	
+	if (written == -1)
+		return "HIDAPI Error";
+
+	return std::nullopt;
+}
+
+AimoKeyboardDriver::Error<bool> AimoKeyboardDriver::get_software_control_state_gen2() {
+	if (config.protocol_version == 1)
+		return std::unexpected("can't use this function with gen 1");
+	
+	uint8_t buf[5] = {};
+	memset(buf, 0x00, 5);
+
+	buf[0] = 0x0E;
+	int read = hid_get_feature_report(ctrl_device, buf, 5);
+
+	if (read == -1)
+		return std::unexpected("HIDAPI Error");
+	
+	if (buf[0] != 0x0E || buf[1] != 0x05)
+		return std::unexpected("packet header is malformed");
+
+	return buf[2];
+}
+
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_software_control_state_gen2(bool software_control_enabled) {
+	uint8_t buf[5] = { 0x0E, 0x05, software_control_enabled, 0x00, 0x00 };
+	int written = hid_send_feature_report(ctrl_device, buf, 5);
+
+	if (written == -1)
+		return "HIDAPI Error";
+
+	return std::nullopt;
+}
+
+AimoKeyboardDriver::Error<AimoKeyboardDriver::SoftwareState> AimoKeyboardDriver::get_software_state() {
+	if (config.protocol_version == 1) {
+		auto res = get_software_state_gen1();
+		if (!res) return std::unexpected(res.error());
+
+		return SoftwareState {
+			.software_control_enabled = res->software_control_enabled,
+			.mute_light_on = res->mute_light_on
+		};
+	} else {
+		auto res1 = get_software_control_state_gen2();
+		if (!res1) return std::unexpected(res1.error());
+		
+		auto res2 = get_software_state_gen2();
+		if (!res2) return std::unexpected(res2.error());
+
+		return SoftwareState {
+			.software_control_enabled = res1.value(),
+			.mute_light_on = res2->mute_light_on,
+			.sleep_enabled = res2->sleep_enabled,
+			.minutes_until_sleep = res2->minutes_until_sleep
+		};
+	}
+}
+
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_software_state(AimoKeyboardDriver::SoftwareState state) {
+	return set_software_state(state.software_control_enabled, state.mute_light_on, state.sleep_enabled, state.minutes_until_sleep);
+}
+
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_software_state(bool software_control_enabled, bool mute_light_on, std::optional<bool> sleep_enabled, std::optional<uint8_t> minutes_until_sleep) {
+	if (config.protocol_version == 1) {
+		return set_software_state_gen1(mute_light_on, software_control_enabled);
+	} else {
+		if (!sleep_enabled || !minutes_until_sleep)
+			return "sleep variables need to be set for gen 2";
+	
+		auto err = set_software_control_state_gen2(software_control_enabled);
+		if (err) return err;
+		
+		auto err2 = wait_until_ready();
+		if (err2) return err2;
+
+		return set_software_state_gen2(mute_light_on, sleep_enabled.value(), minutes_until_sleep.value());
+	}
+};
+
 bool AimoKeyboardDriver::check_checksum(uint8_t* buf, int size, uint8_t checksum_size) {
 	int sum = 0;
 
