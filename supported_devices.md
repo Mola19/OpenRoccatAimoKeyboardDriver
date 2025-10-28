@@ -31,20 +31,39 @@
 
 ## General Information
 
-| Device                         | get_device_info | set_page_to_read | get_software_control | set_software_control | get_mute_light* | set_mute_light* | get_busy_state | get_sleep | set_sleep |
-| ------------------------------ | :-------------: | :--------------: | :------------------: | :------------------: | :-------------: | :-------------: | :------------: | :-------: | :-------: |
-| Roccat Vulcan 80 Aimo          |        🚧        |        🚧         |          🚧           |          🚧           |        🚧        |        🚧        |       🚧        |     🚧     |     🚧     |
-| Roccat Vulcan 100 Aimo         |        ✔        |        🚧         |          🚧           |          🚧           |        🚧        |        🚧        |       ✔        |     🚧     |     🚧     |
-| Roccat Vulcan 120/121/122 Aimo |        🚧        |        🚧         |          🚧           |          🚧           |        🚧        |        🚧        |       🚧        |     🚧     |     🚧     |
-| Roccat Vulcan TKL              |        🚧        |        🚧         |          🚧           |          🚧           |        🚧        |        🚧        |       🚧        |     🚧     |     🚧     |
-| Roccat Vulcan Pro              |        🚧        |        🚧         |          🚧           |          🚧           |        🚧        |        🚧        |       🚧        |     ❌     |     ❌     |
-| Roccat Vulcan TKL Pro          |        ✔        |        🚧         |          🚧           |          🚧           |        🚧        |        🚧        |       ✔        |     ❌     |     ❌     |
-| Roccat Pyro                    |        🚧        |        🚧         |          🚧           |          🚧           |        🚧        |        🚧        |       🚧        |     ❌     |     ❌     |
-| Roccat Magma                   |        🚧        |        🚧         |          🚧           |          🚧           |        🚧        |        🚧        |       🚧        |     ❌     |     ❌     |
-| Roccat Magma Mini              |        🚧        |        🚧         |          🚧           |          🚧           |        🚧        |        🚧        |       🚧        |     ❌     |     ❌     |
-| Roccat Vulcan II               |        🚧        |        🚧         |          🚧           |          🚧           |        🚧        |        🚧        |       🚧        |     ❌     |     ❌     |
-| Roccat Vulcan II Max           |        🚧        |        🚧         |          🚧           |          🚧           |        🚧        |        🚧        |       🚧        |     ❌     |     ❌     |
-| Roccat Vulcan II Mini          |        🚧        |        🚧         |          🚧           |          🚧           |        🚧        |        🚧        |       🚧        |     ❌     |     ❌     |
+| Device                         | get_device_info | set_page_to_read | get_busy_state | get_sleep | set_sleep |
+| ------------------------------ | :-------------: | :--------------: | :------------: | :-------: | :-------: |
+| Roccat Vulcan 80 Aimo          |        🚧        |        🚧         |       🚧        |     🚧     |     🚧     |
+| Roccat Vulcan 100 Aimo         |        ✔        |        🚧         |       ✔        |     🚧     |     🚧     |
+| Roccat Vulcan 120/121/122 Aimo |        🚧        |        🚧         |       🚧        |     🚧     |     🚧     |
+| Roccat Vulcan TKL              |        🚧        |        🚧         |       🚧        |     🚧     |     🚧     |
+| Roccat Vulcan Pro              |        🚧        |        🚧         |       🚧        |     ❌     |     ❌     |
+| Roccat Vulcan TKL Pro          |        ✔        |        🚧         |       ✔        |     ❌     |     ❌     |
+| Roccat Pyro                    |        🚧        |        🚧         |       🚧        |     ❌     |     ❌     |
+| Roccat Magma                   |        🚧        |        🚧         |       🚧        |     ❌     |     ❌     |
+| Roccat Magma Mini              |        🚧        |        🚧         |       🚧        |     ❌     |     ❌     |
+| Roccat Vulcan II               |        🚧        |        🚧         |       🚧        |     ❌     |     ❌     |
+| Roccat Vulcan II Max           |        🚧        |        🚧         |       🚧        |     ❌     |     ❌     |
+| Roccat Vulcan II Mini          |        🚧        |        🚧         |       🚧        |     ❌     |     ❌     |
+
+These functions are not the same for Generation 1 and 2. For convenience use the wrapper functions `get_software_state` and `set_software_state` in combination with the config variable `has_adjustable_time_to_sleep`.
+
+Generation 1 devices don't support setting time to sleep (as far as we know). 
+
+| Device                         | get_software_state | set_software_state | get_software_state_gen1 | set_software_state_gen1 | get_software_control_state_gen2 | set_software_control_state_gen2 | get_software_state_gen2 | set_software_state_gen2 |
+| ------------------------------ | :----------------: | :----------------: | :---------------------: | :---------------------: | :-----------------------------: | :-----------------------------: | :---------------------: | :---------------------: |
+| Roccat Vulcan 80 Aimo          |         🚧          |         🚧          |            🚧            |            🚧            |                ❌                |                ❌                |            ❌            |            ❌            |
+| Roccat Vulcan 100 Aimo         |         ✔          |         ✔          |            ✔            |            ✔            |                ❌                |                ❌                |            ❌            |            ❌            |
+| Roccat Vulcan 120/121/122 Aimo |         🚧          |         🚧          |            🚧            |            🚧            |                ❌                |                ❌                |            ❌            |            ❌            |
+| Roccat Vulcan TKL              |         🚧          |         🚧          |            🚧            |            🚧            |                ❌                |                ❌                |            ❌            |            ❌            |
+| Roccat Vulcan Pro              |         🚧          |         🚧          |            ❌            |            ❌            |                🚧                |                🚧                |            🚧            |            🚧            |
+| Roccat Vulcan TKL Pro          |         ✔          |         ✔          |            ❌            |            ❌            |                ✔                |                ✔                |            ✔            |            ✔            |
+| Roccat Pyro                    |         🚧          |         🚧          |            ❌            |            ❌            |                🚧                |                🚧                |            🚧            |            🚧            |
+| Roccat Magma                   |         🚧          |         🚧          |            ❌            |            ❌            |                🚧                |                🚧                |            🚧            |            🚧            |
+| Roccat Magma Mini              |         🚧          |         🚧          |            ❌            |            ❌            |                🚧                |                🚧                |            🚧            |            🚧            |
+| Roccat Vulcan II               |         🚧          |         🚧          |            ❌            |            ❌            |                🚧                |                🚧                |            🚧            |            🚧            |
+| Roccat Vulcan II Max           |         🚧          |         🚧          |            ❌            |            ❌            |                🚧                |                🚧                |            🚧            |            🚧            |
+| Roccat Vulcan II Mini          |         🚧          |         🚧          |            ❌            |            ❌            |                🚧                |                🚧                |            🚧            |            🚧            |
 
 * Gen1 supports setting the mute light, but directly via set_software_control
 
