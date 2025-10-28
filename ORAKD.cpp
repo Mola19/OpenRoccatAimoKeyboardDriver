@@ -34,7 +34,7 @@ ORAKD::ORAKD() {
 			 usage_index++) {
 			for (auto local_dev_list = dev_list; local_dev_list;
 				 local_dev_list = local_dev_list->next) {
-				if (hid_devices[device_index].compare(local_dev_list, 0)) {
+				if (hid_devices[device_index].compare(local_dev_list, usage_index)) {
 					hid_device *dev = hid_open_path(local_dev_list->path);
 
 					if (dev == NULL) {
