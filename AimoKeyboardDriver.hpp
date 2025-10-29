@@ -57,6 +57,11 @@ class AimoKeyboardDriver {
 		BUSY = 3,
 	};
 
+	struct ProfileInfo {
+		uint8_t active_profile;
+		uint8_t amount_profiles;
+	};
+
 	struct SoftwareStateGen1 {
 		bool mute_light_on;
 		bool software_control_enabled;
@@ -86,6 +91,10 @@ class AimoKeyboardDriver {
 	Error<DeviceInfo> get_device_info();
 	Error<uint8_t> get_busy_state();
 	VoidError wait_until_ready();
+
+	Error<ProfileInfo> get_profile_info();
+	VoidError set_profile_info(ProfileInfo info);
+	VoidError set_profile_info(uint8_t active_profile, uint8_t amount_profiles);
 
 	// this is a bit clunky, as the versions differ, for convenience use the wrapper function
 	Error<SoftwareStateGen1> get_software_state_gen1();

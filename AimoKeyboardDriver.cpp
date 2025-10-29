@@ -117,6 +117,42 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::wait_until_ready() {
 	return "Timeout";
 }
 
+AimoKeyboardDriver::Error<AimoKeyboardDriver::ProfileInfo>
+AimoKeyboardDriver::get_profile_info() {
+	uint8_t buf[4] = {};
+	memset(buf, 0x00, 4);
+
+	buf[0] = 0x05;
+	int read = hid_get_feature_report(ctrl_device, buf, 4);
+
+	if (read == -1)
+		return std::unexpected("HIDAPI Error");
+
+	if (buf[0] != 0x05 || buf[1] != 0x04)
+		return std::unexpected("packet header is malformed");
+
+	return AimoKeyboardDriver::ProfileInfo{
+		.active_profile = buf[2],
+		.amount_profiles = buf[3],
+	};
+}
+
+AimoKeyboardDriver::VoidError
+AimoKeyboardDriver::set_profile_info(AimoKeyboardDriver::ProfileInfo info) {
+	return set_profile_info(info.active_profile, info.amount_profiles);
+}
+
+AimoKeyboardDriver::VoidError
+AimoKeyboardDriver::set_profile_info(uint8_t active_profile, uint8_t amount_profiles) {
+	uint8_t buf[4] = {0x05, 0x04, active_profile, amount_profiles};
+	int written = hid_send_feature_report(ctrl_device, buf, 4);
+
+	if (written == -1)
+		return "HIDAPI Error";
+
+	return std::nullopt;
+}
+
 AimoKeyboardDriver::Error<AimoKeyboardDriver::SoftwareStateGen1>
 AimoKeyboardDriver::get_software_state_gen1() {
 	if (config.protocol_version == 2)
