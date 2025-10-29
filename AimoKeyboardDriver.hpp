@@ -57,6 +57,17 @@ class AimoKeyboardDriver {
 		BUSY = 3,
 	};
 
+	enum Page {
+		DEFAULT_LAYOUT = 0xA0,
+		GAMEMODE_REMAP = 0xA1,
+		CAPSLOCK_REMAP = 0xA2,
+		FN_REMAP = 0xA3,
+		EASYSHIFT = 0xA5,
+		LIGHTING = 0xB0,
+		// used by swarm but return gibberish
+		// UNKNOWN = 0xC0,
+	};
+
 	struct ProfileInfo {
 		uint8_t active_profile;
 		uint8_t amount_profiles;
@@ -91,6 +102,7 @@ class AimoKeyboardDriver {
 	Error<DeviceInfo> get_device_info();
 	Error<uint8_t> get_busy_state();
 	VoidError wait_until_ready();
+	VoidError set_page_to_read(uint8_t profile, uint8_t page_or_key, bool is_macro);
 
 	Error<ProfileInfo> get_profile_info();
 	VoidError set_profile_info(ProfileInfo info);
@@ -117,8 +129,8 @@ class AimoKeyboardDriver {
 		std::optional<uint8_t> minutes_until_sleep
 	);
 
-	Error<bool> get_lighting_state ();
-	VoidError set_lighting_state (bool off);
+	Error<bool> get_lighting_state();
+	VoidError set_lighting_state(bool off);
 
 	Config config;
 	hid_device *ctrl_device;
