@@ -12,16 +12,18 @@
 #include <thread>
 #include <vector>
 
+#include "KeyMaps.hpp"
 #include "ReadCallback.hpp"
 
 AimoKeyboardDriver::AimoKeyboardDriver(
 	std::string name, std::vector<hid_device *> hiddev, uint16_t pid
 ) {
 	this->name = name;
-	ctrl_device = hiddev[0];
-	event_device = hiddev[1];
-	led_device = hiddev[2];
-	config = aimo_keyboard_config[pid];
+	this->ctrl_device = hiddev[0];
+	this->event_device = hiddev[1];
+	this->led_device = hiddev[2];
+	this->config = aimo_keyboard_config[pid];
+	this->pid = pid;
 
 	// cb = new ReadCallback(hiddev[1]);
 }
@@ -62,8 +64,8 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::DeviceInfo> AimoKeyboardDriver::ge
 			.major_version = static_cast<uint8_t>(buf[2] / 100),
 			.physical_layout = buf[5],
 			.visual_layout = buf[6],
-			._unknown3 = buf[3],
-			._unknown4 = buf[4],
+			// ._unknown3 = buf[3],
+			// ._unknown4 = buf[4],
 		};
 	} else {
 		return AimoKeyboardDriver::DeviceInfo{
@@ -72,9 +74,9 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::DeviceInfo> AimoKeyboardDriver::ge
 			.major_version = static_cast<uint8_t>(buf[2] / 100),
 			.physical_layout = buf[6],
 			.visual_layout = buf[7],
-			._unknown3 = buf[3],
-			._unknown4 = buf[4],
-			._unknown5 = buf[5]
+			// ._unknown3 = buf[3],
+			// ._unknown4 = buf[4],
+			// ._unknown5 = buf[5]
 		};
 	}
 
@@ -131,8 +133,7 @@ AimoKeyboardDriver::set_page_to_read(uint8_t profile, uint8_t page_or_key, bool 
 	return std::nullopt;
 }
 
-AimoKeyboardDriver::Error<AimoKeyboardDriver::ProfileInfo>
-AimoKeyboardDriver::get_profile_info() {
+AimoKeyboardDriver::Error<AimoKeyboardDriver::ProfileInfo> AimoKeyboardDriver::get_profile_info() {
 	uint8_t buf[4] = {};
 	memset(buf, 0x00, 4);
 
@@ -367,17 +368,87 @@ AimoKeyboardDriver::Error<bool> AimoKeyboardDriver::get_lighting_state() {
 	return (bool)buf[4];
 }
 
-AimoKeyboardDriver::VoidError
-AimoKeyboardDriver::set_lighting_state(bool dimmed) {
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting_state(bool off) {
 	// no idea if the rest of does anything,
 	// [5] is not even returned when getting information ([2] though)
-	uint8_t buf[8] = {0x13, 0x08,  0x00, 0x00, dimmed, 0x45, 0x00,  0x00};
+	uint8_t buf[8] = {0x13, 0x08, 0x00, 0x00, off, 0x45, 0x00, 0x00};
 	int written = hid_send_feature_report(ctrl_device, buf, 8);
 
 	if (written == -1)
 		return "HIDAPI Error";
 
 	return std::nullopt;
+}
+
+AimoKeyboardDriver::Error<AimoKeyboardDriver::LightingInfo> AimoKeyboardDriver::get_lighting() {
+	uint16_t packet_length = 0;
+	uint16_t block_size = 0;
+	uint8_t report_id = (config.protocol_version == 1) ? 0x0D : 0x11;
+
+	switch (pid) {
+		case ROCCAT_VULCAN_100_AIMO_PID:
+			packet_length = 443;
+			block_size = 12;
+			break;
+		default:
+			return std::unexpected("This device is not supported by the function");
+	}
+
+	unsigned char header_length = (packet_length > 255) ? 2 : 1;
+
+	uint8_t *buf = new uint8_t[packet_length];
+	memset(buf, 0x00, packet_length);
+
+	buf[0] = report_id;
+	int read = hid_get_feature_report(ctrl_device, buf, packet_length);
+
+	if (read == -1)
+		return std::unexpected("HIDAPI Error");
+
+	// this packet doesn't send packet length
+	if (header_length == 1) {
+		if (buf[0] != report_id || buf[1] != packet_length)
+			return std::unexpected("packet header is malformed");
+	} else {
+		if (buf[0] != report_id || buf[1] != packet_length % 0x100 ||
+			buf[2] != packet_length / 0x100)
+			return std::unexpected("packet header is malformed");
+	}
+
+	if (!check_checksum(buf, packet_length, 2))
+		return std::unexpected("checksum didn't match");
+
+	uint8_t brightness_index = (config.protocol_version == 1) ? 5 : 4;
+	uint8_t colours_start_index = 7 + header_length;
+
+	std::vector<RGBColor> colors;
+	colors.resize(config.led_length);
+
+	for (const auto &[key, value] : AimoKeyMaps::Vulcan100) {
+		int block = (int)(key / block_size) * block_size;
+		int offset = block * 3 + key / block_size + colours_start_index;
+
+		colors[key] = {
+			.red = buf[offset],
+			.green = buf[offset + block_size],
+			.blue = buf[offset + block_size * 2],
+		};
+	}
+
+	LightingInfo info = {
+		.profile = (config.protocol_version == 1) ? std::nullopt
+												  : std::make_optional(buf[1 + header_length]),
+		.mode = buf[2 + header_length],
+		.speed = buf[3 + header_length],
+		.brightness = buf[brightness_index + header_length],
+		.theme = (uint8_t)(buf[6 + header_length] & 0b0111'1111),
+		.is_custom_color = !(bool)(buf[6 + header_length] & 0b1000'0000),
+		.colors = colors,
+	};
+
+	delete[] buf;
+
+	return info;
 }
 
 bool AimoKeyboardDriver::check_checksum(uint8_t *buf, int size, uint8_t checksum_size) {
@@ -392,7 +463,7 @@ bool AimoKeyboardDriver::check_checksum(uint8_t *buf, int size, uint8_t checksum
 	int checksum = 0;
 
 	for (int i = size - checksum_size; i < size; i++) {
-		checksum += buf[i] * (1 << ((size - i - 1) * 8));
+		checksum += buf[i] * (1 << ((i - 1) * 8));
 	}
 
 	return checksum == sum;

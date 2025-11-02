@@ -24,6 +24,9 @@ class AimoKeyboardDriver {
 		uint8_t protocol_version;
 		bool has_adjustable_time_to_sleep;
 		bool has_lighting_toggle;
+		// note: this is not the led amount, this also contains the gaps
+		// it's primarily important for the size of the colours array
+		uint8_t led_length;
 	};
 
 	enum PhysicalLayout {
@@ -46,9 +49,6 @@ class AimoKeyboardDriver {
 		uint8_t major_version;
 		uint8_t physical_layout;
 		uint8_t visual_layout;
-		uint8_t _unknown3;
-		uint8_t _unknown4;
-		std::optional<uint8_t> _unknown5;
 	};
 
 	enum BusyState {
@@ -89,6 +89,18 @@ class AimoKeyboardDriver {
 		bool mute_light_on;
 		std::optional<bool> sleep_enabled;
 		std::optional<uint8_t> minutes_until_sleep;
+	};
+
+	struct LightingInfo {
+		// when getting of gen 1 keyboards, the profile number is not returned,
+		// you can only fetch data for the current profile
+		std::optional<uint8_t> profile;
+		uint8_t mode;
+		uint8_t speed;
+		uint8_t brightness;
+		uint8_t theme;
+		uint8_t is_custom_color;
+		std::vector<RGBColor> colors;
 	};
 
 	template <class T> using Error = std::expected<T, std::string>;
@@ -132,7 +144,10 @@ class AimoKeyboardDriver {
 	Error<bool> get_lighting_state();
 	VoidError set_lighting_state(bool off);
 
+	Error<LightingInfo> get_lighting();
+
 	Config config;
+	uint16_t pid;
 	hid_device *ctrl_device;
 	hid_device *event_device;
 	hid_device *led_device;
@@ -145,5 +160,6 @@ class AimoKeyboardDriver {
 };
 
 static std::map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {
-	{ROCCAT_VULCAN_100_AIMO_PID, {1, false, true}}, {ROCCAT_VULCAN_TKL_PRO_PID, {2, true, false}}
+	{ROCCAT_VULCAN_100_AIMO_PID, {1, false, true, 144}},
+	{ROCCAT_VULCAN_TKL_PRO_PID, {2, true, false, 96}}
 };
