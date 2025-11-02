@@ -463,7 +463,8 @@ bool AimoKeyboardDriver::check_checksum(uint8_t *buf, int size, uint8_t checksum
 	int checksum = 0;
 
 	for (int i = size - checksum_size; i < size; i++) {
-		checksum += buf[i] * (1 << ((i - 1) * 8));
+		uint8_t checksum_index = i - (size - checksum_size);
+		checksum += buf[i] * (1 << (checksum_index * 8));
 	}
 
 	return checksum == sum;
