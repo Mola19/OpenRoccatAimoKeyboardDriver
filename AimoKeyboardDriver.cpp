@@ -394,7 +394,7 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::LightingInfo> AimoKeyboardDriver::
 			return std::unexpected("This device is not supported by the function");
 	}
 
-	unsigned char header_length = (packet_length > 255) ? 2 : 1;
+	uint8_t header_length = (packet_length > 255) ? 2 : 1;
 
 	uint8_t *buf = new uint8_t[packet_length];
 	memset(buf, 0x00, packet_length);
@@ -426,7 +426,7 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::LightingInfo> AimoKeyboardDriver::
 
 	for (const auto &[key, value] : AimoKeyMaps::Vulcan100) {
 		int block = (int)(key / block_size) * block_size;
-		int offset = block * 3 + key / block_size + colours_start_index;
+		int offset = block * 3 + key % block_size + colours_start_index;
 
 		colors[key] = {
 			.red = buf[offset],
