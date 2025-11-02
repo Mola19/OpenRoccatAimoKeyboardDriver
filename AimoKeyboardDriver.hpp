@@ -91,6 +91,43 @@ class AimoKeyboardDriver {
 		std::optional<uint8_t> minutes_until_sleep;
 	};
 
+	// only hardware modes will work without sending direct colors
+	enum LightingModes {
+		AIMO = 0x09,          // software mode
+		WAVE = 0x0A,          // hardware mode
+		SNAKE = 0x06,         // s
+		FULLY_LIT = 0x01,     // h (essentially static)
+		HEARTBEAT_2_0 = 0x08, // s
+		BREATHING_2_0 = 0x07, // s
+		FADE_FX = 0x11,       // s
+		RIPPLE_FX = 0x12,     // s
+		CUSTOM = 0x0B,        // s (use this for custom software modes)
+
+		/*-------------------------------------------------------------------*\
+		|  This mode is not a real mode, it's just the default mode when      |
+		|  a mode is software generated, but Swarm is inactive, hence it has  |
+		|  no id. Unfortunately 0 is refused by some keyboards, so 2 seems    |
+		|  like a good choice as it is not used anywhere else                 |
+		\*-------------------------------------------------------------------*/
+		DEFAULT = 0x02,
+	};
+
+	// these do not actually change the color, they are just an indactor for the software
+	// the names are are made up, based on what i think describes it based
+	// but the actual color varies greatly between keyboards and from the in software preview
+	enum Themes {
+		RED_TO_YELLOW = 0x00,
+		BLUE_TO_LAVANDER = 0x01,
+		BLUE_TO_VIOLET = 0x02,
+		VIOLET_TO_PINK = 0x03,
+		YELLOW_TO_ORANGE = 0x04,
+		YELLOW_TO_GREEN = 0x05,
+		GREEN_TO_CYAN = 0x06,
+		ROSE_TO_YELLOW = 0x07,
+		BLUE_TO_GREEN = 0x08,
+		PINK_TO_RED = 0x09
+	};
+
 	struct LightingInfo {
 		// when getting of gen 1 keyboards, the profile number is not returned,
 		// you can only fetch data for the current profile
@@ -145,6 +182,11 @@ class AimoKeyboardDriver {
 	VoidError set_lighting_state(bool off);
 
 	Error<LightingInfo> get_lighting();
+	VoidError set_lighting(LightingInfo info);
+	VoidError set_lighting(
+		uint8_t profile, uint8_t mode, uint8_t speed, uint8_t brightness, uint8_t theme,
+		uint8_t is_custom_color, std::vector<RGBColor> colors
+	);
 
 	Config config;
 	uint16_t pid;
@@ -157,6 +199,7 @@ class AimoKeyboardDriver {
 	ReadCallback *cb;
 	std::vector<uint8_t> await_response(uint8_t *command, uint8_t command_length);
 	bool check_checksum(uint8_t *buf, int size, uint8_t checksum_size);
+	void generate_checksum(uint8_t *buf, int size, uint8_t checksum_size);
 };
 
 static std::map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {

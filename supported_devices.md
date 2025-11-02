@@ -108,7 +108,7 @@ Generation 1 devices don't support setting time to sleep (as far as we know).
 | Device                         | get_lighting | set_lighting | set_direct_lighting | get_lighting_state | set_lighting_state |
 | ------------------------------ | :----------: | :----------: | :-----------------: | :----------------: | :----------------: |
 | Roccat Vulcan 80 Aimo*         |      🚧       |      🚧       |          🚧          |         🚧          |         🚧          |
-| Roccat Vulcan 100 Aimo         |      ✔       |      🚧       |          🚧          |         ✔          |         ✔          |
+| Roccat Vulcan 100 Aimo         |      ✔       |      ✔       |          🚧          |         ✔          |         ✔          |
 | Roccat Vulcan 120/121/122 Aimo |      🚧       |      🚧       |          🚧          |         🚧          |         🚧          |
 | Roccat Vulcan TKL              |      🚧       |      🚧       |          🚧          |         🚧          |         🚧          |
 | Roccat Vulcan Pro              |      🚧       |      🚧       |          🚧          |         ❌          |         ❌          |

@@ -1,5 +1,6 @@
 #include "AimoKeyboardDriver.hpp"
 
+#include <format>
 #include <hidapi.h>
 
 #include <algorithm>
@@ -222,7 +223,6 @@ AimoKeyboardDriver::get_software_state_gen2() {
 	if (read == -1)
 		return std::unexpected("HIDAPI Error");
 
-	// this packet doesn't send packet length
 	if (buf[0] != 0x0D || buf[1] != 0x10)
 		return std::unexpected("packet header is malformed");
 
@@ -405,7 +405,6 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::LightingInfo> AimoKeyboardDriver::
 	if (read == -1)
 		return std::unexpected("HIDAPI Error");
 
-	// this packet doesn't send packet length
 	if (header_length == 1) {
 		if (buf[0] != report_id || buf[1] != packet_length)
 			return std::unexpected("packet header is malformed");
@@ -451,6 +450,88 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::LightingInfo> AimoKeyboardDriver::
 	return info;
 }
 
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(LightingInfo info) {
+	if (!info.profile)
+		return "profile needs to be set when setting lighting";
+
+	return set_lighting(
+		info.profile.value(), info.mode, info.speed, info.brightness, info.theme,
+		info.is_custom_color, info.colors
+	);
+}
+
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
+	uint8_t profile, uint8_t mode, uint8_t speed, uint8_t brightness, uint8_t theme,
+	uint8_t is_custom_color, std::vector<RGBColor> colors
+) {
+	if (speed < 1 || speed > 11)
+		return std::format("speed must be between 1 and 11, but is {}", speed);
+
+	if (brightness < 1 || brightness > 69)
+		return std::format("brightness must be between 1 and 69, but is {}", brightness);
+
+	if (colors.size() != config.led_length)
+		return std::format(
+			"colors vector size is {}, but it must be {} for this device", colors.size(),
+			config.led_length
+		);
+
+	uint16_t packet_length = 0;
+	uint16_t block_size = 0;
+	uint8_t report_id = (config.protocol_version == 1) ? 0x0D : 0x11;
+
+	switch (pid) {
+		case ROCCAT_VULCAN_100_AIMO_PID:
+			packet_length = 443;
+			block_size = 12;
+			break;
+		default:
+			return "This device is not supported by the function";
+	}
+
+	uint8_t header_length = (packet_length > 255) ? 2 : 1;
+
+	uint8_t brightness_index = (config.protocol_version == 1) ? 5 : 4;
+	uint8_t colours_start_index = 7 + header_length;
+
+	uint8_t *buf = new uint8_t[packet_length];
+	memset(buf, 0x00, packet_length);
+
+	buf[0] = report_id;
+
+	if (header_length == 1) {
+		buf[1] = (uint8_t)packet_length;
+	} else {
+		buf[1] = packet_length % 256;
+		buf[2] = packet_length / 256;
+	}
+
+	buf[1 + header_length] = profile;
+	buf[2 + header_length] = mode;
+	buf[3 + header_length] = speed;
+	buf[brightness_index + header_length] = brightness;
+	buf[6 + header_length] = (!is_custom_color << 7) + theme % 0b0111'1111;
+
+	for (const auto &[key, value] : AimoKeyMaps::Vulcan100) {
+		int block = (key / block_size) * block_size;
+		int offset = block * 3 + key % block_size + colours_start_index;
+
+		buf[offset] = colors[key].red;
+		buf[offset + block_size] = colors[key].green;
+		buf[offset + block_size * 2] = colors[key].blue;
+	}
+
+	generate_checksum(buf, packet_length, 2);
+
+	int written = hid_send_feature_report(ctrl_device, buf, packet_length);
+
+	if (written == -1)
+		return "HIDAPI Error";
+
+	delete[] buf;
+	return std::nullopt;
+}
+
 bool AimoKeyboardDriver::check_checksum(uint8_t *buf, int size, uint8_t checksum_size) {
 	int sum = 0;
 
@@ -468,4 +549,18 @@ bool AimoKeyboardDriver::check_checksum(uint8_t *buf, int size, uint8_t checksum
 	}
 
 	return checksum == sum;
+}
+
+void AimoKeyboardDriver::generate_checksum(uint8_t *buf, int size, uint8_t checksum_size) {
+	int sum = 0;
+
+	for (int i = 0; i < size - checksum_size; i++) {
+		sum += buf[i];
+	}
+
+	for (int i = size - checksum_size; i < size; i++) {
+		uint8_t checksum_index = i - (size - checksum_size);
+		// intentional overflow
+		buf[i] = sum >> (checksum_index * 8);
+	}
 }
