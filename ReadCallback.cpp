@@ -2,8 +2,6 @@
 
 #include <cstring>
 #include <future>
-#include <iostream>
-#include <string>
 #include <vector>
 
 ReadCallback::ReadCallback(hid_device *dev) {
@@ -58,6 +56,6 @@ void ReadCallback::read_thread_fn() {
 void ReadCallback::add_packet(
 	std::promise<std::vector<uint8_t>> &&prom, uint8_t *command, uint8_t command_length
 ) {
-	Packet *packet = new Packet(move(prom), command, command_length);
+	Packet *packet = new Packet(std::move(prom), command, command_length);
 	packets->push_back(packet);
 }

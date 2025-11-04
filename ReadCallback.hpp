@@ -19,7 +19,7 @@ class ReadCallback {
 		Packet(
 			std::promise<std::vector<uint8_t>> &&prom, uint8_t *command, uint8_t command_length
 		) {
-			this->prom = move(prom);
+			this->prom = std::move(prom);
 			this->command = command;
 			this->command_length = command_length;
 		}
