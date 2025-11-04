@@ -20,6 +20,7 @@ Note: I don't plan to add firmware updates in the near future, as those are very
 |   🛠    | The device is partially implemented                         |
 |   🚧    | The device is not implemented but supported by the protocol |
 |   ❌    | This device does not support this protocol                  |
+|   ❔    | Unknown                                                     |
 
 ### General support
 
@@ -42,8 +43,9 @@ Note: Roccat has been bought by Turtle Beach some time ago and now they are rebr
 | Roccat Vulcan II Max           |    🚧    |
 | Roccat Vulcan II Mini          |    🚧    |
 | Roccat Vulcan II Mini Air      |    ❌    |
+| Turtle Beach Vulcan II TKL Pro |    🚧    |
 
-Right now the only devices i can implement are those i own, but i am missing Roccat Vulcan 80 Aimo, Roccat Vulcan II and Roccat Vulcan II Max.  If i find them cheap i'll buy them, but until that happens i need help. Also i only have one color each.
+Right now the only devices i can implement are those i own, but i am missing Roccat Vulcan II, Roccat Vulcan II TKL Pro and Roccat Vulcan II Max.  If i find them cheap i'll buy them, but until that happens i need help. Also i only have one color each.
 
 I am not sure about white versions, in general black versions are implemented, but i suspect, that they work too. I can confirm that 120, 121 and 122 are indistinguishable, not even Roccat Swarm knows which of the 3 is used, so they also work exactly the same.  
   
