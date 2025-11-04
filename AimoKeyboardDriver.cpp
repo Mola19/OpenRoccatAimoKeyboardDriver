@@ -475,17 +475,14 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
 		);
 
 	uint16_t packet_length = 0;
-	uint16_t block_size = 0;
 	uint8_t report_id = (config.protocol_version == 1) ? 0x0D : 0x11;
 
 	switch (pid) {
 		case ROCCAT_VULCAN_100_AIMO_PID:
 			packet_length = 443;
-			block_size = 12;
 			break;
 		case ROCCAT_VULCAN_TKL_PRO_PID:
 			packet_length = 299;
-			block_size = 12;
 			break;
 		default:
 			return "This device is not supported by the function";
@@ -494,7 +491,6 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
 	uint8_t header_length = (packet_length > 255) ? 2 : 1;
 
 	uint8_t brightness_index = (config.protocol_version == 1) ? 5 : 4;
-	uint8_t colours_start_index = 7 + header_length;
 
 	uint8_t *buf = new uint8_t[packet_length];
 	memset(buf, 0x00, packet_length);
@@ -514,14 +510,8 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
 	buf[brightness_index + header_length] = brightness;
 	buf[6 + header_length] = (!is_custom_color << 7) + theme % 0b0111'1111;
 
-	for (const auto &[key, value] : config.led_map) {
-		int block = (key / block_size) * block_size;
-		int offset = block * 3 + key % block_size + colours_start_index;
-
-		buf[offset] = colors[key].red;
-		buf[offset + block_size] = colors[key].green;
-		buf[offset + block_size * 2] = colors[key].blue;
-	}
+	auto color_bytes = generate_color_bytes(colors);
+	memcpy(buf + 7 + header_length, color_bytes.data(), config.led_length * 3);
 
 	generate_checksum(buf, packet_length, 2);
 
@@ -532,6 +522,99 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
 
 	delete[] buf;
 	return std::nullopt;
+}
+
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_direct_lighting(std::vector<RGBColor> colors) {
+	uint16_t total_length;
+	
+	switch (pid) {
+		case ROCCAT_VULCAN_100_AIMO_PID:
+			total_length = 436;
+			break;
+		case ROCCAT_VULCAN_TKL_PRO_PID:
+			total_length = 308;
+			break;
+		default:
+			return "This device is not supported by the function";
+	}
+
+	auto color_bytes = generate_color_bytes(colors);
+	color_bytes.push_back(0xDE);
+
+	int i = 1;
+	uint16_t offset = 0;
+	uint8_t buf[65] = {};
+	while (config.led_length * 3 > offset) {
+		memset(buf, 0x00, 65);
+
+		uint8_t bytes_to_send = 0;
+
+		if (i == 1) {
+			buf[0] = 0x00;
+			buf[1] = 0xA1;
+			buf[2] = 0x01;
+
+			if (config.protocol_version == 1) {
+				// big endian
+				buf[3] = total_length / 256;
+				buf[4] = total_length % 256;
+			} else {
+				// little endian
+				buf[3] = total_length % 256;
+				buf[4] = total_length / 256;
+			}
+
+			bytes_to_send = 60;
+		} else {
+			buf[0] = 0x00;
+			if (config.protocol_version == 2) {
+				buf[1] = 0xA1;
+				buf[2] = i;
+
+				bytes_to_send = 60;
+			} else {
+				bytes_to_send = 64;
+			}
+		}
+
+		uint8_t packet_offset = (65 - bytes_to_send);
+		uint8_t actual_bytes = std::min((uint16_t)(config.led_length * 3 - offset), (uint16_t)bytes_to_send);
+		memcpy(buf + packet_offset, color_bytes.data() + offset, actual_bytes);
+
+		hid_write(led_device, buf, 65);
+
+		i++;
+		offset += actual_bytes;
+	}
+
+	return std::nullopt;
+}
+
+std::vector<uint8_t> AimoKeyboardDriver::generate_color_bytes(std::vector<RGBColor> colors) {
+	uint16_t block_size = 0;
+	uint8_t report_id = (config.protocol_version == 1) ? 0x0D : 0x11;
+
+	switch (pid) {
+		case ROCCAT_VULCAN_100_AIMO_PID:
+			block_size = 12;
+			break;
+		case ROCCAT_VULCAN_TKL_PRO_PID:
+			block_size = 12;
+			break;
+	}
+
+	std::vector<uint8_t> buf(config.led_length * 3);
+
+	for (const auto &[key, value] : config.led_map) {
+		int block = (key / block_size) * block_size;
+		int offset = block * 3 + key % block_size;
+
+		buf[offset] = colors[key].red;
+		buf[offset + block_size] = colors[key].green;
+		buf[offset + block_size * 2] = colors[key].blue;
+	}
+
+	return buf;
 }
 
 bool AimoKeyboardDriver::check_checksum(uint8_t *buf, int size, uint8_t checksum_size) {

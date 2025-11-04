@@ -189,6 +189,7 @@ class AimoKeyboardDriver {
 		uint8_t profile, uint8_t mode, uint8_t speed, uint8_t brightness, uint8_t theme,
 		uint8_t is_custom_color, std::vector<RGBColor> colors
 	);
+	VoidError set_direct_lighting(std::vector<RGBColor> colors);
 
 	Config config;
 	uint16_t pid;
@@ -199,12 +200,13 @@ class AimoKeyboardDriver {
 
   private:
 	ReadCallback *cb;
+	std::vector<uint8_t> generate_color_bytes(std::vector<RGBColor> colors);
 	std::vector<uint8_t> await_response(uint8_t *command, uint8_t command_length);
 	bool check_checksum(uint8_t *buf, int size, uint8_t checksum_size);
 	void generate_checksum(uint8_t *buf, int size, uint8_t checksum_size);
 };
 
-inline std::map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {
+inline std::unordered_map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {
 	{ROCCAT_VULCAN_100_AIMO_PID, {1, false, true, 144, AimoKeyMaps::Vulcan100 }},
 	{ROCCAT_VULCAN_TKL_PRO_PID, {2, true, false, 96, AimoKeyMaps::VulcanTKL }}
 };
