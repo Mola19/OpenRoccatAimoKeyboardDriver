@@ -122,8 +122,8 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::wait_until_ready() {
 
 AimoKeyboardDriver::VoidError
 AimoKeyboardDriver::set_page_to_read(uint8_t profile, uint8_t page_or_key, bool is_macro) {
-	if (config.protocol_version == 2)
-		return "can't use this function with gen 2";
+	if (config.protocol_version == 1)
+		return "can't use this function with gen 1";
 
 	uint8_t buf[4] = {0x04, profile, page_or_key, is_macro};
 	int written = hid_send_feature_report(ctrl_device, buf, 4);
