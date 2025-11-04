@@ -390,6 +390,10 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::LightingInfo> AimoKeyboardDriver::
 			packet_length = 443;
 			block_size = 12;
 			break;
+		case ROCCAT_VULCAN_TKL_PRO_PID:
+			packet_length = 299;
+			block_size = 12;
+			break;
 		default:
 			return std::unexpected("This device is not supported by the function");
 	}
@@ -420,10 +424,9 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::LightingInfo> AimoKeyboardDriver::
 	uint8_t brightness_index = (config.protocol_version == 1) ? 5 : 4;
 	uint8_t colours_start_index = 7 + header_length;
 
-	std::vector<RGBColor> colors;
-	colors.resize(config.led_length);
+	std::vector<RGBColor> colors(config.led_length);
 
-	for (const auto &[key, value] : AimoKeyMaps::Vulcan100) {
+	for (const auto &[key, value] : config.led_map) {
 		int block = (int)(key / block_size) * block_size;
 		int offset = block * 3 + key % block_size + colours_start_index;
 
@@ -485,6 +488,10 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
 			packet_length = 443;
 			block_size = 12;
 			break;
+		case ROCCAT_VULCAN_TKL_PRO_PID:
+			packet_length = 299;
+			block_size = 12;
+			break;
 		default:
 			return "This device is not supported by the function";
 	}
@@ -512,7 +519,7 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
 	buf[brightness_index + header_length] = brightness;
 	buf[6 + header_length] = (!is_custom_color << 7) + theme % 0b0111'1111;
 
-	for (const auto &[key, value] : AimoKeyMaps::Vulcan100) {
+	for (const auto &[key, value] : config.led_map) {
 		int block = (key / block_size) * block_size;
 		int offset = block * 3 + key % block_size + colours_start_index;
 

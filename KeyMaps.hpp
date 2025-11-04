@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include <unordered_map>
 
@@ -15,8 +17,8 @@ namespace AimoKeyMaps {
 		{ 0x06, "1"              },
 		{ 0x09, "ISO_BACK_SLASH" },
 		{ 0x0A, "LEFT_WINDOWS"   },
-		{ 0x0B, "F1"             },
 
+		{ 0x0B, "F1"             },
 		{ 0x0C, "2"              },
 		{ 0x07, "Q"              },
 		{ 0x08, "A"              },
@@ -132,5 +134,112 @@ namespace AimoKeyMaps {
 		{ 0x81, "NUMPAD_MINUS"   },
 		{ 0x82, "NUMPAD_PLUS"    },
 		{ 0x83, "NUMPAD_ENTER"   }
+	};
+
+	inline std::unordered_map<uint16_t, std::string> VulcanTKL = {
+		{ 0x02, "ESCAPE"                },
+		{ 0x03, "BACK_TICK"             },
+		{ 0x04, "TAB"                   },
+		{ 0x05, "CAPS_LOCK"             },
+		{ 0x00, "LEFT_SHIFT"            },
+		{ 0x01, "LEFT_CONTROL"          },
+
+		{ 0x08, "1"                     },
+		{ 0x06, "ISO_BACK_SLASH"        },
+		{ 0x07, "LEFT_WINDOWS"          },
+
+		{ 0x0D, "F1"                    },
+		{ 0x0E, "2"                     },
+		{ 0x09, "Q"                     },
+		{ 0x0A, "A"                     },
+		{ 0x0B, "Z"                     },
+		{ 0x0C, "LEFT_ALT"              },
+
+		{ 0x14, "F2"                    },
+		{ 0x15, "3"                     },
+		{ 0x0F, "W"                     },
+		{ 0x10, "S"                     },
+		{ 0x11, "X"                     },
+
+		{ 0x19, "F3"                    },
+		{ 0x1A, "4"                     },
+		{ 0x16, "E"                     },
+		{ 0x17, "D"                     },
+		{ 0x18, "C"                     },
+
+		{ 0x1E, "F4"                    },
+		{ 0x1F, "5"                     },
+		{ 0x1B, "R"                     },
+		{ 0x1C, "F"                     },
+		{ 0x1D, "V"                     },
+
+		{ 0x24, "6"                     },
+		{ 0x20, "T"                     },
+		{ 0x21, "G"                     },
+		{ 0x22, "B"                     },
+		{ 0x23, "SPACE"                 },
+
+		{ 0x28, "F5"                    },
+		{ 0x29, "7"                     },
+		{ 0x25, "Y"                     },
+		{ 0x26, "H"                     },
+		{ 0x27, "N"                     },
+
+		{ 0x2F, "F6"                    },
+		{ 0x30, "8"                     },
+		{ 0x2A, "U"                     },
+		{ 0x2B, "J"                     },
+		{ 0x2C, "M"                     },
+
+		{ 0x35, "F7"                    },
+		{ 0x36, "9"                     },
+		{ 0x31, "I"                     },
+		{ 0x32, "K"                     },
+		{ 0x33, "COMMA"                 },
+
+		{ 0x3B, "F8"                    },
+		{ 0x3C, "0"                     },
+		{ 0x37, "O"                     },
+		{ 0x38, "L"                     },
+		{ 0x39, "PERIOD"                },
+		{ 0x3A, "RIGHT_ALT"             },
+
+		{ 0x41, "F9"                    },
+		{ 0x42, "MINUS"                 },
+		{ 0x3D, "P"                     },
+		{ 0x3E, "SEMICOLON"             },
+		{ 0x3F, "FORWARD_SLASH"         },
+		{ 0x40, "RIGHT_FUNCTION"        },
+
+		{ 0x47, "F10"                   },
+		{ 0x48, "EQUALS"                },
+		{ 0x43, "LEFT_BRACKET"          },
+		{ 0x44, "QUOTE"                 },
+		{ 0x46, "MENU"                  },
+
+		{ 0x4D, "F11"                   },
+		{ 0x50, "BACKSPACE"             },
+		{ 0x49, "RIGHT_BRACKET"         },
+		{ 0x4A, "ISO_POUND"             },
+		{ 0x4B, "RIGHT_SHIFT"           },
+
+		{ 0x4F, "F12"                   },
+		{ 0x51, "ANSI_BACK_SLASH"       },
+		{ 0x52, "ENTER"                 },
+		{ 0x4C, "RIGHT_CONTROL"         },
+
+		{ 0x5C, "MEDIA_MUTE"            },
+		{ 0x54, "INSERT"                },
+		{ 0x55, "DELETE"                },
+		{ 0x56, "LEFT_ARROW"            },
+
+		{ 0x58, "HOME"                  },
+		{ 0x59, "END"                   },
+		{ 0x5A, "UP_ARROW"              },
+		{ 0x5B, "DOWN_ARROW"            },
+
+		{ 0x5D, "PAGE_UP"               },
+		{ 0x5E, "PAGE_DOWN"             },
+		{ 0x5F, "RIGHT_ARROW"           },
 	};
 }

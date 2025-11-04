@@ -7,6 +7,7 @@
 #include <map>
 #include <string>
 
+#include "KeyMaps.hpp"
 #include "ReadCallback.hpp"
 
 #define ROCCAT_VULCAN_100_AIMO_PID 0x307A
@@ -27,6 +28,7 @@ class AimoKeyboardDriver {
 		// note: this is not the led amount, this also contains the gaps
 		// it's primarily important for the size of the colours array
 		uint8_t led_length;
+		std::unordered_map<uint16_t, std::string> led_map;
 	};
 
 	enum PhysicalLayout {
@@ -144,7 +146,7 @@ class AimoKeyboardDriver {
 
 	using VoidError = std::optional<std::string>;
 
-	AimoKeyboardDriver(){};
+	AimoKeyboardDriver() {};
 	AimoKeyboardDriver(std::string name, std::vector<hid_device *> hiddev, uint16_t pid);
 	~AimoKeyboardDriver();
 
@@ -202,7 +204,7 @@ class AimoKeyboardDriver {
 	void generate_checksum(uint8_t *buf, int size, uint8_t checksum_size);
 };
 
-static std::map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {
-	{ROCCAT_VULCAN_100_AIMO_PID, {1, false, true, 144}},
-	{ROCCAT_VULCAN_TKL_PRO_PID, {2, true, false, 96}}
+inline std::map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {
+	{ROCCAT_VULCAN_100_AIMO_PID, {1, false, true, 144, AimoKeyMaps::Vulcan100 }},
+	{ROCCAT_VULCAN_TKL_PRO_PID, {2, true, false, 96, AimoKeyMaps::VulcanTKL }}
 };
