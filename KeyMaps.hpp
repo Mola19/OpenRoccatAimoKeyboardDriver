@@ -242,4 +242,248 @@ namespace AimoKeyMaps {
 		{ "PAGE_DOWN",      0x5E },
 		{ "RIGHT_ARROW",    0x5F },
 	};
+
+	inline std::unordered_map<std::string, uint16_t> Vulcan100Remap = {
+		{ "F1",             0x00 },
+		{ "ESCAPE",         0x01 },
+		{ "BACK_TICK",      0x02 },
+		{ "1",              0x03 },
+		{ "TAB",            0x04 },
+		{ "CAPS_LOCK",      0x05 },
+		{ "LEFT_SHIFT",     0x06 },
+		{ "LEFT_CONTROL",   0x07 },
+
+		{ "F2",             0x08 },
+		{ "2",              0x09 },
+		{ "Q",              0x0A },
+		{ "W",              0x0B },
+		{ "A",              0x0C },
+		{ "ISO_BACKSLASH",  0x0D },
+		{ "LEFT_WINDOWS",   0x0F },
+
+		{ "F4",             0x10 },
+		{ "F3",             0x11 },
+		{ "3",              0x12 },
+		{ "4",              0x13 },
+		{ "E",              0x14 },
+		{ "S",              0x15 },
+		{ "Z",              0x16 },
+		{ "LEFT_ALT",       0x17 },
+
+		{ "F5",             0x18 },
+		{ "6",              0x19 },
+		{ "5",              0x1A },
+		{ "R",              0x1B },
+		{ "D",              0x1C },
+		{ "X",              0x1D },
+		{ "C",              0x1E },
+
+		{ "F6",             0x20 },
+		{ "7",              0x21 },
+		{ "T",              0x23 },
+		{ "G",              0x24 },
+		{ "F",              0x25 },
+		{ "V",              0x26 },
+
+		{ "F7",             0x28 },
+		{ "F8",             0x29 },
+		{ "Y",              0x2B },
+		{ "U",              0x2C },
+		{ "H",              0x2D },
+		{ "B",              0x2E },
+		{ "SPACE",          0x2F },
+		
+		{ "F9",             0x30 },
+		{ "9",              0x31 },
+		{ "8",              0x32 },
+		{ "I",              0x33 },
+		{ "J",              0x34 },
+		{ "K",              0x35 },
+		{ "M",              0x36 },
+		{ "N",              0x37 },
+
+		{ "F10",            0x38 },
+		{ "BACKSPACE",      0x39 },
+		{ "0",              0x3A },
+		{ "MINUS",          0x3B },
+		{ "O",              0x3C },
+		{ "L",              0x3D },
+		{ "COMMA",          0x3E },
+
+		{ "F11",            0x40 },
+		{ "F12",            0x41 },
+		{ "EQUALS",         0x43 },
+		{ "P",              0x44 },
+		{ "SEMICOLON",      0x45 },
+		{ "PERIOD",         0x46 },
+		
+		{ "PRINT_SCREEN",   0x47 },
+		{ "INSERT",         0x48 },
+		{ "DELETE",         0x49 },
+
+		{ "LEFT_BRACKET",   0x4A },
+		{ "RIGHT_BRACKET",  0x4B },
+		{ "QUOTE",          0x4C },
+		{ "FORWARD_SLASH",  0x4D },
+
+		{ "SCROLL_LOCK",    0x50 },
+		{ "HOME",           0x51 },
+		{ "END",            0x52 },
+
+		{ "ISO_POUND",      0x54 },
+
+		{ "RIGHT_ALT",      0x57 },
+
+		{ "PAUSE_BREAK",    0x58 },
+		{ "PAGE_UP",        0x59 },
+		{ "PAGE_DOWN",      0x5A },
+
+		{ "ENTER",          0x5B },
+
+		{ "UP_ARROW",       0x5C },
+		{ "LEFT_ARROW",     0x5D },
+		
+		{ "RIGHT_SHIFT",    0x5E },
+
+		{ "NUMPAD_LOCK",    0x61 },
+		{ "NUMPAD_7",       0x62 },
+		{ "NUMPAD_4",       0x63 },
+		{ "NUMPAD_1",       0x64 },
+
+		{ "DOWN_ARROW",     0x65 },
+
+		{ "NUMPAD_DIVIDE",  0x69 },
+		{ "NUMPAD_8",       0x6A },
+		{ "NUMPAD_5",       0x6B },
+		{ "NUMPAD_2",       0x6C },
+
+		{ "RIGHT_ARROW",    0x6D },
+
+		{ "MENU",           0x6F },
+
+		{ "NUMPAD_TIMES",   0x71 },
+		{ "NUMPAD_9",       0x72 },
+		{ "NUMPAD_6",       0x73 },
+		{ "NUMPAD_3",       0x74 },
+		{ "NUMPAD_0",       0x75 },
+
+		{ "RIGHT_CONTROL",  0x77 },
+
+		{ "NUMPAD_PLUS",    0x79 },
+		{ "NUMPAD_MINUS",   0x7A },
+
+		{ "NUMPAD_PERIOD",  0x7C },
+		{ "NUMPAD_ENTER",   0x7D }
+
+		// { "ANSI_BACKSLASH", ??? },
+	};
+
+	inline std::unordered_map<std::string, uint16_t> VulcanTKLRemap = {
+		{ "F1",             0x00 },
+		{ "ESCAPE",         0x01 },
+		{ "BACK_TICK",      0x02 },
+		{ "1",              0x03 },
+		{ "TAB",            0x04 },
+		{ "CAPS_LOCK",      0x05 },
+		{ "LEFT_SHIFT",     0x06 },
+		{ "LEFT_CONTROL",   0x07 },
+
+		{ "F2",             0x08 },
+		{ "2",              0x09 },
+		{ "Q",              0x0A },
+		{ "W",              0x0B },
+		{ "A",              0x0C },
+		{ "ISO_BACKSLASH",  0x0D },
+		{ "LEFT_WINDOWS",   0x0F },
+
+		{ "F4",             0x10 },
+		{ "F3",             0x11 },
+		{ "3",              0x12 },
+		{ "4",              0x13 },
+		{ "E",              0x14 },
+		{ "S",              0x15 },
+		{ "Z",              0x16 },
+		{ "LEFT_ALT",       0x17 },
+
+		{ "F5",             0x18 },
+		{ "6",              0x19 },
+		{ "5",              0x1A },
+		{ "R",              0x1B },
+		{ "D",              0x1C },
+		{ "X",              0x1D },
+		{ "C",              0x1E },
+
+		{ "F6",             0x20 },
+		{ "7",              0x21 },
+		{ "T",              0x23 },
+		{ "G",              0x24 },
+		{ "F",              0x25 },
+		{ "V",              0x26 },
+
+		{ "F7",             0x28 },
+		{ "F8",             0x29 },
+		{ "Y",              0x2B },
+		{ "U",              0x2C },
+		{ "H",              0x2D },
+		{ "B",              0x2E },
+		{ "SPACE",          0x2F },
+		
+		{ "F9",             0x30 },
+		{ "9",              0x31 },
+		{ "8",              0x32 },
+		{ "I",              0x33 },
+		{ "J",              0x34 },
+		{ "K",              0x35 },
+		{ "M",              0x36 },
+		{ "N",              0x37 },
+
+		{ "F10",            0x38 },
+		{ "BACKSPACE",      0x39 },
+		{ "0",              0x3A },
+		{ "MINUS",          0x3B },
+		{ "O",              0x3C },
+		{ "L",              0x3D },
+		{ "COMMA",          0x3E },
+
+		{ "F11",            0x40 },
+		{ "F12",            0x41 },
+		{ "EQUALS",         0x43 },
+		{ "P",              0x44 },
+		{ "SEMICOLON",      0x45 },
+		{ "PERIOD",         0x46 },
+		
+		{ "INSERT",         0x48 },
+		{ "DELETE",         0x49 },
+
+		{ "LEFT_BRACKET",   0x4A },
+		{ "RIGHT_BRACKET",  0x4B },
+		{ "QUOTE",          0x4C },
+		{ "FORWARD_SLASH",  0x4D },
+
+		{ "HOME",           0x51 },
+		{ "END",            0x52 },
+
+		{ "ISO_POUND",      0x54 },
+
+		{ "RIGHT_ALT",      0x57 },
+
+		{ "PAGE_UP",        0x59 },
+		{ "PAGE_DOWN",      0x5A },
+
+		{ "ENTER",          0x5B },
+
+		{ "UP_ARROW",       0x5C },
+		{ "LEFT_ARROW",     0x5D },
+		
+		{ "RIGHT_SHIFT",    0x5E },
+
+		{ "DOWN_ARROW",     0x65 },
+		{ "RIGHT_ARROW",    0x6D },
+
+		{ "MENU",           0x6F },
+
+		{ "RIGHT_CONTROL",  0x77 },
+
+		// { "ANSI_BACKSLASH", ??? },
+	};
 }

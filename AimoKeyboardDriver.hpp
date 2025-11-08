@@ -4,7 +4,6 @@
 
 #include <cstdint>
 #include <expected>
-#include <map>
 #include <string>
 
 #include "KeyMaps.hpp"
@@ -28,6 +27,8 @@ class AimoKeyboardDriver {
 		// note: this is not the led amount, this also contains the gaps
 		// it's primarily important for the size of the colours array
 		uint8_t led_length;
+		// same
+		uint8_t remap_length;
 		std::unordered_map<std::string, uint16_t> led_map;
 	};
 
@@ -142,11 +143,18 @@ class AimoKeyboardDriver {
 		std::vector<RGBColor> colors;
 	};
 
+	struct GamemodeRemapInfo {
+		// when getting of gen 1 keyboards, the profile number is not returned,
+		// you can only fetch data for the current profile
+		std::optional<uint8_t> profile;
+		std::vector<uint8_t> values;
+	};
+
 	template <class T> using Error = std::expected<T, std::string>;
 
 	using VoidError = std::optional<std::string>;
 
-	AimoKeyboardDriver() {};
+	AimoKeyboardDriver(){};
 	AimoKeyboardDriver(std::string name, std::vector<hid_device *> hiddev, uint16_t pid);
 	~AimoKeyboardDriver();
 
@@ -191,6 +199,8 @@ class AimoKeyboardDriver {
 	);
 	VoidError set_direct_lighting(std::vector<RGBColor> colors);
 
+	Error<GamemodeRemapInfo> get_gamemode_remap();
+
 	Config config;
 	uint16_t pid;
 	hid_device *ctrl_device;
@@ -201,12 +211,11 @@ class AimoKeyboardDriver {
   private:
 	ReadCallback *cb;
 	std::vector<uint8_t> generate_color_bytes(std::vector<RGBColor> colors);
-	std::vector<uint8_t> await_response(uint8_t *command, uint8_t command_length);
 	bool check_checksum(uint8_t *buf, int size, uint8_t checksum_size);
 	void generate_checksum(uint8_t *buf, int size, uint8_t checksum_size);
 };
 
 inline std::unordered_map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {
-	{ROCCAT_VULCAN_100_AIMO_PID, {1, false, true, 144, AimoKeyMaps::Vulcan100LED }},
-	{ROCCAT_VULCAN_TKL_PRO_PID, {2, true, false, 96, AimoKeyMaps::VulcanTKLLED }}
+	{ROCCAT_VULCAN_100_AIMO_PID, {1, false, true, 144, 126, AimoKeyMaps::Vulcan100LED}},
+	{ROCCAT_VULCAN_TKL_PRO_PID, {2, true, false, 96, 126, AimoKeyMaps::VulcanTKLLED}}
 };

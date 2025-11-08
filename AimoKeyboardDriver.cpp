@@ -617,6 +617,51 @@ std::vector<uint8_t> AimoKeyboardDriver::generate_color_bytes(std::vector<RGBCol
 	return buf;
 }
 
+AimoKeyboardDriver::Error<AimoKeyboardDriver::GamemodeRemapInfo> AimoKeyboardDriver::get_gamemode_remap() {
+	uint16_t packet_length = 0;
+	uint8_t report_id = 0x06;
+
+	switch (pid) {
+		case ROCCAT_VULCAN_100_AIMO_PID:
+			packet_length = 133;
+			break;
+		case ROCCAT_VULCAN_TKL_PRO_PID:
+			packet_length = 134;
+			break;
+		default:
+			return std::unexpected("This device is not supported by the function");
+	}
+
+	uint8_t *buf = new uint8_t[packet_length];
+	memset(buf, 0x00, packet_length);
+
+	buf[0] = report_id;
+	int read = hid_get_feature_report(ctrl_device, buf, packet_length);
+
+	if (read == -1)
+		return std::unexpected("HIDAPI Error");
+
+	if (buf[0] != report_id || buf[1] != packet_length)
+		return std::unexpected("packet header is malformed");
+
+
+	if (!check_checksum(buf, packet_length, 2))
+		return std::unexpected("checksum didn't match");
+
+	uint8_t offset = (config.protocol_version == 1) ? 3 : 4;
+
+	std::vector<uint8_t> values(buf + offset, buf + offset + config.remap_length);
+
+	GamemodeRemapInfo info = {
+		.profile = buf[2],
+		.values = values
+	};
+
+	delete[] buf;
+
+	return info;
+}
+
 bool AimoKeyboardDriver::check_checksum(uint8_t *buf, int size, uint8_t checksum_size) {
 	int sum = 0;
 
