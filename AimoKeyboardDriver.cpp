@@ -422,10 +422,10 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::LightingInfo> AimoKeyboardDriver::
 	std::vector<RGBColor> colors(config.led_length);
 
 	for (const auto &[key, value] : config.led_map) {
-		int block = (int)(key / block_size) * block_size;
-		int offset = block * 3 + key % block_size + colours_start_index;
+		int block = (int)(value / block_size) * block_size;
+		int offset = block * 3 + value % block_size + colours_start_index;
 
-		colors[key] = {
+		colors[value] = {
 			.red = buf[offset],
 			.green = buf[offset + block_size],
 			.blue = buf[offset + block_size * 2],
@@ -606,12 +606,12 @@ std::vector<uint8_t> AimoKeyboardDriver::generate_color_bytes(std::vector<RGBCol
 	std::vector<uint8_t> buf(config.led_length * 3);
 
 	for (const auto &[key, value] : config.led_map) {
-		int block = (key / block_size) * block_size;
-		int offset = block * 3 + key % block_size;
+		int block = (value / block_size) * block_size;
+		int offset = block * 3 + value % block_size;
 
-		buf[offset] = colors[key].red;
-		buf[offset + block_size] = colors[key].green;
-		buf[offset + block_size * 2] = colors[key].blue;
+		buf[offset] = colors[value].red;
+		buf[offset + block_size] = colors[value].green;
+		buf[offset + block_size * 2] = colors[value].blue;
 	}
 
 	return buf;

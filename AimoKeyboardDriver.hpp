@@ -28,7 +28,7 @@ class AimoKeyboardDriver {
 		// note: this is not the led amount, this also contains the gaps
 		// it's primarily important for the size of the colours array
 		uint8_t led_length;
-		std::unordered_map<uint16_t, std::string> led_map;
+		std::unordered_map<std::string, uint16_t> led_map;
 	};
 
 	enum PhysicalLayout {
@@ -207,6 +207,6 @@ class AimoKeyboardDriver {
 };
 
 inline std::unordered_map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {
-	{ROCCAT_VULCAN_100_AIMO_PID, {1, false, true, 144, AimoKeyMaps::Vulcan100 }},
-	{ROCCAT_VULCAN_TKL_PRO_PID, {2, true, false, 96, AimoKeyMaps::VulcanTKL }}
+	{ROCCAT_VULCAN_100_AIMO_PID, {1, false, true, 144, AimoKeyMaps::Vulcan100LED }},
+	{ROCCAT_VULCAN_TKL_PRO_PID, {2, true, false, 96, AimoKeyMaps::VulcanTKLLED }}
 };
