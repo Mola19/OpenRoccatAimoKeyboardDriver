@@ -317,14 +317,14 @@ namespace AimoKeyMaps {
 		{ "SEMICOLON",      0x45 },
 		{ "PERIOD",         0x46 },
 		
-		{ "PRINT_SCREEN",   0x47 },
-		{ "INSERT",         0x48 },
-		{ "DELETE",         0x49 },
+		{ "PRINT_SCREEN",   0x48 },
+		{ "INSERT",         0x49 },
+		{ "DELETE",         0x4A },
 
-		{ "LEFT_BRACKET",   0x4A },
-		{ "RIGHT_BRACKET",  0x4B },
-		{ "QUOTE",          0x4C },
-		{ "FORWARD_SLASH",  0x4D },
+		{ "LEFT_BRACKET",   0x4B },
+		{ "RIGHT_BRACKET",  0x4C },
+		{ "QUOTE",          0x4D },
+		{ "FORWARD_SLASH",  0x4E },
 
 		{ "SCROLL_LOCK",    0x50 },
 		{ "HOME",           0x51 },
@@ -452,13 +452,13 @@ namespace AimoKeyMaps {
 		{ "SEMICOLON",      0x45 },
 		{ "PERIOD",         0x46 },
 		
-		{ "INSERT",         0x48 },
-		{ "DELETE",         0x49 },
+		{ "INSERT",         0x49 },
+		{ "DELETE",         0x4A },
 
-		{ "LEFT_BRACKET",   0x4A },
-		{ "RIGHT_BRACKET",  0x4B },
-		{ "QUOTE",          0x4C },
-		{ "FORWARD_SLASH",  0x4D },
+		{ "LEFT_BRACKET",   0x4B },
+		{ "RIGHT_BRACKET",  0x4C },
+		{ "QUOTE",          0x4D },
+		{ "FORWARD_SLASH",  0x4E },
 
 		{ "HOME",           0x51 },
 		{ "END",            0x52 },
