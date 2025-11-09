@@ -524,9 +524,10 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
 	return std::nullopt;
 }
 
-AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_direct_lighting(std::vector<RGBColor> colors) {
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_direct_lighting(std::vector<RGBColor> colors
+) {
 	uint16_t total_length;
-	
+
 	switch (pid) {
 		case ROCCAT_VULCAN_100_AIMO_PID:
 			total_length = 436;
@@ -578,7 +579,8 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_direct_lighting(std::vecto
 		}
 
 		uint8_t packet_offset = (65 - bytes_to_send);
-		uint8_t actual_bytes = std::min((uint16_t)(config.led_length * 3 - offset), (uint16_t)bytes_to_send);
+		uint8_t actual_bytes =
+			std::min((uint16_t)(config.led_length * 3 - offset), (uint16_t)bytes_to_send);
 		memcpy(buf + packet_offset, color_bytes.data() + offset, actual_bytes);
 
 		hid_write(led_device, buf, 65);
@@ -617,7 +619,8 @@ std::vector<uint8_t> AimoKeyboardDriver::generate_color_bytes(std::vector<RGBCol
 	return buf;
 }
 
-AimoKeyboardDriver::Error<AimoKeyboardDriver::GamemodeRemapInfo> AimoKeyboardDriver::get_gamemode_remap() {
+AimoKeyboardDriver::Error<AimoKeyboardDriver::GamemodeRemapInfo>
+AimoKeyboardDriver::get_gamemode_remap() {
 	uint16_t packet_length = 0;
 	uint8_t report_id = 0x06;
 
@@ -644,7 +647,6 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::GamemodeRemapInfo> AimoKeyboardDri
 	if (buf[0] != report_id || buf[1] != packet_length)
 		return std::unexpected("packet header is malformed");
 
-
 	if (!check_checksum(buf, packet_length, 2))
 		return std::unexpected("checksum didn't match");
 
@@ -652,14 +654,68 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::GamemodeRemapInfo> AimoKeyboardDri
 
 	std::vector<uint8_t> values(buf + offset, buf + offset + config.remap_length);
 
-	GamemodeRemapInfo info = {
-		.profile = buf[2],
-		.values = values
-	};
+	GamemodeRemapInfo info = {.profile = buf[2], .values = values};
 
 	delete[] buf;
 
 	return info;
+}
+
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_gamemode_remap(GamemodeRemapInfo info) {
+	if (!info.profile)
+		return "profile needs to be set when setting lighting";
+
+	return set_gamemode_remap(info.profile.value(), info.values);
+}
+
+AimoKeyboardDriver::VoidError
+AimoKeyboardDriver::set_gamemode_remap(uint8_t profile, std::vector<uint8_t> values) {
+	if (values.size() != config.remap_length)
+		return std::format(
+			"colors vector size is {}, but it must be {} for this device", values.size(),
+			config.remap_length
+		);
+
+	uint16_t packet_length = 0;
+	uint8_t report_id = 0x06;
+
+	switch (pid) {
+		case ROCCAT_VULCAN_100_AIMO_PID:
+			packet_length = 133;
+			break;
+		case ROCCAT_VULCAN_TKL_PRO_PID:
+			packet_length = 134;
+			break;
+		default:
+			return "This device is not supported by the function";
+	}
+
+	uint8_t header_length = (packet_length > 255) ? 4 : 3;
+
+	uint8_t *buf = new uint8_t[packet_length];
+	memset(buf, 0x00, packet_length);
+
+	buf[0] = report_id;
+	buf[1] = packet_length;
+	buf[2] = profile;
+
+	// for some reasom gen 2 has two different remnapr packet, but 0 does nothing
+	// you can get 0, it seems like it's just the default (non gamemode) map, that is unchangeable
+	if (header_length == 4) {
+		buf[3] = 0x01;
+	}
+
+	memcpy(buf + header_length, values.data(), config.remap_length);
+
+	generate_checksum(buf, packet_length, 2);
+
+	int written = hid_send_feature_report(ctrl_device, buf, packet_length);
+
+	if (written == -1)
+		return "HIDAPI Error";
+
+	delete[] buf;
+	return std::nullopt;
 }
 
 bool AimoKeyboardDriver::check_checksum(uint8_t *buf, int size, uint8_t checksum_size) {

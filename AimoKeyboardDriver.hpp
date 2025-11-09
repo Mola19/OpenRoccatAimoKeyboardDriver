@@ -200,6 +200,8 @@ class AimoKeyboardDriver {
 	VoidError set_direct_lighting(std::vector<RGBColor> colors);
 
 	Error<GamemodeRemapInfo> get_gamemode_remap();
+	VoidError set_gamemode_remap(GamemodeRemapInfo info);
+	VoidError set_gamemode_remap(uint8_t profile, std::vector<uint8_t> values);
 
 	Config config;
 	uint16_t pid;
