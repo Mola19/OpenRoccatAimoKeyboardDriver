@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <expected>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "KeyMaps.hpp"
@@ -31,6 +32,7 @@ class AimoKeyboardDriver {
 		// same
 		uint8_t remap_length;
 		std::unordered_map<std::string, uint16_t> led_map;
+		std::unordered_map<std::string, uint8_t> fn_map;
 	};
 
 	enum PhysicalLayout {
@@ -217,6 +219,10 @@ class AimoKeyboardDriver {
 	Error<LongRemapInfo> get_easyshift_remap();
 	VoidError set_easyshift_remap(LongRemapInfo info);
 	VoidError set_easyshift_remap(uint8_t profile, std::vector<uint32_t> values);
+	
+	Error<LongRemapInfo> get_fn_remap();
+	VoidError set_fn_remap(LongRemapInfo info);
+	VoidError set_fn_remap(uint8_t profile, std::vector<uint32_t> values);
 
 	Config config;
 	uint16_t pid;
@@ -235,6 +241,6 @@ class AimoKeyboardDriver {
 };
 
 inline std::unordered_map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {
-	{ROCCAT_VULCAN_100_AIMO_PID, {1, false, true, 144, 126, AimoKeyMaps::Vulcan100LED}},
-	{ROCCAT_VULCAN_TKL_PRO_PID, {2, true, false, 96, 126, AimoKeyMaps::VulcanTKLLED}}
+	{ROCCAT_VULCAN_100_AIMO_PID, {1, false, true, 144, 126, AimoKeyMaps::Vulcan100LED, AimoKeyMaps::FNRemapGen1FullGen1}},
+	{ROCCAT_VULCAN_TKL_PRO_PID, {2, true, false, 96, 126, AimoKeyMaps::VulcanTKLLED, AimoKeyMaps::FNRemapGenTKL}}
 };

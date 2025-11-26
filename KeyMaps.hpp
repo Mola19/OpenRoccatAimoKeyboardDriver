@@ -513,7 +513,7 @@ namespace AimoKeyMaps {
 		{ "B",              0x13 },
 	};
 
-	inline std::unordered_map<std::string, uint16_t> FNRemap = {
+	inline std::unordered_map<std::string, uint8_t> FNRemapGenTKL = {
 		{ "F1 (Gamemode)",              0x00 },
 		{ "F2 (Gamemode)",              0x01 },
 		{ "F3 (Gamemode)",              0x02 },
@@ -565,5 +565,41 @@ namespace AimoKeyMaps {
 		{ "DOWN_ARROW (FN)",            0x2B },
 		{ "RIGHT_ARROW (FN)",           0x2C },
 		{ "RIGHT_CONTROL (FN)",         0x2D },
+	};
+
+	inline std::unordered_map<std::string, uint8_t> FNRemapGen1FullGen1 = {
+		{ "F1 (Gamemode)",              0x00 },
+		{ "F2 (Gamemode)",              0x01 },
+		{ "F3 (Gamemode)",              0x02 },
+		{ "F4 (Gamemode)",              0x03 },
+		{ "F5 (Gamemode)",              0x04 },
+		{ "F6 (Gamemode)",              0x05 },
+		{ "F7 (Gamemode)",              0x06 },
+		{ "F8 (Gamemode)",              0x07 },
+		{ "F9 (Gamemode)",              0x08 },
+		{ "F10 (Gamemode)",             0x09 },
+		{ "F11 (Gamemode)",             0x0A },
+		{ "F12 (Gamemode)",             0x0B },
+
+		{ "INSERT (Gamemode)",          0x0C },
+		{ "DELETE (Gamemode)",          0x0D },
+		{ "HOME (Gamemode)",            0x0E },
+
+		{ "F1 (FN)",                    0x0F },
+		{ "F2 (FN)",                    0x10 },
+		{ "F3 (FN)",                    0x11 },
+		{ "F4 (FN)",                    0x12 },
+		{ "F5 (FN)",                    0x13 },
+		{ "F6 (FN)",                    0x14 },
+		{ "F7 (FN)",                    0x15 },
+		{ "F8 (FN)",                    0x16 },
+		{ "F9 (FN)",                    0x17 },
+		{ "F10 (FN)",                   0x18 },
+		{ "F11 (FN)",                   0x19 },
+		{ "F12 (FN)",                   0x1A },
+
+		{ "INSERT (FN)",                0x1B },
+		{ "DELETE (FN)",                0x1C },
+		{ "HOME (FN)",                  0x1D },
 	};
 }
