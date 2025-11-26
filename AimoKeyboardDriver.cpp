@@ -891,6 +891,86 @@ AimoKeyboardDriver::set_fn_remap(uint8_t profile, std::vector<uint32_t> values) 
 	return std::nullopt;
 }
 
+AimoKeyboardDriver::Error<AimoKeyboardDriver::LongRemapInfo>
+AimoKeyboardDriver::get_fn_extra_remap() {
+	if (!config.fn_extra_map)
+		return std::unexpected("can't use this function with this keyboard");
+
+	uint8_t code_size = 3;
+	uint16_t packet_length = 43;
+	uint8_t report_id = 0x09;
+
+	uint8_t *buf = new uint8_t[packet_length];
+	memset(buf, 0x00, packet_length);
+
+	buf[0] = report_id;
+	int read = hid_get_feature_report(ctrl_device, buf, packet_length);
+
+	if (read == -1)
+		return std::unexpected("HIDAPI Error");
+
+	if (buf[0] != report_id || buf[1] != packet_length)
+		return std::unexpected("packet header is malformed");
+
+	if (!check_checksum(buf, packet_length, 2))
+		return std::unexpected("checksum didn't match");
+
+	auto values = le_array_to_uint_vec(
+		buf + 3, config.fn_extra_map.value().size(), code_size, config.protocol_version != 1
+	);
+
+	LongRemapInfo info = {.profile = buf[2], .values = values};
+
+	delete[] buf;
+
+	return info;
+}
+
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_fn_extra_remap(LongRemapInfo info) {
+	if (!info.profile)
+		return "profile needs to be set when setting remap";
+
+	return set_fn_remap(info.profile.value(), info.values);
+}
+
+AimoKeyboardDriver::VoidError
+AimoKeyboardDriver::set_fn_extra_remap(uint8_t profile, std::vector<uint32_t> values) {
+	if (!config.fn_extra_map)
+		return "can't use this function with this keyboard";
+
+	if (values.size() != config.fn_extra_map.value().size())
+		return std::format(
+			"values vector size is {}, but it must be {} for this device", values.size(),
+			config.fn_extra_map.value().size()
+		);
+
+	// this packet has a bunch of garbage bytes that can be ignored
+	uint8_t code_size = 3;
+	uint16_t packet_length = 43;
+	uint8_t report_id = 0x09;
+
+	uint8_t *buf = new uint8_t[packet_length];
+	memset(buf, 0x00, packet_length);
+
+	buf[0] = report_id;
+	buf[1] = packet_length;
+	buf[2] = profile;
+
+	auto temp = uint_vec_to_le_array(values, code_size, config.protocol_version != 1);
+
+	memcpy(buf + 3, temp.data(), config.fn_extra_map.value().size() * code_size);
+
+	generate_checksum(buf, packet_length, 2);
+
+	int written = hid_send_feature_report(ctrl_device, buf, packet_length);
+
+	if (written == -1)
+		return "HIDAPI Error";
+
+	delete[] buf;
+	return std::nullopt;
+}
+
 bool AimoKeyboardDriver::check_checksum(uint8_t *buf, int size, uint8_t checksum_size) {
 	int sum = 0;
 

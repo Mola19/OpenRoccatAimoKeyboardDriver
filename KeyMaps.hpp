@@ -602,4 +602,17 @@ namespace AimoKeyMaps {
 		{ "DELETE (FN)",                0x1C },
 		{ "HOME (FN)",                  0x1D },
 	};
+
+	inline std::unordered_map<std::string, uint8_t> FNRemapExtra = {
+		{ "INSERT",          0x00 },
+		{ "HOME",            0x01 },
+		{ "PAGE_UP",         0x02 },
+		{ "DELETE",          0x03 },
+		{ "END",             0x04 },
+		{ "PAGE_DOWN",       0x05 },
+		{ "KNOB ↻ (FX)",     0x06 },
+		{ "KNOB ↺ (FX)",     0x07 },
+		{ "KNOB ↻ (volume)", 0x08 },
+		{ "KNOB ↺ (volume)", 0x09 },
+	};
 }
