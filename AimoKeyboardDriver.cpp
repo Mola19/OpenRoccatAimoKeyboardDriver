@@ -524,8 +524,8 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
 	return std::nullopt;
 }
 
-AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_direct_lighting(std::vector<RGBColor> colors
-) {
+AimoKeyboardDriver::VoidError
+AimoKeyboardDriver::set_direct_lighting(std::vector<RGBColor> colors) {
 	uint16_t total_length;
 
 	switch (pid) {
@@ -663,7 +663,7 @@ AimoKeyboardDriver::get_gamemode_remap() {
 
 AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_gamemode_remap(GamemodeRemapInfo info) {
 	if (!info.profile)
-		return "profile needs to be set when setting lighting";
+		return "profile needs to be set when setting remap";
 
 	return set_gamemode_remap(info.profile.value(), info.values);
 }
@@ -672,7 +672,7 @@ AimoKeyboardDriver::VoidError
 AimoKeyboardDriver::set_gamemode_remap(uint8_t profile, std::vector<uint8_t> values) {
 	if (values.size() != config.remap_length)
 		return std::format(
-			"colors vector size is {}, but it must be {} for this device", values.size(),
+			"values vector size is {}, but it must be {} for this device", values.size(),
 			config.remap_length
 		);
 
@@ -718,6 +718,76 @@ AimoKeyboardDriver::set_gamemode_remap(uint8_t profile, std::vector<uint8_t> val
 	return std::nullopt;
 }
 
+AimoKeyboardDriver::Error<AimoKeyboardDriver::LongRemapInfo>
+AimoKeyboardDriver::get_easyshift_remap() {
+	uint8_t code_size = (config.protocol_version == 1) ? 3 : 4;
+	uint16_t packet_length = (config.protocol_version == 1) ? 65 : 85;
+	uint8_t report_id = (config.protocol_version == 1) ? 0x0B : 0x0C;
+
+	uint8_t *buf = new uint8_t[packet_length];
+	memset(buf, 0x00, packet_length);
+
+	buf[0] = report_id;
+	int read = hid_get_feature_report(ctrl_device, buf, packet_length);
+
+	if (read == -1)
+		return std::unexpected("HIDAPI Error");
+
+	if (buf[0] != report_id || buf[1] != packet_length)
+		return std::unexpected("packet header is malformed");
+
+	if (!check_checksum(buf, packet_length, 2))
+		return std::unexpected("checksum didn't match");
+
+	auto values = le_array_to_uint_vec(buf + 3, 20, code_size, config.protocol_version != 1);
+
+	LongRemapInfo info = {.profile = buf[2], .values = values};
+
+	delete[] buf;
+
+	return info;
+}
+
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_easyshift_remap(LongRemapInfo info) {
+	if (!info.profile)
+		return "profile needs to be set when setting remap";
+
+	return set_easyshift_remap(info.profile.value(), info.values);
+}
+
+AimoKeyboardDriver::VoidError
+AimoKeyboardDriver::set_easyshift_remap(uint8_t profile, std::vector<uint32_t> values) {
+	if (values.size() != 20)
+		return std::format(
+			"values vector size is {}, but it must be 20 for this device", values.size()
+		);
+
+	uint8_t code_size = (config.protocol_version == 1) ? 3 : 4;
+	uint16_t packet_length = (config.protocol_version == 1) ? 65 : 85;
+	uint8_t report_id = (config.protocol_version == 1) ? 0x0B : 0x0C;
+
+	uint8_t *buf = new uint8_t[packet_length];
+	memset(buf, 0x00, packet_length);
+
+	buf[0] = report_id;
+	buf[1] = packet_length;
+	buf[2] = profile;
+
+	auto temp = uint_vec_to_le_array(values, code_size, config.protocol_version != 1);
+
+	memcpy(buf + 3, temp.data(), 20*code_size);
+
+	generate_checksum(buf, packet_length, 2);
+
+	int written = hid_send_feature_report(ctrl_device, buf, packet_length);
+
+	if (written == -1)
+		return "HIDAPI Error";
+
+	delete[] buf;
+	return std::nullopt;
+}
+
 bool AimoKeyboardDriver::check_checksum(uint8_t *buf, int size, uint8_t checksum_size) {
 	int sum = 0;
 
@@ -749,4 +819,46 @@ void AimoKeyboardDriver::generate_checksum(uint8_t *buf, int size, uint8_t check
 		// intentional overflow
 		buf[i] = sum >> (checksum_index * 8);
 	}
+}
+
+std::vector<uint8_t>
+AimoKeyboardDriver::uint_vec_to_le_array(std::vector<uint32_t> vec, uint8_t bytes, bool is_le) {
+	std::vector<uint8_t> arr(vec.size() * bytes);
+
+	for (size_t i = 0; i < vec.size(); i++) {
+		if (is_le) {
+			for (uint8_t j = 0; j < bytes; j++) {
+				// intentional overflow
+				arr[i * bytes + j] = vec[i] >> (j * 8);
+			}
+		} else {
+			for (uint8_t j = bytes - 1; j < bytes; j--) {
+				// intentional overflow
+				arr[i * bytes + bytes - 1 - j] = vec[i] >> (j * 8);
+			}
+		}
+	}
+
+	return arr;
+}
+
+std::vector<uint32_t>
+AimoKeyboardDriver::le_array_to_uint_vec(uint8_t *buf, int out_size, uint8_t bytes, bool is_le) {
+	std::vector<uint32_t> arr(out_size);
+
+	for (size_t i = 0; i < out_size; i++) {
+		if (is_le) {
+			for (uint8_t j = 0; j < bytes; j++) {
+				// intentional overflow
+				arr[i] += buf[i * bytes + j] << (j * 8);
+			} 
+		} else {
+			for (uint8_t j = bytes - 1; j < bytes; j--) {
+				// intentional overflow
+				arr[i] += buf[i * bytes + bytes - 1 - j] << (j * 8);
+			}
+		}
+	}
+
+	return arr;
 }

@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <expected>
 #include <string>
+#include <vector>
 
 #include "KeyMaps.hpp"
 #include "ReadCallback.hpp"
@@ -150,6 +151,13 @@ class AimoKeyboardDriver {
 		std::vector<uint8_t> values;
 	};
 
+	struct LongRemapInfo {
+		// when getting of gen 1 keyboards, the profile number is not returned,
+		// you can only fetch data for the current profile
+		std::optional<uint8_t> profile;
+		std::vector<uint32_t> values;
+	};
+
 	template <class T> using Error = std::expected<T, std::string>;
 
 	using VoidError = std::optional<std::string>;
@@ -203,6 +211,10 @@ class AimoKeyboardDriver {
 	VoidError set_gamemode_remap(GamemodeRemapInfo info);
 	VoidError set_gamemode_remap(uint8_t profile, std::vector<uint8_t> values);
 
+	Error<LongRemapInfo> get_easyshift_remap();
+	VoidError set_easyshift_remap(LongRemapInfo info);
+	VoidError set_easyshift_remap(uint8_t profile, std::vector<uint32_t> values);
+
 	Config config;
 	uint16_t pid;
 	hid_device *ctrl_device;
@@ -215,6 +227,8 @@ class AimoKeyboardDriver {
 	std::vector<uint8_t> generate_color_bytes(std::vector<RGBColor> colors);
 	bool check_checksum(uint8_t *buf, int size, uint8_t checksum_size);
 	void generate_checksum(uint8_t *buf, int size, uint8_t checksum_size);
+	std::vector<uint8_t> uint_vec_to_le_array(std::vector<uint32_t> vec, uint8_t bytes, bool is_le);
+	std::vector<uint32_t> le_array_to_uint_vec(uint8_t *buf, int out_size, uint8_t bytes, bool is_le);
 };
 
 inline std::unordered_map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {

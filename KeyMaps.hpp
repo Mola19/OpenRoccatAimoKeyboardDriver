@@ -486,4 +486,84 @@ namespace AimoKeyMaps {
 
 		// { "ANSI_BACKSLASH", ??? },
 	};
+
+	inline std::unordered_map<std::string, uint16_t> EasyShift = {
+		{ "1",              0x00 },
+		{ "2",              0x01 },
+		{ "3",              0x02 },
+		{ "4",              0x03 },
+		{ "5",              0x04 },
+
+		{ "Q",              0x05 },
+		{ "W",              0x06 },
+		{ "E",              0x07 },
+		{ "R",              0x08 },
+		{ "T",              0x09 },
+
+		{ "A",              0x0A },
+		{ "S",              0x0B },
+		{ "D",              0x0C },
+		{ "F",              0x0D },
+		{ "G",              0x0E },
+		
+		{ "Z",              0x0F },
+		{ "X",              0x10 },
+		{ "C",              0x11 },
+		{ "V",              0x12 },
+		{ "B",              0x13 },
+	};
+
+	inline std::unordered_map<std::string, uint16_t> FNRemap = {
+		{ "F1 (Gamemode)",              0x00 },
+		{ "F2 (Gamemode)",              0x01 },
+		{ "F3 (Gamemode)",              0x02 },
+		{ "F4 (Gamemode)",              0x03 },
+		{ "F5 (Gamemode)",              0x04 },
+		{ "F6 (Gamemode)",              0x05 },
+		{ "F7 (Gamemode)",              0x06 },
+		{ "F8 (Gamemode)",              0x07 },
+		{ "F9 (Gamemode)",              0x08 },
+		{ "F10 (Gamemode)",             0x09 },
+		{ "F11 (Gamemode)",             0x0A },
+		{ "F12 (Gamemode)",             0x0B },
+
+		{ "INSERT (Gamemode)",          0x0C },
+		{ "DELETE (Gamemode)",          0x0D },
+		{ "HOME (Gamemode)",            0x0E },
+		{ "END (Gamemode)",             0x0F },
+		{ "PAGE_UP (Gamemode)",         0x10 },
+		{ "PAGE_DOWN (Gamemode)",       0x11 },
+
+		{ "UP_ARROW (Gamemode)",        0x12 },
+		{ "LEFT_ARROW (Gamemode)",      0x13 },
+		{ "DOWN_ARROW (Gamemode)",      0x14 },
+		{ "RIGHT_ARROW (Gamemode)",     0x15 },
+		{ "RIGHT_CONTROL (Gamemode)",   0x16 },
+
+		{ "F1 (FN)",                    0x17 },
+		{ "F2 (FN)",                    0x18 },
+		{ "F3 (FN)",                    0x19 },
+		{ "F4 (FN)",                    0x1A },
+		{ "F5 (FN)",                    0x1B },
+		{ "F6 (FN)",                    0x1C },
+		{ "F7 (FN)",                    0x1D },
+		{ "F8 (FN)",                    0x1E },
+		{ "F9 (FN)",                    0x1F },
+		{ "F10 (FN)",                   0x20 },
+		{ "F11 (FN)",                   0x21 },
+		{ "F12 (FN)",                   0x22 },
+
+		{ "INSERT (FN)",                0x23 },
+		{ "DELETE (FN)",                0x24 },
+		{ "HOME (FN)",                  0x25 },
+		{ "END (FN)",                   0x26 },
+		{ "PAGE_UP (FN)",               0x27 },
+		{ "PAGE_DOWN (FN)",             0x28 },
+
+		{ "UP_ARROW (FN)",              0x29 },
+		{ "LEFT_ARROW (FN)",            0x2A },
+		{ "DOWN_ARROW (FN)",            0x2B },
+		{ "RIGHT_ARROW (FN)",           0x2C },
+		{ "RIGHT_CONTROL (FN)",         0x2D },
+	};
 }

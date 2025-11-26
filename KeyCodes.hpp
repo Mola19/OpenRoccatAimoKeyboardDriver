@@ -252,4 +252,269 @@ namespace AimoKeyCodes {
 		{"Media Refresh",           0xFA, },
 		{"Media Calc",              0xFB, },
 	};
+
+	// for most of the missing values, the keyboard just sends the first byte as a usb keycode,
+	inline std::unordered_map<std::string, uint32_t> CodesGen1 = {
+		{ "disabled", 0x000000 },
+		// these only work for the wheel, otherwise the keyboard will just send the corresponding usb keycodes
+		{ "DPI Up", 0x700000 },
+		{ "DPI Down", 0x710000 },
+
+		// these will only work with swarm active
+		{ "Mute Mic", 0x730000 },
+		{ "Open Desktop", 0x740000 },
+		{ "Open Favorites", 0x750000 },
+		{ "Open Fonts", 0x760000 },
+		{ "Open Documents", 0x770000 },
+		{ "Open Downloads", 0x780000 },
+		{ "Open Music", 0x790000 },
+		{ "Open Pictures", 0x7A0000 },
+		{ "Open Network", 0x7B0000 },
+		{ "Open Printer", 0x7C0000 },
+		{ "Open System32", 0x7D0000 },
+		{ "03 0c 11", 0x7E0000 },
+		{ "03 0d 11", 0x7F0000 },
+		{ "03 0e 11", 0x800000 },
+
+		// these work without swarm
+		// this one might behave differently, either shutdown or standby
+		// but this is based on the pc, not a bug by the keyboard
+		{ "System Shutdown", 0x810000 },
+		{ "System Standby", 0x820000 },
+		{ "System Activate", 0x830000 },
+		{ "EasyShift all devices", 0x8C0000 },
+		// { "EasyShift all devices toggle ???", 0x8C0000 },
+		{ "Brightness -???", 0x8E0000 },
+		// { "03 0F 11", 0x920000 },
+		// { "03 10 11", 0x930000 },
+		// { "03 11 11", 0x940000 },
+		// { "03 12 11", 0x950000 },
+		// { "03 13 11", 0x960000 },
+		// { "03 14 11", 0x970000 },
+		// { "03 15 11", 0x980000 },
+		// { "03 16 11", 0x990000 },
+		{ "Light toggle", 0x9A0000 },
+		// { "03 18 11", 0x9B0000 },
+		{ "FN lock (no specific reply)", 0x9C0000 },
+		// { "03 1A 11 ", 0x9D0000 },
+		{ "fn to win switch", 0x9E0000 },
+
+		// these only work with swarm
+		{ "System hibernate", 0x9F0000 },
+		{ "System restart", 0xA00000 },
+		{ "System lock", 0xA10000 },
+		{ "System logout", 0xA20000 },
+
+		{ "Brightness +", 0xA40000 },
+
+		// this literally presses the shortcuts
+		{ "New Tab", 0xA50000 }, // (ctrl + t)
+		{ "New Window", 0xA60000 }, // (ctrl + n)
+
+		// these only work with swarm 
+		{ "Control Panel", 0xA80000 },
+		{ "System Properties", 0xA90000 },
+		{ "Task Manager", 0xAA0000 },
+		{ "Display Settings", 0xAB0000 },
+		{ "Screen Saver", 0xAC0000 },
+		{ "Windows Background", 0xAD0000 },
+		{ "Time Settings", 0xAE0000 },
+		{ "Network Settings", 0xAF0000 },
+
+		// these work without swarm
+		{ "Profile Up", 0xB00000 },
+		{ "Profile Down", 0xB10000 },
+		{ "Profile Toggle", 0xB20000 },
+		{ "Profile 1", 0xB30000 },
+		{ "Profile 2", 0xB40000 },
+		{ "Profile 3", 0xB50000 },
+		{ "Profile 4", 0xB60000 },
+		{ "Profile 5", 0xB70000 },
+
+		// 2nd byte modifiers (shift = 0x02, ctrl = 0x04, win = 0x10, alt = 0x08) 3rd byte usb keycode
+		{ "Hotkey", 0xB80000 },
+
+		// these only work with swarm 
+		{ "Open application", 0xB90000 },
+		{ "Start Timer", 0xBC0000 },
+		{ "Stop Timer", 0xBD0000 },
+
+		{ "Macro", 0xBE0000 },
+
+		// these work without swarm as they use hid consumer control
+		{ "Open Default Mail App", 0xC00000 },
+		{ "Open Calculator", 0xC10000 },
+		{ "Open Computer", 0xC20000 },
+		{ "Open Default Browser", 0xC30000 },
+		{ "Browser/Windows Search", 0xC40000 },
+		{ "Browser Start Page", 0xC50000 },
+		{ "Backwards", 0xC60000 },
+		{ "Forwards", 0xC70000 },
+		{ "Browser Stop loading", 0xC80000 },
+		{ "Browser reload", 0xC90000 },
+
+		// these work with swarm
+		// { "02 2A 02", 0xCA0000 },
+		// { "03 00 0B 20 IsReleased", 0xCB0000 },
+		{ "Play/Pause", 0xCC0000 },
+		{ "Next", 0xCD0000 },
+		{ "Prev", 0xCE0000 },
+		{ "Stop", 0xCF0000 },
+		{ "Volume Up", 0xD00000 },
+		{ "Volume Down", 0xD10000 },
+		{ "Mute", 0xD20000 },
+		{ "Open Swarm", 0xDD0000 },
+
+		// these work with swarm
+		{ "LeftCtrl", 0xE00000 },
+		{ "LeftShift", 0xE10000 },
+		{ "LeftAlt", 0xE20000 },
+		{ "Left GUI", 0xE30000 },
+		{ "RightStrl", 0xE40000 },
+		{ "RightShift", 0xE50000 },
+		{ "RightAlt", 0xE60000 },
+		{ "Right GUI", 0xE70000 },
+
+		// these only work with swarm 
+		{ "Administrative Tools", 0xE80000 },
+		{ "Windows Firewall", 0xE90000 },
+		{ "Regedit", 0xEA0000 },
+		{ "Event Viewer", 0xEB0000 },
+		{ "Performance Monitor", 0xEC0000 },
+		{ "Sound Settings", 0xED0000 },
+		{ "Internet Properties", 0xEE0000 },
+		{ "DirectX Diagnosis", 0xEF0000 },
+		{ "Command-line", 0xF00000 },
+		{ "Open Document", 0xF20000 },
+		{ "Open Folder", 0xF30000 },
+		{ "Open Website", 0xF40000 },
+
+		{ "EasyShift", 0xF50000 },
+		// technically all of these are capslock
+		// { "easyshift", 0xF60000 },
+		// { "easyshift", 0xF70000 },
+		// { "easyshift", 0xF80000 },
+		// { "easyshift", 0xF90000 },
+		// { "easyshift", 0xFA0000 },
+		// { "easyshift", 0xFB0000 },
+
+		// thse work without swarm
+		{ "Gamemode toggle", 0xFC0000 },
+		{ "lighting mode -", 0xFD0000 },
+		{ "lighting mode +", 0xFE0000 },
+	};
+
+	inline std::unordered_map<std::string, uint32_t> CodesGen2 = {
+		// these work without swarm
+		{ "disabled", 0x00000000 },
+		{ "Macro toggle", 00010107 },
+		{ "Macro while pressed", 00010207 },
+		// these only work for the wheel, otherwise the keyboard will just send the corresponding usb keycodes
+		{ "DPI Up", 0x02020000 },
+		{ "DPI Down", 0x02030000 },
+
+		// these work without swarm as they use hid consumer control
+		{ "Prev", 0x03020000 },
+		{ "Next", 0x03030000 },
+		{ "Play/Pause", 0x03040000 },
+		{ "Stop", 0x03050000 },
+		{ "Mute", 0x03060000 },
+		{ "Volume Up", 0x03070000 },
+		{ "Volume Down", 0x03080000 },
+		{ "Open Default Browser", 0x03090000 },
+		{ "Browser/Windows Search", 0x030b0000 },
+		{ "Browser Stop loading", 0x030c0000 },
+		{ "Browser reload", 0x030d0000 },
+		// those 2 literally presses the shortcuts
+		{ "New Tab", 0x030e0000 }, // (ctrl + t)
+		{ "New Window", 0x030f0000 }, // (ctrl + n)
+		{ "Open Computer", 0x03100000 },
+		{ "Open Calculator", 0x03110000 },
+		{ "Open Default Mail App", 0x03120000 },
+		{ "Browser Start Page", 0x03130000 },
+		{ "Backwards", 0x03140000 },
+		{ "Forwards", 0x03150000 },
+
+		// these work without swarm
+		// this one might behave differently, either shutdown or standby
+		// but this is based on the pc, not a bug by the keyboard
+		{ "System Shutdown", 0x05010000 },
+		{ "System Standby", 0x05020000 },
+		{ "System Activate", 0x05030000 },
+
+		// works without swarm
+		// byte [1]: modifier flag (0 0 0 0 Win Alt Shift Ctrl)
+		// byte [2]: usb key code
+		{ "Hotkey", 0x06000000 },
+
+		// these work without swarm
+		{ "Profile Toggle", 0x08010000 },
+		{ "Profile Up", 0x08020000 },
+		{ "Profile Down", 0x08030000 },
+		{ "Profile 1", 0x08040000 },
+		{ "Profile 2", 0x08050000 },
+		{ "Profile 3", 0x08060000 },
+		{ "Profile 4", 0x08070000 },
+		{ "Profile 5", 0x08080000 },
+		{ "Brightness +", 0x08090000 },
+		{ "Brightness -", 0x080A0000 },
+		{ "Gamemode toggle", 0x080B0000 },
+		{ "lighting mode -", 0x080C0000 },
+		{ "lighting mode +", 0x080D0000 },
+
+		{ "FN lock (no specific reply)", 0x08A00000 },
+		{ "fn to win switch", 0x08A10000 },
+		{ "Light toggle", 0x08A20000 },
+
+		// these will only work with swarm active
+		{ "Open application", 0x0B010000 },
+		{ "Open Swarm", 0x0B020000 },
+		{ "Start Timer", 0x0B030000 },
+		{ "Stop Timer", 0x0B040000 },
+		{ "Open Document", 0x0B050000 },
+		{ "Open Folder", 0x0B060000 },
+		{ "Open Website", 0x0B070000 },
+		{ "Mute Mic", 0x0B080000 },
+		{ "Open Desktop", 0x0B090000 },
+		{ "Open Favorites", 0x0B0A0000 },
+		{ "Open Fonts", 0x0B0B0000 },
+		{ "Open Documents", 0x0B0C0000 },
+		{ "Open Downloads", 0x0B0D0000 },
+		{ "Open Music", 0x0B0E0000 },
+		{ "Open Pictures", 0x0B0F0000 },
+		{ "Open Network", 0x0B100000 },
+		{ "Open Printer", 0x0B110000 },
+		{ "Open System32", 0x0B120000 },
+		{ "System hibernate", 0x0B230000 },
+		{ "System restart", 0x0B240000 },
+		{ "System lock", 0x0B250000 },
+		{ "System logout", 0x0B260000 },
+		{ "Control Panel", 0x0B270000 },
+		{ "System Properties", 0x0B280000 },
+		{ "Task Manager", 0x0B290000 },
+		{ "Display Settings", 0x0B2A0000 },
+		{ "Screen Saver", 0x0B2B0000 },
+		{ "Windows Background", 0x0B2C0000 },
+		{ "Time Settings", 0x0B2D0000 },
+		{ "Network Settings", 0x0B2E0000 },
+		{ "Administrative Tools", 0x0B2F0000 },
+		{ "Windows Firewall", 0x0B300000 },
+		{ "Regedit", 0x0B310000 },
+		{ "Event Viewer", 0x0B320000 },
+		{ "Performance Monitor", 0x0B330000 },
+		{ "Sound Settings", 0x0B340000 },
+		{ "Internet Properties", 0x0B350000 },
+		{ "DirectX Diagnosis", 0x0B360000 },
+		{ "Command-line", 0x0B370000 },
+
+		// works without swarm
+		{ "Remap", 0x0C00000 },
+	};
+
+	inline std::unordered_map<std::string, uint8_t> EasyShiftCodesGen2 = {
+		{ "EasyShift all devices", 0x04 },
+		{ "EasyShift all devices toggle", 0x05 },
+		{ "EasyShift", 0x0B },
+		{ "CapsLock", 0x39 }
+	};
 }
