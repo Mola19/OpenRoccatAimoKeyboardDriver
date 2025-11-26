@@ -718,6 +718,36 @@ AimoKeyboardDriver::set_gamemode_remap(uint8_t profile, std::vector<uint8_t> val
 	return std::nullopt;
 }
 
+AimoKeyboardDriver::Error<bool> AimoKeyboardDriver::get_easyshift() {
+	uint8_t report_id = (config.protocol_version == 1) ? 0x16 : 0x10;
+
+	uint8_t buf[16] = {};
+	memset(buf, 0x00, 16);
+
+	buf[0] = report_id;
+	int read = hid_get_feature_report(ctrl_device, buf, 16);
+
+	if (read == -1)
+		return std::unexpected("HIDAPI Error");
+
+	if (buf[0] != report_id || buf[1] != 0x10)
+		return std::unexpected("packet header is malformed");
+
+	return (bool)buf[3];
+}
+
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_easyshift(bool active) {
+	uint8_t report_id = (config.protocol_version == 1) ? 0x16 : 0x10;
+
+	uint8_t buf[16] = {report_id, 0x10, 0x00, active, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+	int written = hid_send_feature_report(ctrl_device, buf, 16);
+
+	if (written == -1)
+		return "HIDAPI Error";
+
+	return std::nullopt;
+}
+
 AimoKeyboardDriver::Error<AimoKeyboardDriver::LongRemapInfo>
 AimoKeyboardDriver::get_easyshift_remap() {
 	uint8_t code_size = (config.protocol_version == 1) ? 3 : 4;

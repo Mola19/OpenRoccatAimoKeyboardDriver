@@ -211,6 +211,9 @@ class AimoKeyboardDriver {
 	VoidError set_gamemode_remap(GamemodeRemapInfo info);
 	VoidError set_gamemode_remap(uint8_t profile, std::vector<uint8_t> values);
 
+	Error<bool> get_easyshift();
+	VoidError set_easyshift(bool active);
+
 	Error<LongRemapInfo> get_easyshift_remap();
 	VoidError set_easyshift_remap(LongRemapInfo info);
 	VoidError set_easyshift_remap(uint8_t profile, std::vector<uint32_t> values);
