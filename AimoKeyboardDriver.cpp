@@ -654,7 +654,10 @@ AimoKeyboardDriver::get_gamemode_remap() {
 
 	std::vector<uint8_t> values(buf + offset, buf + offset + config.remap_length);
 
-	GamemodeRemapInfo info = {.profile = buf[2], .values = values};
+	GamemodeRemapInfo info = {
+		.profile = (config.protocol_version == 1) ? std::nullopt : std::make_optional(buf[2]),
+		.values = values
+	};
 
 	delete[] buf;
 
@@ -772,7 +775,10 @@ AimoKeyboardDriver::get_easyshift_remap() {
 
 	auto values = le_array_to_uint_vec(buf + 3, 20, code_size, config.protocol_version != 1);
 
-	LongRemapInfo info = {.profile = buf[2], .values = values};
+	LongRemapInfo info = {
+		.profile = (config.protocol_version == 1) ? std::nullopt : std::make_optional(buf[2]),
+		.values = values
+	};
 
 	delete[] buf;
 
@@ -843,7 +849,10 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::LongRemapInfo> AimoKeyboardDriver:
 		buf + 3, config.fn_map.size(), code_size, config.protocol_version != 1
 	);
 
-	LongRemapInfo info = {.profile = buf[2], .values = values};
+	LongRemapInfo info = {
+		.profile = (config.protocol_version == 1) ? std::nullopt : std::make_optional(buf[2]),
+		.values = values
+	};
 
 	delete[] buf;
 
@@ -919,7 +928,10 @@ AimoKeyboardDriver::get_fn_extra_remap() {
 		buf + 3, config.fn_extra_map.value().size(), code_size, config.protocol_version != 1
 	);
 
-	LongRemapInfo info = {.profile = buf[2], .values = values};
+	LongRemapInfo info = {
+		.profile = (config.protocol_version == 1) ? std::nullopt : std::make_optional(buf[2]),
+		.values = values
+	};
 
 	delete[] buf;
 
