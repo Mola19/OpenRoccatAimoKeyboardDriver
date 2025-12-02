@@ -62,6 +62,7 @@ class AimoKeyboardDriver {
 		READY = 1,
 		ERROR = 2,
 		BUSY = 3,
+		CHECKSUM_WRONG = 6, // not 100% sure
 	};
 
 	enum Page {

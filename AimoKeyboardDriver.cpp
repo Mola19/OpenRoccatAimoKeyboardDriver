@@ -109,10 +109,15 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::wait_until_ready() {
 			return res.error();
 		} else if (res.value() == AimoKeyboardDriver::READY) {
 			return std::nullopt;
+		} else if (res.value() == AimoKeyboardDriver::ERROR) {
+			return "unkown error with sent packet";
+		} else if (res.value() == AimoKeyboardDriver::CHECKSUM_WRONG) {
+			return "error with checksum of sent packet";
 		}
+		// loop if AimoKeyboardDriver::BUSY
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
-	return "Timeout";
+	return "Timeout while waiting for packet";
 }
 
 AimoKeyboardDriver::VoidError
