@@ -988,6 +988,114 @@ AimoKeyboardDriver::set_fn_extra_remap(uint8_t profile, std::vector<uint32_t> va
 	return std::nullopt;
 }
 
+AimoKeyboardDriver::Error<AimoKeyboardDriver::CapslockRemapInfo>
+AimoKeyboardDriver::get_capslock_remap() {
+	if (config.protocol_version == 1) {
+		uint8_t report_id = 0x0A;
+		const uint8_t packet_length = 8;
+
+		uint8_t buf[packet_length] = {};
+		memset(buf, 0x00, packet_length);
+
+		buf[0] = report_id;
+		int read = hid_get_feature_report(ctrl_device, buf, packet_length);
+
+		if (read == -1)
+			return std::unexpected("HIDAPI Error");
+
+		if (buf[0] != report_id || buf[1] != packet_length)
+			return std::unexpected("packet header is malformed");
+
+		if (!check_checksum(buf, packet_length, 2))
+			return std::unexpected("checksum didn't match");
+
+		CapslockRemapInfo info = {.profile = std::nullopt, .capslock_value = buf[3]};
+
+		return info;
+	} else {
+		uint8_t report_id = 0x07;
+		const uint8_t packet_length = 11;
+
+		uint8_t buf[packet_length] = {};
+		memset(buf, 0x00, packet_length);
+
+		buf[0] = report_id;
+		int read = hid_get_feature_report(ctrl_device, buf, packet_length);
+
+		if (read == -1)
+			return std::unexpected("HIDAPI Error");
+
+		if (buf[0] != report_id || buf[1] != packet_length)
+			return std::unexpected("packet header is malformed");
+
+		if (!check_checksum(buf, packet_length, 2))
+			return std::unexpected("checksum didn't match");
+
+		CapslockRemapInfo info = {
+			.profile = buf[2],
+			.capslock_value = 0 + ((uint32_t)buf[6] << 24) + ((uint32_t)buf[5] << 16) +
+							  ((uint32_t)buf[4] << 8) + buf[3]
+		};
+
+		return info;
+	}
+}
+
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_capslock_remap(CapslockRemapInfo info) {
+	if (!info.profile)
+		return "profile needs to be set when setting remap";
+
+	return set_capslock_remap(info.profile.value(), info.capslock_value);
+}
+
+AimoKeyboardDriver::VoidError
+AimoKeyboardDriver::set_capslock_remap(uint8_t profile, uint32_t capslock_value) {
+	if (config.protocol_version == 1) {
+		uint8_t report_id = 0x0A;
+		const uint8_t packet_length = 8;
+
+		uint8_t buf[packet_length] = {report_id, packet_length,
+									  profile,   (uint8_t)capslock_value /*deliberate overflow*/,
+									  0x00,      0x00,
+									  0x00,      0x00};
+
+		generate_checksum(buf, packet_length, 2);
+
+		int written = hid_send_feature_report(ctrl_device, buf, packet_length);
+
+		if (written == -1)
+			return "HIDAPI Error";
+
+		return std::nullopt;
+	} else {
+		uint8_t report_id = 0x07;
+		const uint8_t packet_length = 11;
+
+		uint8_t buf[packet_length] = {
+			report_id,
+			packet_length,
+			profile,
+			(uint8_t)capslock_value, /*deliberate overflow*/
+			(uint8_t)(capslock_value >> 8),
+			(uint8_t)(capslock_value >> 16),
+			(uint8_t)(capslock_value >> 24),
+			0x00,
+			0x00,
+			0x00,
+			0x00
+		};
+
+		generate_checksum(buf, packet_length, 2);
+
+		int written = hid_send_feature_report(ctrl_device, buf, packet_length);
+
+		if (written == -1)
+			return "HIDAPI Error";
+
+		return std::nullopt;
+	}
+}
+
 bool AimoKeyboardDriver::check_checksum(uint8_t *buf, int size, uint8_t checksum_size) {
 	int sum = 0;
 

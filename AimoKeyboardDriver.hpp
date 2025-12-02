@@ -162,6 +162,13 @@ class AimoKeyboardDriver {
 		std::vector<uint32_t> values;
 	};
 
+	struct CapslockRemapInfo {
+		// when getting of gen 1 keyboards, the profile number is not returned,
+		// you can only fetch data for the current profile
+		std::optional<uint8_t> profile;
+		uint32_t capslock_value;
+	};
+
 	template <class T> using Error = std::expected<T, std::string>;
 
 	using VoidError = std::optional<std::string>;
@@ -229,6 +236,10 @@ class AimoKeyboardDriver {
 	Error<LongRemapInfo> get_fn_extra_remap();
 	VoidError set_fn_extra_remap(LongRemapInfo info);
 	VoidError set_fn_extra_remap(uint8_t profile, std::vector<uint32_t> values);
+
+	Error<CapslockRemapInfo> get_capslock_remap();
+	VoidError set_capslock_remap(CapslockRemapInfo info);
+	VoidError set_capslock_remap(uint8_t profile, uint32_t capslock_value);
 
 	Config config;
 	uint16_t pid;

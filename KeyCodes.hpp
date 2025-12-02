@@ -511,10 +511,17 @@ namespace AimoKeyCodes {
 		{ "Remap", 0x0C00000 },
 	};
 
-	inline std::unordered_map<std::string, uint8_t> EasyShiftCodesGen2 = {
-		{ "EasyShift all devices", 0x04 },
-		{ "EasyShift all devices toggle", 0x05 },
-		{ "EasyShift", 0x0B },
+	inline std::unordered_map<std::string, uint32_t> EasyShiftCodesGen2 = {
+		{ "EasyShift all devices", 0x0A040000 },
+		{ "EasyShift all devices toggle", 0x0A050000 },
+		{ "EasyShift", 0x0A0B0000 },
+		{ "CapsLock", 0x0C390000 }
+	};
+
+	inline std::unordered_map<std::string, uint32_t> EasyShiftCodesGen1 = {
+		{ "EasyShift all devices", 0x8C },
+		{ "EasyShift all devices toggle", 0x8D },
+		{ "EasyShift", 0xFF },
 		{ "CapsLock", 0x39 }
 	};
 }
