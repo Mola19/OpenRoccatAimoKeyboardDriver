@@ -169,6 +169,21 @@ class AimoKeyboardDriver {
 		uint32_t capslock_value;
 	};
 
+	struct MacroStep {
+		bool is_release;
+		uint8_t keycode;
+		uint16_t delay;
+	};
+
+	struct MacroInfo {
+		uint8_t profile;
+		uint8_t key_id;
+		std::string foldername_utf8;
+		std::string macroname_utf8;
+		uint8_t repeat;
+		std::vector<MacroStep> steps;
+	};
+
 	template <class T> using Error = std::expected<T, std::string>;
 
 	using VoidError = std::optional<std::string>;
@@ -240,6 +255,10 @@ class AimoKeyboardDriver {
 	Error<CapslockRemapInfo> get_capslock_remap();
 	VoidError set_capslock_remap(CapslockRemapInfo info);
 	VoidError set_capslock_remap(uint8_t profile, uint32_t capslock_value);
+	
+	Error<MacroInfo> get_macro();
+	VoidError set_macro(MacroInfo info);
+	VoidError set_macro(uint8_t profile, uint8_t key_id, std::string foldername_utf8, std::string macroname_utf8, uint8_t repeat, std::vector<MacroStep> steps);
 
 	Config config;
 	uint16_t pid;

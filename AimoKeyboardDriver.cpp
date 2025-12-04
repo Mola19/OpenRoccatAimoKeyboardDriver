@@ -125,7 +125,9 @@ AimoKeyboardDriver::set_page_to_read(uint8_t profile, uint8_t page_or_key, bool 
 	if (config.protocol_version == 1)
 		return "can't use this function with gen 1";
 
-	uint8_t buf[4] = {0x04, profile, page_or_key, is_macro};
+	uint8_t buf[4] = {
+		0x04, profile, static_cast<uint8_t>((is_macro) ? page_or_key + 13 : page_or_key), is_macro
+	};
 	int written = hid_send_feature_report(ctrl_device, buf, 4);
 
 	if (written == -1)
@@ -1094,6 +1096,70 @@ AimoKeyboardDriver::set_capslock_remap(uint8_t profile, uint32_t capslock_value)
 
 		return std::nullopt;
 	}
+}
+
+#include <iostream>
+
+AimoKeyboardDriver::Error<AimoKeyboardDriver::MacroInfo> AimoKeyboardDriver::get_macro() {
+	if (config.protocol_version == 1)
+		return std::unexpected("can't use this function with gen 1");
+
+	const uint16_t packet_length = 1044;
+	uint8_t report_id = 0x08;
+
+	uint8_t buf[packet_length] = {};
+	memset(buf, 0x00, packet_length);
+
+	buf[0] = report_id;
+	int read = hid_get_feature_report(ctrl_device, buf, packet_length);
+
+	if (read == -1)
+		return std::unexpected("HIDAPI Error");
+
+	if (buf[0] != report_id || buf[1] != packet_length % 256 || buf[2] != packet_length >> 8)
+		return std::unexpected("packet header is malformed");
+
+	if (!check_checksum(buf, packet_length, 2))
+		return std::unexpected("checksum didn't match");
+
+	std::vector<MacroStep> steps;
+
+	for (int i = 0x52; i < 1041; i += 2) {
+		uint16_t delay = 0;
+
+		if (buf[i] == 0x00) {
+			// step is empty, no more steps should follow
+			if (buf[i + 1] == 0x00)
+				break;
+			// step with long duration will follow
+			else if (buf[i + 1] == 0x01) {
+				if (i > 1037)
+					return std::unexpected("macro in malformed");
+
+				delay = (buf[i + 2] + (buf[i + 3] << 8)) * 20;
+				i += 4;
+			} else {
+				return std::unexpected(
+					std::format("unknown value at [1] in long step: {}", buf[i + 1])
+				);
+			}
+		}
+
+		steps.push_back(
+			{.is_release = (bool)(buf[i] >> 7),
+			 .keycode = buf[i + 1],
+			 .delay = static_cast<uint16_t>(delay + (buf[i] & 0b01111111))}
+		);
+	}
+
+	return MacroInfo{
+		.profile = buf[3],
+		.key_id = static_cast<uint8_t>(buf[4] - 13),
+		.foldername_utf8 = std::string(buf + 0x06, buf + 0x2E),
+		.macroname_utf8 = std::string(buf + 0x2E, buf + 0x4E),
+		.repeat = buf[0x50],
+		.steps = steps
+	};
 }
 
 bool AimoKeyboardDriver::check_checksum(uint8_t *buf, int size, uint8_t checksum_size) {
