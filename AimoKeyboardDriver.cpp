@@ -1134,10 +1134,6 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::MacroInfo> AimoKeyboardDriver::get
 
 				delay = (buf[i + 2] + (buf[i + 3] << 8)) * 20;
 				i += 4;
-			} else {
-				return std::unexpected(
-					std::format("unknown value at [1] in long step: {}", buf[i + 1])
-				);
 			}
 		}
 
