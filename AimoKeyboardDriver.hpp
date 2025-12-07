@@ -244,7 +244,7 @@ class AimoKeyboardDriver {
 	Error<LongRemapInfo> get_easyshift_remap();
 	VoidError set_easyshift_remap(LongRemapInfo info);
 	VoidError set_easyshift_remap(uint8_t profile, std::vector<uint32_t> values);
-	
+
 	Error<LongRemapInfo> get_fn_remap();
 	VoidError set_fn_remap(LongRemapInfo info);
 	VoidError set_fn_remap(uint8_t profile, std::vector<uint32_t> values);
@@ -256,8 +256,13 @@ class AimoKeyboardDriver {
 	Error<CapslockRemapInfo> get_capslock_remap();
 	VoidError set_capslock_remap(CapslockRemapInfo info);
 	VoidError set_capslock_remap(uint8_t profile, uint32_t capslock_value);
-	
+
 	Error<MacroInfo> get_macro();
+	VoidError set_macro(MacroInfo info);
+	VoidError set_macro(
+		uint8_t profile, uint8_t key_id, std::string foldername_utf8, std::string macroname_utf8,
+		uint8_t repeat, std::vector<MacroStep> steps
+	);
 
 	Config config;
 	uint16_t pid;
@@ -272,10 +277,14 @@ class AimoKeyboardDriver {
 	bool check_checksum(uint8_t *buf, int size, uint8_t checksum_size);
 	void generate_checksum(uint8_t *buf, int size, uint8_t checksum_size);
 	std::vector<uint8_t> uint_vec_to_le_array(std::vector<uint32_t> vec, uint8_t bytes, bool is_le);
-	std::vector<uint32_t> le_array_to_uint_vec(uint8_t *buf, int out_size, uint8_t bytes, bool is_le);
+	std::vector<uint32_t>
+	le_array_to_uint_vec(uint8_t *buf, int out_size, uint8_t bytes, bool is_le);
 };
 
 inline std::unordered_map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {
-	{ROCCAT_VULCAN_100_AIMO_PID, {1, false, true, 144, 126, AimoKeyMaps::Vulcan100LED, AimoKeyMaps::FNRemapGen1FullGen1, AimoKeyMaps::FNRemapExtra}},
-	{ROCCAT_VULCAN_TKL_PRO_PID, {2, true, false, 96, 126, AimoKeyMaps::VulcanTKLLED, AimoKeyMaps::FNRemapGenTKL, std::nullopt}}
+	{ROCCAT_VULCAN_100_AIMO_PID,
+	 {1, false, true, 144, 126, AimoKeyMaps::Vulcan100LED, AimoKeyMaps::FNRemapGen1FullGen1,
+	  AimoKeyMaps::FNRemapExtra}},
+	{ROCCAT_VULCAN_TKL_PRO_PID,
+	 {2, true, false, 96, 126, AimoKeyMaps::VulcanTKLLED, AimoKeyMaps::FNRemapGenTKL, std::nullopt}}
 };

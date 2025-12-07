@@ -21,7 +21,7 @@
 | Roccat Vulcan 120/121/122 Aimo |     1      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
 | Roccat Vulcan TKL              |     1      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
 | Roccat Vulcan Pro              |     2      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
-| Roccat Vulcan TKL Pro          |     2      |          ✔          |         ✔          |       🛠       |    ✔     |   🚧    |
+| Roccat Vulcan TKL Pro          |     2      |          ✔          |         ✔          |       ✔       |    ✔     |   🚧    |
 | Roccat Pyro                    |     2      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
 | Roccat Magma                   |     2      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
 | Roccat Magma Mini              |     2      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |

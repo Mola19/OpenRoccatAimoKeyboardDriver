@@ -1154,6 +1154,82 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::MacroInfo> AimoKeyboardDriver::get
 	};
 }
 
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_macro(
+	uint8_t profile, uint8_t key_id, std::string foldername_utf8, std::string macroname_utf8,
+	uint8_t repeat, std::vector<MacroStep> steps
+) {
+	if (config.protocol_version == 1)
+		return "can't use this function with gen 1";
+
+	const uint16_t packet_length = 1044;
+	uint8_t report_id = 0x08;
+
+	uint8_t buf[packet_length] = {};
+	memset(buf, 0x00, packet_length);
+
+	buf[0x00] = report_id;
+	buf[0x01] = packet_length % 256;
+	buf[0x02] = packet_length >> 8;
+	buf[0x03] = profile;
+	buf[0x04] = key_id;
+	buf[0x05] = 0x01; // unkown meaning
+
+	memcpy(buf + 0x06, foldername_utf8.data(), 40);
+	memcpy(buf + 0x2E, macroname_utf8.data(), 32);
+
+	buf[0x4E] = 0x01; // unkown meaning
+	buf[0x4F] = 0x00;
+	buf[0x50] = repeat;
+	buf[0x51] = 0x00;
+
+	uint16_t offset = 0x52;
+
+	for (auto step : steps) {
+		if (step.delay > 1310827)
+			return "delay is bigger than 1310827ms";
+
+		uint32_t delay = step.delay;
+
+		if (delay > 127) {
+			if (offset > 1036)
+				throw "macro has too many steps";
+
+			uint8_t small = delay % 20;
+			uint16_t big = delay / 20;
+
+			if (small <= 7) {
+				delay = small + 120;
+				big -= 6;
+			} else {
+				delay = small + 100;
+				big -= 5;
+			}
+
+			buf[offset] = 0x00;
+			buf[offset + 1] = 0x01;
+			buf[offset + 2] = big % 0x100;
+			buf[offset + 3] = big >> 8;
+			offset += 4;
+		}
+
+		if (offset > 1040)
+			throw "macro has too many steps";
+
+		buf[offset] = (step.is_release << 7) + delay;
+		buf[offset + 1] = step.keycode;
+		offset += 2;
+	}
+
+	generate_checksum(buf, packet_length, 2);
+
+	int written = hid_send_feature_report(ctrl_device, buf, packet_length);
+
+	if (written == -1)
+		return "HIDAPI Error";
+
+	return std::nullopt;
+}
+
 bool AimoKeyboardDriver::check_checksum(uint8_t *buf, int size, uint8_t checksum_size) {
 	int sum = 0;
 
