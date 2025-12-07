@@ -125,9 +125,7 @@ AimoKeyboardDriver::set_page_to_read(uint8_t profile, uint8_t page_or_key, bool 
 	if (config.protocol_version == 1)
 		return "can't use this function with gen 1";
 
-	uint8_t buf[4] = {
-		0x04, profile, static_cast<uint8_t>((is_macro) ? page_or_key + 13 : page_or_key), is_macro
-	};
+	uint8_t buf[4] = {0x04, profile, page_or_key, is_macro};
 	int written = hid_send_feature_report(ctrl_device, buf, 4);
 
 	if (written == -1)
@@ -531,8 +529,8 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
 	return std::nullopt;
 }
 
-AimoKeyboardDriver::VoidError
-AimoKeyboardDriver::set_direct_lighting(std::vector<RGBColor> colors) {
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_direct_lighting(std::vector<RGBColor> colors
+) {
 	uint16_t total_length;
 
 	switch (pid) {
@@ -1098,8 +1096,6 @@ AimoKeyboardDriver::set_capslock_remap(uint8_t profile, uint32_t capslock_value)
 	}
 }
 
-#include <iostream>
-
 AimoKeyboardDriver::Error<AimoKeyboardDriver::MacroInfo> AimoKeyboardDriver::get_macro() {
 	if (config.protocol_version == 1)
 		return std::unexpected("can't use this function with gen 1");
@@ -1125,7 +1121,7 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::MacroInfo> AimoKeyboardDriver::get
 	std::vector<MacroStep> steps;
 
 	for (int i = 0x52; i < 1041; i += 2) {
-		uint16_t delay = 0;
+		uint32_t delay = 0;
 
 		if (buf[i] == 0x00) {
 			// step is empty, no more steps should follow
@@ -1154,7 +1150,7 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::MacroInfo> AimoKeyboardDriver::get
 
 	return MacroInfo{
 		.profile = buf[3],
-		.key_id = static_cast<uint8_t>(buf[4] - 13),
+		.key_id = buf[4],
 		.foldername_utf8 = std::string(buf + 0x06, buf + 0x2E),
 		.macroname_utf8 = std::string(buf + 0x2E, buf + 0x4E),
 		.repeat = buf[0x50],

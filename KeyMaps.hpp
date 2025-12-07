@@ -6,7 +6,7 @@
 // clang-format off
 
 namespace AimoKeyMaps {
-	inline std::unordered_map<std::string, uint16_t> Vulcan100LED = {
+	inline std::unordered_map<std::string, uint8_t> Vulcan100LED = {
 		{ "ESCAPE",         0x00 },
 		{ "BACK_TICK",      0x01 },
 		{ "TAB",            0x02 },
@@ -136,7 +136,7 @@ namespace AimoKeyMaps {
 		{ "NUMPAD_ENTER",   0x83 }
 	};
 
-	inline std::unordered_map<std::string, uint16_t> VulcanTKLLED = {
+	inline std::unordered_map<std::string, uint8_t> VulcanTKLLED = {
 		{ "ESCAPE",         0x02 },
 		{ "BACK_TICK",      0x03 },
 		{ "TAB",            0x04 },
@@ -243,7 +243,7 @@ namespace AimoKeyMaps {
 		{ "RIGHT_ARROW",    0x5F },
 	};
 
-	inline std::unordered_map<std::string, uint16_t> Vulcan100Remap = {
+	inline std::unordered_map<std::string, uint8_t> Vulcan100Remap = {
 		{ "F1",             0x00 },
 		{ "ESCAPE",         0x01 },
 		{ "BACK_TICK",      0x02 },
@@ -378,7 +378,7 @@ namespace AimoKeyMaps {
 		// { "ANSI_BACKSLASH", ??? },
 	};
 
-	inline std::unordered_map<std::string, uint16_t> VulcanTKLRemap = {
+	inline std::unordered_map<std::string, uint8_t> VulcanTKLRemap = {
 		{ "F1",             0x00 },
 		{ "ESCAPE",         0x01 },
 		{ "BACK_TICK",      0x02 },
@@ -487,7 +487,7 @@ namespace AimoKeyMaps {
 		// { "ANSI_BACKSLASH", ??? },
 	};
 
-	inline std::unordered_map<std::string, uint16_t> EasyShift = {
+	inline std::unordered_map<std::string, uint8_t> EasyShift = {
 		{ "1",              0x00 },
 		{ "2",              0x01 },
 		{ "3",              0x02 },
@@ -511,6 +511,32 @@ namespace AimoKeyMaps {
 		{ "C",              0x11 },
 		{ "V",              0x12 },
 		{ "B",              0x13 },
+	};
+
+	inline std::unordered_map<std::string, uint8_t> Macro = {
+		{ "1",              0x13 },
+		{ "2",              0x19 },
+		{ "3",              0x22 },
+		{ "4",              0x23 },
+		{ "5",              0x2A },
+
+		{ "Q",              0x1A },
+		{ "W",              0x1B },
+		{ "E",              0x24 },
+		{ "R",              0x2B },
+		{ "T",              0x33 },
+
+		{ "A",              0x1C },
+		{ "S",              0x25 },
+		{ "D",              0x2C },
+		{ "F",              0x35 },
+		{ "G",              0x34 },
+		
+		{ "Z",              0x26 },
+		{ "X",              0x2D },
+		{ "C",              0x2E },
+		{ "V",              0x36 },
+		{ "B",              0x3E },
 	};
 
 	inline std::unordered_map<std::string, uint8_t> FNRemapGenTKL = {

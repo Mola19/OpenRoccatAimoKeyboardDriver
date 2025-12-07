@@ -31,7 +31,7 @@ class AimoKeyboardDriver {
 		uint8_t led_length;
 		// same
 		uint8_t remap_length;
-		std::unordered_map<std::string, uint16_t> led_map;
+		std::unordered_map<std::string, uint8_t> led_map;
 		std::unordered_map<std::string, uint8_t> fn_map;
 		std::optional<std::unordered_map<std::string, uint8_t>> fn_extra_map;
 	};
@@ -169,10 +169,11 @@ class AimoKeyboardDriver {
 		uint32_t capslock_value;
 	};
 
+	// max 1310827ms delay
 	struct MacroStep {
 		bool is_release;
 		uint8_t keycode;
-		uint16_t delay;
+		uint32_t delay;
 	};
 
 	struct MacroInfo {
@@ -257,8 +258,6 @@ class AimoKeyboardDriver {
 	VoidError set_capslock_remap(uint8_t profile, uint32_t capslock_value);
 	
 	Error<MacroInfo> get_macro();
-	VoidError set_macro(MacroInfo info);
-	VoidError set_macro(uint8_t profile, uint8_t key_id, std::string foldername_utf8, std::string macroname_utf8, uint8_t repeat, std::vector<MacroStep> steps);
 
 	Config config;
 	uint16_t pid;
