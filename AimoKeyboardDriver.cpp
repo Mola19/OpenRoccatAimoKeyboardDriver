@@ -1140,7 +1140,7 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::MacroInfo> AimoKeyboardDriver::get
 		steps.push_back(
 			{.is_release = (bool)(buf[i] >> 7),
 			 .keycode = buf[i + 1],
-			 .delay = static_cast<uint16_t>(delay + (buf[i] & 0b01111111))}
+			 .delay = static_cast<uint32_t>(delay + (buf[i] & 0b01111111))}
 		);
 	}
 
