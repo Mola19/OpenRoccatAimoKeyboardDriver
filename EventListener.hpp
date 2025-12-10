@@ -16,6 +16,9 @@ class EventListener {
 		bool active;
 	};
 
+	void register_profile_handler(std::function<void(uint8_t)> profile_handler);
+	void unregister_profile_handler();
+
 	void register_state_handler(std::function<void(StateEvent)> state_handler);
 	void unregister_state_handler();
 
@@ -24,6 +27,7 @@ class EventListener {
 	uint8_t gen;
 	std::thread *read_thread;
 
+	std::optional<std::function<void(uint8_t)>> profile_handler;
 	std::optional<std::function<void(StateEvent)>> state_handler;
 
 	bool kill_read_thread = false;

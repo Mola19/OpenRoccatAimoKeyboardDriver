@@ -15,6 +15,14 @@ EventListener::~EventListener() {
 	read_thread->join();
 }
 
+void EventListener::register_profile_handler(std::function<void(uint8_t)> profile_handler) {
+	this->profile_handler = profile_handler;
+}
+
+void EventListener::unregister_profile_handler() {
+	this->profile_handler = std::nullopt;
+}
+
 void EventListener::register_state_handler(std::function<void(StateEvent)> state_handler) {
 	this->state_handler = state_handler;
 }
@@ -34,17 +42,23 @@ void EventListener::read_thread_fn() {
 				continue;
 
 			switch (res[2]) {
+				case 0x01:
+					if (profile_handler)
+						profile_handler.value()(res[3]);
+					break;
 				case 0x21:
 					if (state_handler)
-						state_handler.value()({ .state = 2, .active = static_cast<bool>(res[3])});
+						state_handler.value()({.state = 2, .active = static_cast<bool>(res[3])});
 					break;
 				case 0x22:
 					if (state_handler)
-						state_handler.value()({ .state = 3, .active = static_cast<bool>(res[3])});
+						state_handler.value()({.state = 3, .active = static_cast<bool>(res[3])});
 					break;
 				case 0xCF:
 					if (state_handler)
-						state_handler.value()({ .state = 1, .active = static_cast<bool>(res[3] == 0)});
+						state_handler.value()(
+							{.state = 1, .active = static_cast<bool>(res[3] == 0)}
+						);
 					break;
 				case 0xFD:
 					if (state_handler)
