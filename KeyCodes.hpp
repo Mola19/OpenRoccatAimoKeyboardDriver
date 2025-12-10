@@ -283,8 +283,7 @@ namespace AimoKeyCodes {
 		{ "System Standby", 0x820000 },
 		{ "System Activate", 0x830000 },
 		{ "EasyShift all devices", 0x8C0000 },
-		// { "EasyShift all devices toggle ???", 0x8C0000 },
-		{ "Brightness -???", 0x8E0000 },
+		{ "Brightness -", 0x8E0000 },
 		// { "03 0F 11", 0x920000 },
 		// { "03 10 11", 0x930000 },
 		// { "03 11 11", 0x940000 },
@@ -295,9 +294,9 @@ namespace AimoKeyCodes {
 		// { "03 16 11", 0x990000 },
 		{ "Light toggle", 0x9A0000 },
 		// { "03 18 11", 0x9B0000 },
-		{ "FN lock (no specific reply)", 0x9C0000 },
+		{ "Fn lock", 0x9C0000 },
 		// { "03 1A 11 ", 0x9D0000 },
-		{ "fn to win switch", 0x9E0000 },
+		{ "Fn to win switch", 0x9E0000 },
 
 		// these only work with swarm
 		{ "System hibernate", 0x9F0000 },
