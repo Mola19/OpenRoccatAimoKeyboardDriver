@@ -11,7 +11,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 file(GLOB SOURCES
 	"ORAKD.cpp"
 	"AimoKeyboardDriver.cpp"
-	"ReadCallback.cpp"
+	"EventListener.cpp"
 )
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -24,7 +24,7 @@ set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
 
 set_target_properties(ORAKD
-	PROPERTIES PUBLIC_HEADER "ORAKD.hpp;AimoKeyboardDriver.hpp;Devices.hpp;ReadCallback.hpp")
+	PROPERTIES PUBLIC_HEADER "ORAKD.hpp;AimoKeyboardDriver.hpp;Devices.hpp;EventListener.hpp")
 
 if (UNIX)
 	target_include_directories(${PROJECT_NAME} PUBLIC "/usr/include/hidapi")

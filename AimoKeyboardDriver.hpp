@@ -4,12 +4,13 @@
 
 #include <cstdint>
 #include <expected>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
+#include "EventListener.hpp"
 #include "KeyMaps.hpp"
-#include "ReadCallback.hpp"
 
 #define ROCCAT_VULCAN_100_AIMO_PID 0x307A
 #define ROCCAT_VULCAN_TKL_PRO_PID 0x311A
@@ -270,9 +271,9 @@ class AimoKeyboardDriver {
 	hid_device *event_device;
 	hid_device *led_device;
 	std::string name;
+	EventListener *event;
 
   private:
-	ReadCallback *cb;
 	std::vector<uint8_t> generate_color_bytes(std::vector<RGBColor> colors);
 	bool check_checksum(uint8_t *buf, int size, uint8_t checksum_size);
 	void generate_checksum(uint8_t *buf, int size, uint8_t checksum_size);

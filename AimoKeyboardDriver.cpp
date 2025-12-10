@@ -21,11 +21,11 @@ AimoKeyboardDriver::AimoKeyboardDriver(
 	this->config = aimo_keyboard_config[pid];
 	this->pid = pid;
 
-	// cb = new ReadCallback(hiddev[1]);
+	event = new EventListener(hiddev[1], config.protocol_version);
 }
 
 AimoKeyboardDriver::~AimoKeyboardDriver() {
-	delete cb;
+	delete event;
 	hid_close(ctrl_device);
 	hid_close(event_device);
 	hid_close(led_device);
