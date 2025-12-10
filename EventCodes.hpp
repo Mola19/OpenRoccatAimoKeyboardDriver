@@ -10,7 +10,6 @@ namespace AimoEventCodes {
 		{ "EasyShift", 0x00 },
 		{ "Sleep", 0x01 },
 		{ "Gamemode", 0x02 },
-		{ "Fn Lock", 0x03 },
-		{ "Fn on Win", 0x04 }
+		{ "Fn Lock", 0x03 }
 	};
 }

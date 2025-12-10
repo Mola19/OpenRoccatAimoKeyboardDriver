@@ -34,11 +34,22 @@ void EventListener::read_thread_fn() {
 				continue;
 
 			switch (res[2]) {
+				case 0x21:
+					if (state_handler)
+						state_handler.value()({ .state = 2, .active = static_cast<bool>(res[3])});
+					break;
+				case 0x22:
+					if (state_handler)
+						state_handler.value()({ .state = 3, .active = static_cast<bool>(res[3])});
+					break;
+				case 0xCF:
+					if (state_handler)
+						state_handler.value()({ .state = 1, .active = static_cast<bool>(res[3] == 0)});
+					break;
 				case 0xFD:
-					if (!state_handler)
-						continue;
-
-					state_handler.value()({.state = 0, .active = static_cast<bool>(res[3])});
+					if (state_handler)
+						state_handler.value()({.state = 0, .active = static_cast<bool>(res[3])});
+					break;
 			}
 		} else {
 			uint8_t res[5];
@@ -50,10 +61,9 @@ void EventListener::read_thread_fn() {
 
 			switch (res[2]) {
 				case 0xFD:
-					if (!state_handler)
-						continue;
-
-					state_handler.value()({.state = 0, .active = static_cast<bool>(res[3])});
+					if (state_handler)
+						state_handler.value()({.state = 0, .active = static_cast<bool>(res[3])});
+					break;
 			}
 		}
 	}

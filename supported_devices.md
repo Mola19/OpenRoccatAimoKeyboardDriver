@@ -131,7 +131,7 @@ Generation 1 devices don't support setting time to sleep (as far as we know).
 | Roccat Vulcan 120/121/122 Aimo |   🚧    |      🚧       |       🚧        |    🚧     |      🚧      |   🚧   |        🚧         |     🚧      |   🚧   |       🚧       |     🚧 |    🚧     |          🚧           |      🚧      |
 | Roccat Vulcan TKL              |   🚧    |      🚧       |       🚧        |    🚧     |      🚧      |   🚧   |        🚧         |     🚧      |   🚧   |       🚧       |     🚧 |    🚧     |          🚧           |      🚧      |
 | Roccat Vulcan Pro              |   🚧    |      🚧       |       🚧        |    🚧     |      🚧      |   🚧   |        🚧         |     🚧      |   🚧   |       🚧       |     🚧 |    ❌     |          ❌           |      ❌      |
-| Roccat Vulcan TKL Pro          |   🚧    |      🚧       |       🚧        |    🚧     |      🚧      |   🚧   |        🚧         |     🚧      |   🚧   |       🚧       |     🚧 |    ❌     |          ❌           |      ❌      |
+| Roccat Vulcan TKL Pro          |   ✔    |      🚧       |       🚧        |    🚧     |      🚧      |   🚧   |        🚧         |     🚧      |   🚧   |       🚧       |     🚧 |    ❌     |          ❌           |      ❌      |
 | Roccat Pyro                    |   🚧    |      🚧       |       🚧        |    🚧     |      🚧      |   🚧   |        🚧         |     🚧      |   🚧   |       🚧       |     🚧 |    ❌     |          ❌           |      ❌      |
 | Roccat Magma                   |   🚧    |      🚧       |       🚧        |    🚧     |      🚧      |   🚧   |        🚧         |     🚧      |   🚧   |       🚧       |     🚧 |    ❌     |          ❌           |      ❌      |
 | Roccat Magma Mini              |   🚧    |      🚧       |       🚧        |    🚧     |      🚧      |   🚧   |        🚧         |     🚧      |   🚧   |       🚧       |     🚧 |    ❌     |          ❌           |      ❌      |
@@ -139,7 +139,7 @@ Generation 1 devices don't support setting time to sleep (as far as we know).
 | Roccat Vulcan II Max           |   🚧    |      🚧       |       🚧        |    🚧     |      🚧      |   🚧   |        🚧         |     🚧      |   🚧   |       🚧       |     🚧 |    ❌     |          ❌           |      ❌      |
 | Roccat Vulcan II Mini          |   🚧    |      🚧       |       🚧        |    🚧     |      🚧      |   🚧   |        🚧         |     🚧      |   🚧   |       🚧       |     🚧 |    ❌     |          ❌           |      ❌      |
 
-* gen 1 only supports sleep and easyshift not gamemode, fn lock or fn switch
+* gen 1 only supports sleep and easyshift not gamemode, fn lock
 ** weird behavior, only works reliably for volume
 *** gen 2 doesn't need it as it has native macros
 *\*** this is emitted when capslock is pressed an mapped to either local easyshift or capslock, i see no usecase 
