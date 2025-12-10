@@ -169,6 +169,27 @@ AimoKeyboardDriver::set_profile_info(uint8_t active_profile, uint8_t amount_prof
 	return std::nullopt;
 }
 
+AimoKeyboardDriver::VoidError
+AimoKeyboardDriver::reset_all_profiles() {
+	if (config.protocol_version == 1) {
+		uint8_t buf[3] = {0x11, 0x03, 0x04};
+		int written = hid_send_feature_report(ctrl_device, buf, 3);
+		
+		if (written == -1)
+		return "HIDAPI Error";
+	
+	return std::nullopt;
+} else {
+	uint8_t buf[9] = {0x09, 0x09, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+		int written = hid_send_feature_report(ctrl_device, buf, 9);
+
+		if (written == -1)
+			return "HIDAPI Error";
+
+		return std::nullopt;
+	}
+}
+
 AimoKeyboardDriver::Error<AimoKeyboardDriver::SoftwareStateGen1>
 AimoKeyboardDriver::get_software_state_gen1() {
 	if (config.protocol_version == 2)

@@ -202,6 +202,7 @@ class AimoKeyboardDriver {
 	Error<ProfileInfo> get_profile_info();
 	VoidError set_profile_info(ProfileInfo info);
 	VoidError set_profile_info(uint8_t active_profile, uint8_t amount_profiles);
+	VoidError reset_all_profiles();
 
 	// this is a bit clunky, as the versions differ, for convenience use the wrapper function
 	Error<SoftwareStateGen1> get_software_state_gen1();
