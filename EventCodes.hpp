@@ -71,4 +71,9 @@ namespace AimoEventCodes {
 		{ "Volume Up", 0x26 },
 		{ "Volume Down", 0x27 }
 	};
+
+	inline std::unordered_map<std::string, uint8_t> LightingCodes = {
+		{ "Mode", 0x00 },
+		{ "Brightness", 0x01 }
+	};
 }

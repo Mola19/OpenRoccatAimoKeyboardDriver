@@ -36,6 +36,14 @@ class EventListener {
 		bool released;
 	};
 
+	struct LightingEvent {
+		uint8_t type;
+		uint8_t value;
+		// only with gen 2 brightness
+		// denotes whether the value was previously less or more
+		std::optional<bool> positive_change;
+	};
+
 	void register_profile_handler(std::function<void(uint8_t)> profile_handler);
 	void unregister_profile_handler();
 
@@ -51,6 +59,9 @@ class EventListener {
 	void register_multimedia_handler(std::function<void(MMEvent)> mm_handler);
 	void unregister_multimedia_handler();
 
+	void register_lighting_handler(std::function<void(LightingEvent)> lighting_handler);
+	void unregister_lighting_handler();
+
   private:
 	hid_device *hiddev;
 	uint8_t gen;
@@ -61,6 +72,7 @@ class EventListener {
 	std::optional<std::function<void(KeypressEvent)>> keypress_handler;
 	std::optional<std::function<void(OSFnEvent)>> osfn_handler;
 	std::optional<std::function<void(MMEvent)>> mm_handler;
+	std::optional<std::function<void(LightingEvent)>> lighting_handler;
 
 	bool kill_read_thread = false;
 	void read_thread_fn();

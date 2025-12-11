@@ -55,6 +55,14 @@ void EventListener::unregister_multimedia_handler() {
 	this->mm_handler = std::nullopt;
 }
 
+void EventListener::register_lighting_handler(std::function<void(LightingEvent)> lighting_handler) {
+	this->lighting_handler = lighting_handler;
+}
+
+void EventListener::unregister_lighting_handler() {
+	this->lighting_handler = std::nullopt;
+}
+
 void EventListener::read_thread_fn() {
 	while (!kill_read_thread) {
 		if (gen == 2) {
@@ -72,8 +80,29 @@ void EventListener::read_thread_fn() {
 					break;
 				case 0x0B:
 					if (mm_handler)
-						mm_handler.value()({.function = res[3], .released = static_cast<bool>(res[4])});
+						mm_handler.value()(
+							{.function = res[3], .released = static_cast<bool>(res[4])}
+						);
 					break;
+				case 0x0C:
+					if (lighting_handler) {
+						std::optional<bool> change;
+
+						switch (res[4]) {
+							case 0x01:
+								change = true;
+								break;
+							case 0xFF:
+								change = false;
+								break;
+							default:
+								change = std::nullopt;
+						}
+
+						lighting_handler.value()(
+							{.type = 1, .value = res[3], .positive_change = change}
+						);
+					}
 				case 0x21:
 					if (state_handler)
 						state_handler.value()({.state = 2, .active = static_cast<bool>(res[3])});
@@ -82,6 +111,11 @@ void EventListener::read_thread_fn() {
 					if (state_handler)
 						state_handler.value()({.state = 3, .active = static_cast<bool>(res[3])});
 					break;
+				case 0xCE:
+					if (lighting_handler)
+						lighting_handler.value()(
+							{.type = 0, .value = res[3], .positive_change = std::nullopt}
+						);
 				case 0xCF:
 					if (state_handler)
 						state_handler.value()(
