@@ -68,7 +68,7 @@ void EventListener::register_reset_handler(std::function<void(bool)> reset_handl
 }
 
 void EventListener::unregister_reset_handler() {
-	this->lighting_handler = std::nullopt;
+	this->reset_handler = std::nullopt;
 }
 
 void EventListener::read_thread_fn() {
