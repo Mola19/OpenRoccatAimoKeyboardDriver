@@ -31,6 +31,11 @@ class EventListener {
 		bool released;
 	};
 
+	struct MMEvent {
+		uint8_t function;
+		bool released;
+	};
+
 	void register_profile_handler(std::function<void(uint8_t)> profile_handler);
 	void unregister_profile_handler();
 
@@ -43,6 +48,9 @@ class EventListener {
 	void register_osfn_handler(std::function<void(OSFnEvent)> osfn_handler);
 	void unregister_osfn_handler();
 
+	void register_multimedia_handler(std::function<void(MMEvent)> mm_handler);
+	void unregister_multimedia_handler();
+
   private:
 	hid_device *hiddev;
 	uint8_t gen;
@@ -52,6 +60,7 @@ class EventListener {
 	std::optional<std::function<void(StateEvent)>> state_handler;
 	std::optional<std::function<void(KeypressEvent)>> keypress_handler;
 	std::optional<std::function<void(OSFnEvent)>> osfn_handler;
+	std::optional<std::function<void(MMEvent)>> mm_handler;
 
 	bool kill_read_thread = false;
 	void read_thread_fn();

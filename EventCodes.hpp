@@ -59,5 +59,16 @@ namespace AimoEventCodes {
 		{ "Open Internet Settings", 0x35 },
 		{ "Open DirectX Diagnostics", 0x36 },
 		{ "Open Command Line", 0x37 },
-	};	
+	};
+
+	inline std::unordered_map<std::string, uint8_t> MMCodes = {
+		// these ones i have written down, but i can not reproduce them
+		{ "Previous Track", 0x21 },
+		{ "Next Track", 0x22 },
+		{ "Play/Pause", 0x23 },
+		{ "Stop", 0x24 },
+		// until here
+		{ "Volume Up", 0x26 },
+		{ "Volume Down", 0x27 }
+	};
 }

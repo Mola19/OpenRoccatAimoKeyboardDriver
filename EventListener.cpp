@@ -47,6 +47,14 @@ void EventListener::unregister_osfn_handler() {
 	this->osfn_handler = std::nullopt;
 }
 
+void EventListener::register_multimedia_handler(std::function<void(MMEvent)> mm_handler) {
+	this->mm_handler = mm_handler;
+}
+
+void EventListener::unregister_multimedia_handler() {
+	this->mm_handler = std::nullopt;
+}
+
 void EventListener::read_thread_fn() {
 	while (!kill_read_thread) {
 		if (gen == 2) {
@@ -61,6 +69,10 @@ void EventListener::read_thread_fn() {
 				case 0x01:
 					if (profile_handler)
 						profile_handler.value()(res[3]);
+					break;
+				case 0x0B:
+					if (mm_handler)
+						mm_handler.value()({.function = res[3], .released = static_cast<bool>(res[4])});
 					break;
 				case 0x21:
 					if (state_handler)
