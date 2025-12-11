@@ -148,6 +148,12 @@ void EventListener::read_thread_fn() {
 					if (state_handler)
 						state_handler.value()({.state = 3, .active = static_cast<bool>(res[3])});
 					break;
+				// at least for the vulcan tkl pro this always returns not active
+				// i have no good solutions so it just stays there
+				case 0x23:
+					if (state_handler)
+						state_handler.value()({.state = 4, .active = static_cast<bool>(res[3])});
+					break;
 				case 0xCA:
 					if (dpi_handler)
 						dpi_handler.value()(res[3] == 0x01);
