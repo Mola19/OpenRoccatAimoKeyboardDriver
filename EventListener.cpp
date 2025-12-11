@@ -79,6 +79,14 @@ void EventListener::unregister_global_easyshift_handler() {
 	this->ges_handler = std::nullopt;
 }
 
+void EventListener::register_dpi_handler(std::function<void(bool)> dpi_handler) {
+	this->dpi_handler = dpi_handler;
+}
+
+void EventListener::unregister_dpi_handler() {
+	this->dpi_handler = std::nullopt;
+}
+
 void EventListener::read_thread_fn() {
 	while (!kill_read_thread) {
 		if (gen == 2) {
@@ -131,6 +139,10 @@ void EventListener::read_thread_fn() {
 				case 0x22:
 					if (state_handler)
 						state_handler.value()({.state = 3, .active = static_cast<bool>(res[3])});
+					break;
+				case 0xCA:
+					if (dpi_handler)
+						dpi_handler.value()(res[3] == 0x01);
 					break;
 				case 0xCE:
 					if (lighting_handler)

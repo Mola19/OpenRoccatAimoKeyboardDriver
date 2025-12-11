@@ -68,6 +68,9 @@ class EventListener {
 	void register_global_easyshift_handler(std::function<void(bool)> reset_handler);
 	void unregister_global_easyshift_handler();
 
+	void register_dpi_handler(std::function<void(bool)> dpi_handler);
+	void unregister_dpi_handler();
+
   private:
 	hid_device *hiddev;
 	uint8_t gen;
@@ -81,6 +84,7 @@ class EventListener {
 	std::optional<std::function<void(LightingEvent)>> lighting_handler;
 	std::optional<std::function<void(bool)>> reset_handler;
 	std::optional<std::function<void(bool)>> ges_handler;
+	std::optional<std::function<void(bool)>> dpi_handler;
 
 	bool kill_read_thread = false;
 	void read_thread_fn();
