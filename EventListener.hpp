@@ -44,6 +44,11 @@ class EventListener {
 		std::optional<bool> positive_change;
 	};
 
+	struct WheelEvent {
+		bool clockwise;
+		bool volume_mode;
+	};
+
 	void register_profile_handler(std::function<void(uint8_t)> profile_handler);
 	void unregister_profile_handler();
 
@@ -71,6 +76,9 @@ class EventListener {
 	void register_dpi_handler(std::function<void(bool)> dpi_handler);
 	void unregister_dpi_handler();
 
+	void register_wheel_handler(std::function<void(WheelEvent)> wheel_handler);
+	void unregister_wheel_handler();
+
   private:
 	hid_device *hiddev;
 	uint8_t gen;
@@ -85,6 +93,7 @@ class EventListener {
 	std::optional<std::function<void(bool)>> reset_handler;
 	std::optional<std::function<void(bool)>> ges_handler;
 	std::optional<std::function<void(bool)>> dpi_handler;
+	std::optional<std::function<void(WheelEvent)>> wheel_handler;
 
 	bool kill_read_thread = false;
 	void read_thread_fn();

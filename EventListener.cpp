@@ -87,6 +87,14 @@ void EventListener::unregister_dpi_handler() {
 	this->dpi_handler = std::nullopt;
 }
 
+void EventListener::register_wheel_handler(std::function<void(WheelEvent)> wheel_handler) {
+	this->wheel_handler = wheel_handler;
+}
+
+void EventListener::unregister_wheel_handler() {
+	this->wheel_handler = std::nullopt;
+}
+
 void EventListener::read_thread_fn() {
 	while (!kill_read_thread) {
 		if (gen == 2) {
@@ -143,6 +151,10 @@ void EventListener::read_thread_fn() {
 				case 0xCA:
 					if (dpi_handler)
 						dpi_handler.value()(res[3] == 0x01);
+					break;
+				case 0xCC:
+					if (wheel_handler)
+						wheel_handler.value()({.clockwise = static_cast<bool>(res[3] == 1), .volume_mode = true});
 					break;
 				case 0xCE:
 					if (lighting_handler)
