@@ -103,6 +103,7 @@ void EventListener::read_thread_fn() {
 							{.type = 1, .value = res[3], .positive_change = change}
 						);
 					}
+					break;
 				case 0x21:
 					if (state_handler)
 						state_handler.value()({.state = 2, .active = static_cast<bool>(res[3])});
@@ -116,6 +117,7 @@ void EventListener::read_thread_fn() {
 						lighting_handler.value()(
 							{.type = 0, .value = res[3], .positive_change = std::nullopt}
 						);
+					break;
 				case 0xCF:
 					if (state_handler)
 						state_handler.value()(
