@@ -21,6 +21,16 @@ class EventListener {
 		bool released;
 	};
 
+	// i have observed unprompted release events, when changing profile
+	// no idea if these are common and also appearing somewhere else
+	// but it might be a good idea to use press not release events
+	struct OSFnEvent {
+		uint8_t function;
+		uint8_t modifier;
+		uint8_t key;
+		bool released;
+	};
+
 	void register_profile_handler(std::function<void(uint8_t)> profile_handler);
 	void unregister_profile_handler();
 
@@ -29,6 +39,9 @@ class EventListener {
 
 	void register_keypress_handler(std::function<void(KeypressEvent)> keypress_handler);
 	void unregister_keypress_handler();
+	
+	void register_osfn_handler(std::function<void(OSFnEvent)> osfn_handler);
+	void unregister_osfn_handler();
 
   private:
 	hid_device *hiddev;
@@ -38,6 +51,7 @@ class EventListener {
 	std::optional<std::function<void(uint8_t)>> profile_handler;
 	std::optional<std::function<void(StateEvent)>> state_handler;
 	std::optional<std::function<void(KeypressEvent)>> keypress_handler;
+	std::optional<std::function<void(OSFnEvent)>> osfn_handler;
 
 	bool kill_read_thread = false;
 	void read_thread_fn();
