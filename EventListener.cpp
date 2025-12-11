@@ -71,6 +71,14 @@ void EventListener::unregister_reset_handler() {
 	this->reset_handler = std::nullopt;
 }
 
+void EventListener::register_global_easyshift_handler(std::function<void(bool)> ges_handler) {
+	this->ges_handler = ges_handler;
+}
+
+void EventListener::unregister_global_easyshift_handler() {
+	this->ges_handler = std::nullopt;
+}
+
 void EventListener::read_thread_fn() {
 	while (!kill_read_thread) {
 		if (gen == 2) {
@@ -156,6 +164,10 @@ void EventListener::read_thread_fn() {
 					if (state_handler)
 						state_handler.value()({.state = 0, .active = static_cast<bool>(res[3])});
 					break;
+				case 0xFF:
+					if (ges_handler)
+						// technically this also reports the key, but this can only come from capslock
+						ges_handler.value()(res[4]);
 			}
 		} else {
 			uint8_t res[5];
