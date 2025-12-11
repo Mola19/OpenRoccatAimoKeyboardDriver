@@ -62,6 +62,9 @@ class EventListener {
 	void register_lighting_handler(std::function<void(LightingEvent)> lighting_handler);
 	void unregister_lighting_handler();
 
+	void register_reset_handler(std::function<void(bool)> reset_handler);
+	void unregister_reset_handler();
+
   private:
 	hid_device *hiddev;
 	uint8_t gen;
@@ -73,6 +76,7 @@ class EventListener {
 	std::optional<std::function<void(OSFnEvent)>> osfn_handler;
 	std::optional<std::function<void(MMEvent)>> mm_handler;
 	std::optional<std::function<void(LightingEvent)>> lighting_handler;
+	std::optional<std::function<void(bool)>> reset_handler;
 
 	bool kill_read_thread = false;
 	void read_thread_fn();

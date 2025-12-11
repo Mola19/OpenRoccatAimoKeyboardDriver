@@ -63,6 +63,14 @@ void EventListener::unregister_lighting_handler() {
 	this->lighting_handler = std::nullopt;
 }
 
+void EventListener::register_reset_handler(std::function<void(bool)> reset_handler) {
+	this->reset_handler = reset_handler;
+}
+
+void EventListener::unregister_reset_handler() {
+	this->lighting_handler = std::nullopt;
+}
+
 void EventListener::read_thread_fn() {
 	while (!kill_read_thread) {
 		if (gen == 2) {
@@ -77,6 +85,10 @@ void EventListener::read_thread_fn() {
 				case 0x01:
 					if (profile_handler)
 						profile_handler.value()(res[3]);
+					break;
+				case 0x08:
+					if (reset_handler)
+						reset_handler.value()(res[3]);
 					break;
 				case 0x0B:
 					if (mm_handler)
