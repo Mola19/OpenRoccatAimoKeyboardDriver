@@ -35,7 +35,7 @@ Note: Roccat has been bought by Turtle Beach some time ago and now they are rebr
 | Roccat Vulcan 120/121/122 Aimo |    🚧    |
 | Roccat Vulcan TKL              |    🚧    |
 | Roccat Vulcan Pro              |    🚧    |
-| Roccat Vulcan TKL Pro          |    🛠    |
+| Roccat Vulcan TKL Pro          |    ✔    |
 | Roccat Pyro                    |    🚧    |
 | Roccat Magma                   |    🚧    |
 | Roccat Magma Mini              |    🚧    |
