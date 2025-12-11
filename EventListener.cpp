@@ -31,6 +31,14 @@ void EventListener::unregister_state_handler() {
 	this->state_handler = std::nullopt;
 }
 
+void EventListener::register_keypress_handler(std::function<void(KeypressEvent)> keypress_handler) {
+	this->keypress_handler = keypress_handler;
+}
+
+void EventListener::unregister_keypress_handler() {
+	this->keypress_handler = std::nullopt;
+}
+
 void EventListener::read_thread_fn() {
 	while (!kill_read_thread) {
 		if (gen == 2) {
@@ -59,6 +67,10 @@ void EventListener::read_thread_fn() {
 						state_handler.value()(
 							{.state = 1, .active = static_cast<bool>(res[3] == 0)}
 						);
+					break;
+				case 0xFB:
+					if (keypress_handler)
+						keypress_handler.value()({.key = static_cast<uint8_t>(res[3] - 0x10), .released = static_cast<bool>(!res[4])});
 					break;
 				case 0xFD:
 					if (state_handler)

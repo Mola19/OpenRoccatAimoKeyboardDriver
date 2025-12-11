@@ -16,11 +16,19 @@ class EventListener {
 		bool active;
 	};
 
+	struct KeypressEvent {
+		uint8_t key;
+		bool released;
+	};
+
 	void register_profile_handler(std::function<void(uint8_t)> profile_handler);
 	void unregister_profile_handler();
 
 	void register_state_handler(std::function<void(StateEvent)> state_handler);
 	void unregister_state_handler();
+
+	void register_keypress_handler(std::function<void(KeypressEvent)> keypress_handler);
+	void unregister_keypress_handler();
 
   private:
 	hid_device *hiddev;
@@ -29,6 +37,7 @@ class EventListener {
 
 	std::optional<std::function<void(uint8_t)>> profile_handler;
 	std::optional<std::function<void(StateEvent)>> state_handler;
+	std::optional<std::function<void(KeypressEvent)>> keypress_handler;
 
 	bool kill_read_thread = false;
 	void read_thread_fn();
