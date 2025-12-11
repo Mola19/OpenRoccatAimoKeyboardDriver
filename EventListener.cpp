@@ -119,7 +119,7 @@ void EventListener::read_thread_fn() {
 				case 0xCF:
 					if (state_handler)
 						state_handler.value()(
-							{.state = 1, .active = static_cast<bool>(res[3] == 0)}
+							{.state = 1, .active = static_cast<bool>(res[3] == 2)}
 						);
 					break;
 				case 0xF1:
