@@ -13,6 +13,7 @@
 #include "KeyMaps.hpp"
 
 #define ROCCAT_VULCAN_100_AIMO_PID 0x307A
+#define ROCCAT_VULCAN_TKL_PID 0x2FEE
 #define ROCCAT_VULCAN_TKL_PRO_PID 0x311A
 
 class AimoKeyboardDriver {
@@ -190,7 +191,7 @@ class AimoKeyboardDriver {
 
 	using VoidError = std::optional<std::string>;
 
-	AimoKeyboardDriver(){};
+	AimoKeyboardDriver() {};
 	AimoKeyboardDriver(std::string name, std::vector<hid_device *> hiddev, uint16_t pid);
 	~AimoKeyboardDriver();
 
@@ -287,6 +288,9 @@ inline std::unordered_map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_co
 	{ROCCAT_VULCAN_100_AIMO_PID,
 	 {1, false, true, 144, 126, AimoKeyMaps::Vulcan100LED, AimoKeyMaps::FNRemapGen1FullGen1,
 	  AimoKeyMaps::FNRemapExtra}},
+	{ROCCAT_VULCAN_TKL_PID,
+	 {1, false, true, 144, 126, AimoKeyMaps::VulcanTKLLED, AimoKeyMaps::FNRemapGenTKL,
+	  std::nullopt}},
 	{ROCCAT_VULCAN_TKL_PRO_PID,
 	 {2, true, false, 96, 126, AimoKeyMaps::VulcanTKLLED, AimoKeyMaps::FNRemapGenTKL, std::nullopt}}
 };

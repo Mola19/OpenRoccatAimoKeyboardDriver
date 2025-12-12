@@ -19,7 +19,7 @@
 | Roccat Vulcan 80 Aimo          |     1      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
 | Roccat Vulcan 100 Aimo         |     1      |          ✔          |         ✔          |       ✔       |    ✔     |   🛠    |
 | Roccat Vulcan 120/121/122 Aimo |     1      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
-| Roccat Vulcan TKL              |     1      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
+| Roccat Vulcan TKL              |     1      |          ✔          |         ✔          |       🚧       |    🚧     |   🚧    |
 | Roccat Vulcan Pro              |     2      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
 | Roccat Vulcan TKL Pro          |     2      |          ✔          |         ✔          |       ✔       |    ✔     |   ✔    |
 | Roccat Pyro                    |     2      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
@@ -36,7 +36,7 @@
 | Roccat Vulcan 80 Aimo          |        🚧        |        ❌         |       🚧        |
 | Roccat Vulcan 100 Aimo         |        ✔        |        ❌         |       ✔        |
 | Roccat Vulcan 120/121/122 Aimo |        🚧        |        ❌         |       🚧        |
-| Roccat Vulcan TKL              |        🚧        |        ❌         |       🚧        |
+| Roccat Vulcan TKL              |        ✔        |        ❌         |       ✔        |
 | Roccat Vulcan Pro              |        🚧        |        🚧         |       🚧        |
 | Roccat Vulcan TKL Pro          |        ✔        |        ✔         |       ✔        |
 | Roccat Pyro                    |        🚧        |        🚧         |       🚧        |
@@ -55,7 +55,7 @@ Generation 1 devices don't support setting time to sleep (as far as we know).
 | Roccat Vulcan 80 Aimo          |         🚧          |         🚧          |            🚧            |            🚧            |                ❌                |                ❌                |            ❌            |            ❌            |
 | Roccat Vulcan 100 Aimo         |         ✔          |         ✔          |            ✔            |            ✔            |                ❌                |                ❌                |            ❌            |            ❌            |
 | Roccat Vulcan 120/121/122 Aimo |         🚧          |         🚧          |            🚧            |            🚧            |                ❌                |                ❌                |            ❌            |            ❌            |
-| Roccat Vulcan TKL              |         🚧          |         🚧          |            🚧            |            🚧            |                ❌                |                ❌                |            ❌            |            ❌            |
+| Roccat Vulcan TKL              |         ✔          |         ✔          |            ✔            |            ✔            |                ❌                |                ❌                |            ❌            |            ❌            |
 | Roccat Vulcan Pro              |         🚧          |         🚧          |            ❌            |            ❌            |                🚧                |                🚧                |            🚧            |            🚧            |
 | Roccat Vulcan TKL Pro          |         ✔          |         ✔          |            ❌            |            ❌            |                ✔                |                ✔                |            ✔            |            ✔            |
 | Roccat Pyro                    |         🚧          |         🚧          |            ❌            |            ❌            |                🚧                |                🚧                |            🚧            |            🚧            |
@@ -74,7 +74,7 @@ Generation 1 devices don't support setting time to sleep (as far as we know).
 | Roccat Vulcan 80 Aimo          |         🚧          |         🚧          |         🚧          |
 | Roccat Vulcan 100 Aimo         |         ✔          |         ✔          |         ✔          |
 | Roccat Vulcan 120/121/122 Aimo |         🚧          |         🚧          |         🚧          |
-| Roccat Vulcan TKL              |         🚧          |         🚧          |         🚧          |
+| Roccat Vulcan TKL              |         ✔          |         ✔          |         ✔          |
 | Roccat Vulcan Pro              |         🚧          |         🚧          |         🚧          |
 | Roccat Vulcan TKL Pro          |         ✔          |         ✔          |         ✔          |
 | Roccat Pyro                    |         🚧          |         🚧          |         🚧          |

@@ -169,18 +169,17 @@ AimoKeyboardDriver::set_profile_info(uint8_t active_profile, uint8_t amount_prof
 	return std::nullopt;
 }
 
-AimoKeyboardDriver::VoidError
-AimoKeyboardDriver::reset_all_profiles() {
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::reset_all_profiles() {
 	if (config.protocol_version == 1) {
 		uint8_t buf[3] = {0x11, 0x03, 0x04};
 		int written = hid_send_feature_report(ctrl_device, buf, 3);
-		
+
 		if (written == -1)
-		return "HIDAPI Error";
-	
-	return std::nullopt;
-} else {
-	uint8_t buf[9] = {0x09, 0x09, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+			return "HIDAPI Error";
+
+		return std::nullopt;
+	} else {
+		uint8_t buf[9] = {0x09, 0x09, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 		int written = hid_send_feature_report(ctrl_device, buf, 9);
 
 		if (written == -1)
@@ -408,6 +407,7 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::LightingInfo> AimoKeyboardDriver::
 
 	switch (pid) {
 		case ROCCAT_VULCAN_100_AIMO_PID:
+		case ROCCAT_VULCAN_TKL_PID:
 			packet_length = 443;
 			block_size = 12;
 			break;
@@ -505,6 +505,7 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
 
 	switch (pid) {
 		case ROCCAT_VULCAN_100_AIMO_PID:
+		case ROCCAT_VULCAN_TKL_PID:
 			packet_length = 443;
 			break;
 		case ROCCAT_VULCAN_TKL_PRO_PID:
@@ -550,12 +551,13 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
 	return std::nullopt;
 }
 
-AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_direct_lighting(std::vector<RGBColor> colors
-) {
+AimoKeyboardDriver::VoidError
+AimoKeyboardDriver::set_direct_lighting(std::vector<RGBColor> colors) {
 	uint16_t total_length;
 
 	switch (pid) {
 		case ROCCAT_VULCAN_100_AIMO_PID:
+		case ROCCAT_VULCAN_TKL_PID:
 			total_length = 436;
 			break;
 		case ROCCAT_VULCAN_TKL_PRO_PID:
@@ -624,9 +626,8 @@ std::vector<uint8_t> AimoKeyboardDriver::generate_color_bytes(std::vector<RGBCol
 
 	switch (pid) {
 		case ROCCAT_VULCAN_100_AIMO_PID:
-			block_size = 12;
-			break;
 		case ROCCAT_VULCAN_TKL_PRO_PID:
+		case ROCCAT_VULCAN_TKL_PID:
 			block_size = 12;
 			break;
 	}
@@ -652,6 +653,7 @@ AimoKeyboardDriver::get_gamemode_remap() {
 
 	switch (pid) {
 		case ROCCAT_VULCAN_100_AIMO_PID:
+		case ROCCAT_VULCAN_TKL_PID:
 			packet_length = 133;
 			break;
 		case ROCCAT_VULCAN_TKL_PRO_PID:
@@ -710,6 +712,7 @@ AimoKeyboardDriver::set_gamemode_remap(uint8_t profile, std::vector<uint8_t> val
 
 	switch (pid) {
 		case ROCCAT_VULCAN_100_AIMO_PID:
+		case ROCCAT_VULCAN_TKL_PID:
 			packet_length = 133;
 			break;
 		case ROCCAT_VULCAN_TKL_PRO_PID:

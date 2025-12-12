@@ -45,6 +45,21 @@ static std::vector<HIDDetectionInformation> hid_devices{
 		  0x0003,
 		  0x0001,
 	  }}},
+	{"Roccat Vulcan TKL",
+	 0x1E7D,
+	 0x2FEE,
+	 {{
+		  0x0001,
+		  0x000B,
+	  },
+	  {
+		  0x0001,
+		  0x000A,
+	  },
+	  {
+		  0x0003,
+		  0x0001,
+	  }}},
 	{"Roccat Vulcan TKL Pro",
 	 0x1E7D,
 	 0x311A,
