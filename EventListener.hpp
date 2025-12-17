@@ -8,7 +8,7 @@
 
 class EventListener {
   public:
-	EventListener(hid_device *dev, uint8_t gen);
+	EventListener(hid_device *dev, uint8_t gen, uint16_t pid);
 	~EventListener();
 
 	struct StateEvent {
@@ -82,6 +82,7 @@ class EventListener {
   private:
 	hid_device *hiddev;
 	uint8_t gen;
+	uint16_t pid;
 	std::thread *read_thread;
 
 	std::optional<std::function<void(uint8_t)>> profile_handler;

@@ -21,7 +21,7 @@ AimoKeyboardDriver::AimoKeyboardDriver(
 	this->config = aimo_keyboard_config[pid];
 	this->pid = pid;
 
-	event = new EventListener(hiddev[1], config.protocol_version);
+	event = new EventListener(hiddev[1], config.protocol_version, pid);
 }
 
 AimoKeyboardDriver::~AimoKeyboardDriver() {
