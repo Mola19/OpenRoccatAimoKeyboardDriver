@@ -96,6 +96,14 @@ void EventListener::unregister_wheel_handler() {
 	this->wheel_handler = std::nullopt;
 }
 
+void EventListener::register_macro_handler(std::function<void(MacroEvent)> macro_handler) {
+	this->macro_handler = macro_handler;
+}
+
+void EventListener::unregister_macro_handler() {
+	this->macro_handler = std::nullopt;
+}
+
 std::unordered_map<uint8_t, uint8_t> Gen1OSFntoGen2 = {
 	// open app, open swarm, start timer, stop timer are all extra apckets
 	{0x01, 0x08}, {0x02, 0x09}, {0x03, 0x0A}, {0x04, 0x0B}, {0x05, 0x0C}, {0x06, 0x0D},
@@ -371,6 +379,16 @@ void EventListener::read_thread_fn() {
 				// 	if (profile_handler)
 				// 		profile_handler.value()(res[3]);
 				// 	break;
+				case 0x03:
+					if (macro_handler) {
+						if (VulcanTKLKeytoGen2.count(res[3] - 1) == 0) continue;
+						auto val = VulcanTKLKeytoGen2[res[3] - 1];
+
+						macro_handler.value()(
+							{.key_id = val.key_id, .released = static_cast<bool>(res[4])}
+						);
+					}
+					break;
 				case 0x11:
 					if (osfn_handler) {
 						if (pid == 0x2FEE) {

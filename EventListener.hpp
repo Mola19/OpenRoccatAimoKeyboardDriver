@@ -49,6 +49,11 @@ class EventListener {
 		bool volume_mode;
 	};
 
+	struct MacroEvent {
+		uint8_t key_id;
+		bool released;
+	};
+
 	void register_profile_handler(std::function<void(uint8_t)> profile_handler);
 	void unregister_profile_handler();
 
@@ -79,6 +84,9 @@ class EventListener {
 	void register_wheel_handler(std::function<void(WheelEvent)> wheel_handler);
 	void unregister_wheel_handler();
 
+	void register_macro_handler(std::function<void(MacroEvent)> macro_handler);
+	void unregister_macro_handler();
+
   private:
 	hid_device *hiddev;
 	uint8_t gen;
@@ -95,6 +103,7 @@ class EventListener {
 	std::optional<std::function<void(bool)>> ges_handler;
 	std::optional<std::function<void(bool)>> dpi_handler;
 	std::optional<std::function<void(WheelEvent)>> wheel_handler;
+	std::optional<std::function<void(MacroEvent)>> macro_handler;
 
 	bool kill_read_thread = false;
 	void read_thread_fn();
