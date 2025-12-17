@@ -125,7 +125,9 @@ AimoKeyboardDriver::set_page_to_read(uint8_t profile, uint8_t page_or_key, bool 
 	if (config.protocol_version == 1)
 		return "can't use this function with gen 1";
 
-	uint8_t buf[4] = {0x04, profile, page_or_key, is_macro};
+	uint8_t buf[4] = {
+		0x04, profile, static_cast<uint8_t>((is_macro) ? page_or_key - 0x10 : page_or_key), is_macro
+	};
 	int written = hid_send_feature_report(ctrl_device, buf, 4);
 
 	if (written == -1)
@@ -1170,7 +1172,7 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::MacroInfo> AimoKeyboardDriver::get
 
 	return MacroInfo{
 		.profile = buf[3],
-		.key_id = buf[4],
+		.key_id = static_cast<uint8_t>(buf[4] - 0x10),
 		.foldername_utf8 = std::string(buf + 0x06, buf + 0x2E),
 		.macroname_utf8 = std::string(buf + 0x2E, buf + 0x4E),
 		.repeat = buf[0x50],
@@ -1195,7 +1197,7 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_macro(
 	buf[0x01] = packet_length % 256;
 	buf[0x02] = packet_length >> 8;
 	buf[0x03] = profile;
-	buf[0x04] = key_id;
+	buf[0x04] = key_id-0x10;
 	buf[0x05] = 0x01; // unkown meaning
 
 	memcpy(buf + 0x06, foldername_utf8.data(), 40);
