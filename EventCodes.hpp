@@ -11,7 +11,8 @@ namespace AimoEventCodes {
 		{ "Sleep", 0x01 },
 		{ "Gamemode", 0x02 },
 		{ "Fn Lock", 0x03 },
-		{ "Fn Win Switch", 0x04 }
+		{ "Fn Win Switch", 0x04 },
+		{ "Lighting", 0x05 },
 	};
 
 	inline std::unordered_map<std::string, uint8_t> Modifieres = {

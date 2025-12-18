@@ -27,7 +27,7 @@ class EventListener {
 	struct OSFnEvent {
 		uint8_t function;
 		uint8_t modifier;
-		uint8_t key;
+		std::optional<uint8_t> key;
 		bool released;
 	};
 
@@ -51,6 +51,11 @@ class EventListener {
 
 	struct MacroEvent {
 		uint8_t key_id;
+		bool released;
+	};
+
+	struct CapslockEvent {
+		bool is_easyshift;
 		bool released;
 	};
 
@@ -87,6 +92,9 @@ class EventListener {
 	void register_macro_handler(std::function<void(MacroEvent)> macro_handler);
 	void unregister_macro_handler();
 
+	void register_capslock_handler(std::function<void(CapslockEvent)> capslock_handler);
+	void unregister_capslock_handler();
+
   private:
 	hid_device *hiddev;
 	uint8_t gen;
@@ -104,6 +112,7 @@ class EventListener {
 	std::optional<std::function<void(bool)>> dpi_handler;
 	std::optional<std::function<void(WheelEvent)>> wheel_handler;
 	std::optional<std::function<void(MacroEvent)>> macro_handler;
+	std::optional<std::function<void(CapslockEvent)>> capslock_handler;
 
 	bool kill_read_thread = false;
 	void read_thread_fn();
