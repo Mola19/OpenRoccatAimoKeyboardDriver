@@ -15,7 +15,7 @@ namespace AimoEventCodes {
 		{ "Lighting", 0x05 },
 	};
 
-	inline std::unordered_map<std::string, uint8_t> Modifieres = {
+	inline std::unordered_map<std::string, uint8_t> Modifiers = {
 		{ "EasyShift", 0x01 },
 		{ "Fn", 0x02 },
 		{ "Gamemode", 0x03 }
