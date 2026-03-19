@@ -31,7 +31,7 @@ Note: Roccat has been bought by Turtle Beach some time ago and now they are rebr
 | Device                         | Support |
 | ------------------------------ | :-----: |
 | Roccat Vulcan 80 Aimo          |    🚧    |
-| Roccat Vulcan 100 Aimo         |    🛠    |
+| Roccat Vulcan 100 Aimo         |    ✔    |
 | Roccat Vulcan 120/121/122 Aimo |    🚧    |
 | Roccat Vulcan TKL              |    ✔    |
 | Roccat Vulcan Pro              |    🚧    |

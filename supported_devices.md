@@ -17,7 +17,7 @@
 | Device                         | Generation | General Information | Profile Management | Key Remapping | Lighting | Events |
 | ------------------------------ | :--------: | :-----------------: | :----------------: | :-----------: | :------: | :----: |
 | Roccat Vulcan 80 Aimo          |     1      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
-| Roccat Vulcan 100 Aimo         |     1      |          ✔          |         ✔          |       ✔       |    ✔     |   🛠    |
+| Roccat Vulcan 100 Aimo         |     1      |          ✔          |         ✔          |       ✔       |    ✔     |   ✔    |
 | Roccat Vulcan 120/121/122 Aimo |     1      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
 | Roccat Vulcan TKL              |     1      |          ✔          |         ✔          |       ✔       |    ✔     |   ✔    |
 | Roccat Vulcan Pro              |     2      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
@@ -127,7 +127,7 @@ Generation 1 devices don't support setting time to sleep (as far as we know).
 | Device                         | state* | multimedia** | profile switch | keypress | os function | reset | global easyshift | brightness |  dpi  | lighting mode | wheel | macro*** | capslock pressed**** | light state |
 | ------------------------------ | :----: | :----------: | :------------: | :------: | :---------: | :---: | :--------------: | :--------: | :---: | :-----------: | ----: | :------: | :------------------: | :---------: |
 | Roccat Vulcan 80 Aimo*         |   🚧    |      🚧       |       🚧        |    🚧     |      🚧      |   🚧   |        🚧         |     🚧      |   🚧   |       🚧       |     🚧 |    🚧     |          🚧           |      🚧      |
-| Roccat Vulcan 100 Aimo         |   🚧    |      🚧       |       🚧        |    🚧     |      🚧      |   🚧   |        🚧         |     🚧      |   🚧   |       🚧       |     🚧 |    🚧     |          🚧           |      🚧      |
+| Roccat Vulcan 100 Aimo         |   ✔    |      ✔       |       ✔        |    ✔     |      ✔      |   ✔   |        ✔         |     ✔      |   ✔   |       ✔       |     ✔ |    ✔     |          ✔           |      ❌      |
 | Roccat Vulcan 120/121/122 Aimo |   🚧    |      🚧       |       🚧        |    🚧     |      🚧      |   🚧   |        🚧         |     🚧      |   🚧   |       🚧       |     🚧 |    🚧     |          🚧           |      🚧      |
 | Roccat Vulcan TKL              |   ✔    |      ✔       |       ✔        |    ✔     |      ✔      |   ✔   |        ✔         |     ✔      |   ❌   |       ✔       |     ✔ |    ✔     |          ✔           |      ✔      |
 | Roccat Vulcan Pro              |   🚧    |      🚧       |       🚧        |    🚧     |      🚧      |   🚧   |        🚧         |     🚧      |   🚧   |       🚧       |     🚧 |    ❌     |          ❌           |      ❌      |
