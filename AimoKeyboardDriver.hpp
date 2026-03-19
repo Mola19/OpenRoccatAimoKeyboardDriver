@@ -15,6 +15,7 @@
 #define ROCCAT_VULCAN_100_AIMO_PID 0x307A
 #define ROCCAT_VULCAN_TKL_PID 0x2FEE
 #define ROCCAT_VULCAN_TKL_PRO_PID 0x311A
+#define ROCCAT_MAGMA_MINI_PID 0x69A0
 
 class AimoKeyboardDriver {
   public:
@@ -34,6 +35,7 @@ class AimoKeyboardDriver {
 		// same
 		uint8_t remap_length;
 		std::unordered_map<std::string, uint8_t> led_map;
+		std::unordered_map<std::string, uint8_t> gamemode_map;
 		std::unordered_map<std::string, uint8_t> fn_map;
 		std::optional<std::unordered_map<std::string, uint8_t>> fn_extra_map;
 	};
@@ -45,6 +47,7 @@ class AimoKeyboardDriver {
 
 	// this list only contains layouts known layouts
 	// Japan and Korea exist based on their website, but the id is unknown
+	// TODO magma has 0 for DE
 	enum VisualLayout {
 		US = 0, // United States (ANSI)
 		DE = 1, // Germany (ISO)
@@ -286,11 +289,15 @@ class AimoKeyboardDriver {
 
 inline std::unordered_map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {
 	{ROCCAT_VULCAN_100_AIMO_PID,
-	 {1, false, true, 144, 126, AimoKeyMaps::Vulcan100LED, AimoKeyMaps::FNRemapGen1FullGen1,
-	  AimoKeyMaps::FNRemapExtra}},
+	 {1, false, true, 144, 126, AimoKeyMaps::Vulcan100LED, AimoKeyMaps::Vulcan100Remap,
+	  AimoKeyMaps::FNRemapGen1FullGen1, AimoKeyMaps::FNRemapExtra}},
 	{ROCCAT_VULCAN_TKL_PID,
-	 {1, false, true, 144, 126, AimoKeyMaps::VulcanTKLLED, AimoKeyMaps::FNRemapGenTKL,
-	  std::nullopt}},
+	 {1, false, true, 144, 126, AimoKeyMaps::VulcanTKLLED, AimoKeyMaps::VulcanTKLRemap,
+	  AimoKeyMaps::FNRemapGenTKL, std::nullopt}},
 	{ROCCAT_VULCAN_TKL_PRO_PID,
-	 {2, true, false, 96, 126, AimoKeyMaps::VulcanTKLLED, AimoKeyMaps::FNRemapGenTKL, std::nullopt}}
+	 {2, true, false, 96, 126, AimoKeyMaps::VulcanTKLLED, AimoKeyMaps::VulcanTKLRemap,
+	  AimoKeyMaps::FNRemapGenTKL, std::nullopt}},
+	{ROCCAT_MAGMA_MINI_PID,
+	 {2, true, false, 5, 150, AimoKeyMaps::MagmaLED, AimoKeyMaps::MagmaMiniRemap,
+	  AimoKeyMaps::FNRemapGenTKL, std::nullopt}}
 };

@@ -417,6 +417,9 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::LightingInfo> AimoKeyboardDriver::
 			packet_length = 299;
 			block_size = 12;
 			break;
+		case ROCCAT_MAGMA_MINI_PID:
+			packet_length = 26;
+			block_size = 5;
 		default:
 			return std::unexpected("This device is not supported by the function");
 	}
@@ -513,6 +516,9 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
 		case ROCCAT_VULCAN_TKL_PRO_PID:
 			packet_length = 299;
 			break;
+		case ROCCAT_MAGMA_MINI_PID:
+			packet_length = 26;
+			break;
 		default:
 			return "This device is not supported by the function";
 	}
@@ -564,6 +570,9 @@ AimoKeyboardDriver::set_direct_lighting(std::vector<RGBColor> colors) {
 			break;
 		case ROCCAT_VULCAN_TKL_PRO_PID:
 			total_length = 308;
+			break;
+		case ROCCAT_MAGMA_MINI_PID:
+			total_length = 64;
 			break;
 		default:
 			return "This device is not supported by the function";
@@ -632,6 +641,9 @@ std::vector<uint8_t> AimoKeyboardDriver::generate_color_bytes(std::vector<RGBCol
 		case ROCCAT_VULCAN_TKL_PID:
 			block_size = 12;
 			break;
+		case ROCCAT_MAGMA_MINI_PID:
+			block_size = 5;
+			break;
 	}
 
 	std::vector<uint8_t> buf(config.led_length * 3);
@@ -661,6 +673,9 @@ AimoKeyboardDriver::get_gamemode_remap() {
 		case ROCCAT_VULCAN_TKL_PRO_PID:
 			packet_length = 134;
 			break;
+		case ROCCAT_MAGMA_MINI_PID:
+			packet_length = 158;
+			break;
 		default:
 			return std::unexpected("This device is not supported by the function");
 	}
@@ -677,7 +692,8 @@ AimoKeyboardDriver::get_gamemode_remap() {
 	if (buf[0] != report_id || buf[1] != packet_length)
 		return std::unexpected("packet header is malformed");
 
-	if (!check_checksum(buf, packet_length, 2))
+	// magma mini checksum is always 0
+	if (pid != ROCCAT_MAGMA_MINI_PID && !check_checksum(buf, packet_length, 2))
 		return std::unexpected("checksum didn't match");
 
 	uint8_t offset = (config.protocol_version == 1) ? 3 : 4;
@@ -719,6 +735,9 @@ AimoKeyboardDriver::set_gamemode_remap(uint8_t profile, std::vector<uint8_t> val
 			break;
 		case ROCCAT_VULCAN_TKL_PRO_PID:
 			packet_length = 134;
+			break;
+		case ROCCAT_MAGMA_MINI_PID:
+			packet_length = 158;
 			break;
 		default:
 			return "This device is not supported by the function";

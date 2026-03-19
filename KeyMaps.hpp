@@ -243,6 +243,14 @@ namespace AimoKeyMaps {
 		{ "RIGHT_ARROW",    0x5F },
 	};
 
+	inline std::unordered_map<std::string, uint8_t> MagmaLED = {
+		{ "LED 1",  0x00 },
+		{ "LED 2",  0x01 },
+		{ "LED 3",	0x02 },
+		{ "LED 4",  0x03 },
+		{ "LED 5",  0x04 },
+	};
+
 	inline std::unordered_map<std::string, uint8_t> Vulcan100Remap = {
 		{ "F1",             0x00 },
 		{ "ESCAPE",         0x01 },
@@ -463,8 +471,7 @@ namespace AimoKeyMaps {
 		{ "HOME",           0x51 },
 		{ "END",            0x52 },
 
-		{ "ISO_POUND",      0x54 },
-
+		
 		{ "RIGHT_ALT",      0x57 },
 
 		{ "PAGE_UP",        0x59 },
@@ -485,6 +492,37 @@ namespace AimoKeyMaps {
 		{ "RIGHT_CONTROL",  0x77 },
 
 		// { "ANSI_BACKSLASH", ??? },
+	};
+
+	inline std::unordered_map<std::string, uint8_t> MagmaMiniRemap = {
+		{ "W",              0x07 },
+		{ "SPACE",          0x09 },
+		{ "RIGHT_SHIFT",    0x0F },
+		{ "LEFT_CONTROL",   0x11 },
+		{ "LEFT_SHIFT",     0x19 },
+		{ "LEFT_WINDOWS",   0x26 },
+		// the software is apparently broken and sets ansi backslash instead of pound
+		// this is a guess based on the packet sent (0x32 in this place)
+		{ "ISO_POUND",      0x27 },
+		{ "A",              0x2F },
+		{ "QUOTE",          0x30 },
+		{ "S",              0x37 },
+		{ "D",              0x3F },
+		{ "ANSI_BACKSLASH", 0x45 },
+		{ "ENTER",          0x49 },
+		{ "ISO_BACKSLASH",  0x50 },
+		{ "X",              0x51 },
+		{ "R",              0x6D },
+		{ "T",              0x6E },
+		{ "F",              0x6F },
+		{ "V",              0x71 },
+		{ "E",              0x75 },
+		{ "C",              0x79 },
+		{ "Q",              0x7D },
+		{ "TAB",            0x7E },
+		{ "Z",              0x81 },
+		{ "LEFT_ALT",       0x87 },
+		
 	};
 
 	inline std::unordered_map<std::string, uint8_t> EasyShift = {
