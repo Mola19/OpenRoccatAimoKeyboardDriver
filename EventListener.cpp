@@ -460,12 +460,14 @@ void EventListener::read_thread_fn() {
 					break;
 				case 0x10:
 					// open swarm
-					osfn_handler.value()(
-						{.function = 0x02,
-						 .modifier = 0,
-						 .key = std::nullopt,
-						 .released = static_cast<bool>(!res[3])}
-					);
+					if (osfn_handler) {
+						osfn_handler.value()(
+							{.function = 0x02,
+							 .modifier = 0,
+							 .key = std::nullopt,
+							 .released = static_cast<bool>(!res[3])}
+						);
+					}
 					break;
 				case 0x11:
 					if (osfn_handler) {
