@@ -397,13 +397,23 @@ void EventListener::read_thread_fn() {
 				// 	break;
 				case 0x03:
 					if (macro_handler) {
-						if (VulcanTKLKeytoGen2.count(res[3] - 1) == 0)
-							continue;
-						auto val = VulcanTKLKeytoGen2[res[3] - 1];
+						if (pid == 0x2FEE) {
+							if (VulcanTKLKeytoGen2.count(res[3] - 1) == 0)
+								continue;
+							auto val = VulcanTKLKeytoGen2[res[3] - 1];
 
-						macro_handler.value()(
-							{.key_id = val.key_id, .released = static_cast<bool>(res[4])}
-						);
+							macro_handler.value()(
+								{.key_id = val.key_id, .released = static_cast<bool>(res[4])}
+							);
+						} else {
+							if (Vulcan1XXKeytoGen2.count(res[3] - 1) == 0)
+								continue;
+							auto val = Vulcan1XXKeytoGen2[res[3] - 1];
+
+							macro_handler.value()(
+								{.key_id = val.key_id, .released = static_cast<bool>(res[4])}
+							);
+						}
 					}
 					break;
 				case 0x07:
