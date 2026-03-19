@@ -558,6 +558,10 @@ void EventListener::read_thread_fn() {
 						state_handler.value()({.state = 5, .active = static_cast<bool>(res[3])});
 					}
 					break;
+				case 0xCA:
+					if (dpi_handler)
+						dpi_handler.value()(res[3] == 0x01);
+					break;
 				case 0xCC:
 					if (wheel_handler)
 						wheel_handler.value()(
