@@ -47,7 +47,6 @@ class AimoKeyboardDriver {
 
 	// this list only contains layouts known layouts
 	// Japan and Korea exist based on their website, but the id is unknown
-	// TODO magma has 0 for DE
 	enum VisualLayout {
 		US = 0, // United States (ANSI)
 		DE = 1, // Germany (ISO)

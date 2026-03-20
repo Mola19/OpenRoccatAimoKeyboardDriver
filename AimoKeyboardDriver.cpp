@@ -53,7 +53,8 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::DeviceInfo> AimoKeyboardDriver::ge
 	char version[5];
 	snprintf(version, 5, "%d.%02d", buf[2] / 100, buf[2] % 100);
 
-	if (config.protocol_version == 1) {
+	// magma is same as gen 1 but tkl is different
+	if (config.protocol_version == 1 || pid == ROCCAT_MAGMA_MINI_PID) {
 		return AimoKeyboardDriver::DeviceInfo{
 			.version_string = version,
 			.minor_version = static_cast<uint8_t>(buf[2] % 100),
