@@ -675,7 +675,7 @@ AimoKeyboardDriver::get_gamemode_remap() {
 			packet_length = 134;
 			break;
 		case ROCCAT_MAGMA_MINI_PID:
-			packet_length = 158;
+			packet_length = 150;
 			break;
 		default:
 			return std::unexpected("This device is not supported by the function");
@@ -693,8 +693,7 @@ AimoKeyboardDriver::get_gamemode_remap() {
 	if (buf[0] != report_id || buf[1] != packet_length)
 		return std::unexpected("packet header is malformed");
 
-	// magma mini checksum is always 0
-	if (pid != ROCCAT_MAGMA_MINI_PID && !check_checksum(buf, packet_length, 2))
+	if (!check_checksum(buf, packet_length, 2))
 		return std::unexpected("checksum didn't match");
 
 	uint8_t offset = (config.protocol_version == 1) ? 3 : 4;
@@ -738,13 +737,13 @@ AimoKeyboardDriver::set_gamemode_remap(uint8_t profile, std::vector<uint8_t> val
 			packet_length = 134;
 			break;
 		case ROCCAT_MAGMA_MINI_PID:
-			packet_length = 158;
+			packet_length = 150;
 			break;
 		default:
 			return "This device is not supported by the function";
 	}
 
-	uint8_t header_length = (packet_length > 255) ? 4 : 3;
+	uint8_t header_length = (config.protocol_version == 2) ? 4 : 3;
 
 	uint8_t *buf = new uint8_t[packet_length];
 	memset(buf, 0x00, packet_length);
@@ -753,9 +752,9 @@ AimoKeyboardDriver::set_gamemode_remap(uint8_t profile, std::vector<uint8_t> val
 	buf[1] = packet_length;
 	buf[2] = profile;
 
-	// for some reasom gen 2 has two different remnapr packet, but 0 does nothing
+	// for some reason gen 2 has two different remap packets, but 0 does nothing
 	// you can get 0, it seems like it's just the default (non gamemode) map, that is unchangeable
-	if (header_length == 4) {
+	if (config.protocol_version == 2) {
 		buf[3] = 0x01;
 	}
 

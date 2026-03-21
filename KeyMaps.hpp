@@ -495,34 +495,33 @@ namespace AimoKeyMaps {
 	};
 
 	inline std::unordered_map<std::string, uint8_t> MagmaMiniRemap = {
-		{ "W",              0x07 },
-		{ "SPACE",          0x09 },
-		{ "RIGHT_SHIFT",    0x0F },
-		{ "LEFT_CONTROL",   0x11 },
-		{ "LEFT_SHIFT",     0x19 },
-		{ "LEFT_WINDOWS",   0x26 },
-		// the software is apparently broken and sets ansi backslash instead of pound
-		// this is a guess based on the packet sent (0x32 in this place)
-		{ "ISO_POUND",      0x27 },
-		{ "A",              0x2F },
-		{ "QUOTE",          0x30 },
-		{ "S",              0x37 },
-		{ "D",              0x3F },
-		{ "ANSI_BACKSLASH", 0x45 },
-		{ "ENTER",          0x49 },
-		{ "ISO_BACKSLASH",  0x50 },
-		{ "X",              0x51 },
-		{ "R",              0x6D },
-		{ "T",              0x6E },
-		{ "F",              0x6F },
-		{ "V",              0x71 },
-		{ "E",              0x75 },
-		{ "C",              0x79 },
-		{ "Q",              0x7D },
-		{ "TAB",            0x7E },
-		{ "Z",              0x81 },
-		{ "LEFT_ALT",       0x87 },
-		
+		{ "W",              0x02 },
+		{ "SPACE",          0x04 },
+		{ "RIGHT_SHIFT",    0x0A },
+		{ "LEFT_CONTROL",   0x0C },
+		{ "LEFT_SHIFT",     0x14 },
+		{ "LEFT_WINDOWS",   0x21 },
+		// the software is apparently broken and sets ansi backslash instead of pound with iso keyboard
+		{ "ISO_POUND",      0x22 },
+		{ "A",              0x2A },
+		{ "QUOTE",          0x2B },
+		{ "S",              0x32 },
+		{ "D",              0x3A },
+		// this is probably correct but i can't test it
+		{ "ANSI_BACKSLASH", 0x40 },
+		{ "ENTER",          0x44 },
+		{ "ISO_BACKSLASH",  0x4B },
+		{ "X",              0x4C },
+		{ "R",              0x68 },
+		{ "T",              0x69 },
+		{ "F",              0x6A },
+		{ "V",              0x6C },
+		{ "E",              0x70 },
+		{ "C",              0x74 },
+		{ "Q",              0x78 },
+		{ "TAB",            0x79 },
+		{ "Z",              0x7C },
+		{ "LEFT_ALT",       0x82 },
 	};
 
 	inline std::unordered_map<std::string, uint8_t> EasyShift = {
