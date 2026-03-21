@@ -560,8 +560,8 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
 	return std::nullopt;
 }
 
-AimoKeyboardDriver::VoidError
-AimoKeyboardDriver::set_direct_lighting(std::vector<RGBColor> colors) {
+AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_direct_lighting(std::vector<RGBColor> colors
+) {
 	uint16_t total_length;
 
 	switch (pid) {
@@ -797,7 +797,7 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_easyshift(bool active) {
 	uint8_t report_id = (config.protocol_version == 1) ? 0x16 : 0x10;
 
 	uint8_t buf[16] = {report_id, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-					   0x00,      0x00, 0x00, 0x00,   0x00, 0x00, 0x00, 0x00};
+					   0x00,      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 	if (pid == ROCCAT_MAGMA_MINI_PID) {
 		buf[2] = active;
@@ -887,8 +887,27 @@ AimoKeyboardDriver::set_easyshift_remap(uint8_t profile, std::vector<uint32_t> v
 }
 
 AimoKeyboardDriver::Error<AimoKeyboardDriver::LongRemapInfo> AimoKeyboardDriver::get_fn_remap() {
+	uint16_t packet_length = 0;
+
+	switch (pid) {
+		case ROCCAT_VULCAN_100_AIMO_PID:
+			packet_length = 95;
+			break;
+		case ROCCAT_VULCAN_TKL_PID:
+			packet_length = 143;
+			break;
+		case ROCCAT_VULCAN_TKL_PRO_PID:
+			packet_length = 189;
+			break;
+		case ROCCAT_MAGMA_MINI_PID:
+			packet_length = 294;
+			break;
+		default:
+			return std::unexpected("This device is not supported by the function");
+	}
+
 	uint8_t code_size = (config.protocol_version == 1) ? 3 : 4;
-	uint16_t packet_length = config.fn_map.size() * code_size + 5;
+	uint8_t header_size = (packet_length > 255) ? 4 : 3;
 	uint8_t report_id = (config.protocol_version == 1) ? 0x07 : 0x0A;
 
 	uint8_t *buf = new uint8_t[packet_length];
@@ -900,14 +919,19 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::LongRemapInfo> AimoKeyboardDriver:
 	if (read == -1)
 		return std::unexpected("HIDAPI Error");
 
-	if (buf[0] != report_id || buf[1] != packet_length)
-		return std::unexpected("packet header is malformed");
+	if (header_size == 3) {
+		if (buf[0] != report_id || buf[1] != packet_length)
+			return std::unexpected("packet header is malformed");
+	} else {
+		if (buf[0] != report_id || buf[1] != packet_length % 256 || buf[2] != packet_length / 256)
+			return std::unexpected("packet header is malformed");
+	}
 
 	if (!check_checksum(buf, packet_length, 2))
 		return std::unexpected("checksum didn't match");
 
 	auto values = le_array_to_uint_vec(
-		buf + 3, config.fn_map.size(), code_size, config.protocol_version != 1
+		buf + header_size, config.fn_map.size(), code_size, config.protocol_version != 1
 	);
 
 	LongRemapInfo info = {
@@ -935,20 +959,46 @@ AimoKeyboardDriver::set_fn_remap(uint8_t profile, std::vector<uint32_t> values) 
 			config.fn_map.size()
 		);
 
+	uint16_t packet_length = 0;
+
+	switch (pid) {
+		case ROCCAT_VULCAN_100_AIMO_PID:
+			packet_length = 95;
+			break;
+		case ROCCAT_VULCAN_TKL_PID:
+			packet_length = 143;
+			break;
+		case ROCCAT_VULCAN_TKL_PRO_PID:
+			packet_length = 189;
+			break;
+		case ROCCAT_MAGMA_MINI_PID:
+			packet_length = 294;
+			break;
+		default:
+			return "This device is not supported by the function";
+	}
+
 	uint8_t code_size = (config.protocol_version == 1) ? 3 : 4;
-	uint16_t packet_length = config.fn_map.size() * code_size + 5;
+	uint8_t header_size = (packet_length > 255) ? 4 : 3;
 	uint8_t report_id = (config.protocol_version == 1) ? 0x07 : 0x0A;
 
 	uint8_t *buf = new uint8_t[packet_length];
 	memset(buf, 0x00, packet_length);
 
 	buf[0] = report_id;
-	buf[1] = packet_length;
-	buf[2] = profile;
+
+	if (header_size == 3) {
+		buf[1] = packet_length;
+		buf[2] = profile;
+	} else {
+		buf[1] = packet_length % 256;
+		buf[2] = packet_length / 256;
+		buf[3] = profile;
+	}
 
 	auto temp = uint_vec_to_le_array(values, code_size, config.protocol_version != 1);
 
-	memcpy(buf + 3, temp.data(), config.fn_map.size() * code_size);
+	memcpy(buf + header_size, temp.data(), config.fn_map.size() * code_size);
 
 	generate_checksum(buf, packet_length, 2);
 
@@ -1227,7 +1277,7 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_macro(
 	buf[0x01] = packet_length % 256;
 	buf[0x02] = packet_length >> 8;
 	buf[0x03] = profile;
-	buf[0x04] = key_id-0x10;
+	buf[0x04] = key_id - 0x10;
 	buf[0x05] = 0x01; // unkown meaning
 
 	memcpy(buf + 0x06, foldername_utf8.data(), 40);
