@@ -786,14 +786,25 @@ AimoKeyboardDriver::Error<bool> AimoKeyboardDriver::get_easyshift() {
 	if (buf[0] != report_id || buf[1] != 0x10)
 		return std::unexpected("packet header is malformed");
 
-	return (bool)buf[3];
+	if (pid == ROCCAT_MAGMA_MINI_PID) {
+		return (bool)buf[2];
+	} else {
+		return (bool)buf[3];
+	}
 }
 
 AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_easyshift(bool active) {
 	uint8_t report_id = (config.protocol_version == 1) ? 0x16 : 0x10;
 
-	uint8_t buf[16] = {report_id, 0x10, 0x00, active, 0x00, 0x00, 0x00, 0x00,
+	uint8_t buf[16] = {report_id, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 					   0x00,      0x00, 0x00, 0x00,   0x00, 0x00, 0x00, 0x00};
+
+	if (pid == ROCCAT_MAGMA_MINI_PID) {
+		buf[2] = active;
+	} else {
+		buf[3] = active;
+	}
+
 	int written = hid_send_feature_report(ctrl_device, buf, 16);
 
 	if (written == -1)
