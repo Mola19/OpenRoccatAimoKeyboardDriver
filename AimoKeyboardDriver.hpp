@@ -29,6 +29,8 @@ class AimoKeyboardDriver {
 		uint8_t protocol_version;
 		bool has_adjustable_time_to_sleep;
 		bool has_lighting_toggle;
+		// mute light can still be sent via the function, it will simply be ignored
+		bool has_mute_light;
 		// note: this is not the led amount, this also contains the gaps
 		// it's primarily important for the size of the colours array
 		uint8_t led_length;
@@ -193,7 +195,7 @@ class AimoKeyboardDriver {
 
 	using VoidError = std::optional<std::string>;
 
-	AimoKeyboardDriver() {};
+	AimoKeyboardDriver(){};
 	AimoKeyboardDriver(std::string name, std::vector<hid_device *> hiddev, uint16_t pid);
 	~AimoKeyboardDriver();
 
@@ -288,15 +290,15 @@ class AimoKeyboardDriver {
 
 inline std::unordered_map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {
 	{ROCCAT_VULCAN_100_AIMO_PID,
-	 {1, false, true, 144, 126, AimoKeyMaps::Vulcan100LED, AimoKeyMaps::Vulcan100Remap,
+	 {1, false, true, true, 144, 126, AimoKeyMaps::Vulcan100LED, AimoKeyMaps::Vulcan100Remap,
 	  AimoKeyMaps::FNRemapGen1FullGen1, AimoKeyMaps::FNRemapExtra}},
 	{ROCCAT_VULCAN_TKL_PID,
-	 {1, false, true, 144, 126, AimoKeyMaps::VulcanTKLLED, AimoKeyMaps::VulcanTKLRemap,
+	 {1, false, true, true, 144, 126, AimoKeyMaps::VulcanTKLLED, AimoKeyMaps::VulcanTKLRemap,
 	  AimoKeyMaps::FNRemapGenTKL, std::nullopt}},
 	{ROCCAT_VULCAN_TKL_PRO_PID,
-	 {2, true, false, 96, 126, AimoKeyMaps::VulcanTKLLED, AimoKeyMaps::VulcanTKLRemap,
+	 {2, true, false, true, 96, 126, AimoKeyMaps::VulcanTKLLED, AimoKeyMaps::VulcanTKLRemap,
 	  AimoKeyMaps::FNRemapGenTKL, std::nullopt}},
 	{ROCCAT_MAGMA_MINI_PID,
-	 {2, true, false, 5, 150, AimoKeyMaps::MagmaLED, AimoKeyMaps::MagmaMiniRemap,
+	 {2, true, false, false, 5, 150, AimoKeyMaps::MagmaLED, AimoKeyMaps::MagmaMiniRemap,
 	  AimoKeyMaps::FNRemapGenTKL, std::nullopt}}
 };
