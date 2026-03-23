@@ -816,7 +816,7 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_easyshift(bool active) {
 AimoKeyboardDriver::Error<AimoKeyboardDriver::LongRemapInfo>
 AimoKeyboardDriver::get_easyshift_remap() {
 	uint8_t code_size = (config.protocol_version == 1) ? 3 : 4;
-	uint16_t packet_length = (config.protocol_version == 1) ? 65 : 85;
+	uint16_t packet_length = config.es_map.size() * code_size + 5;
 	uint8_t report_id = (config.protocol_version == 1) ? 0x0B : 0x0C;
 
 	uint8_t *buf = new uint8_t[packet_length];
@@ -834,7 +834,7 @@ AimoKeyboardDriver::get_easyshift_remap() {
 	if (!check_checksum(buf, packet_length, 2))
 		return std::unexpected("checksum didn't match");
 
-	auto values = le_array_to_uint_vec(buf + 3, 20, code_size, config.protocol_version != 1);
+	auto values = le_array_to_uint_vec(buf + 3, config.es_map.size(), code_size, config.protocol_version != 1);
 
 	LongRemapInfo info = {
 		.profile = (config.protocol_version == 1) ? std::nullopt : std::make_optional(buf[2]),
@@ -855,13 +855,13 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_easyshift_remap(LongRemapI
 
 AimoKeyboardDriver::VoidError
 AimoKeyboardDriver::set_easyshift_remap(uint8_t profile, std::vector<uint32_t> values) {
-	if (values.size() != 20)
+	if (values.size() != config.es_map.size())
 		return std::format(
-			"values vector size is {}, but it must be 20 for this device", values.size()
+			"values vector size is {}, but it must be {} for this device", values.size(), config.es_map.size()
 		);
 
 	uint8_t code_size = (config.protocol_version == 1) ? 3 : 4;
-	uint16_t packet_length = (config.protocol_version == 1) ? 65 : 85;
+	uint16_t packet_length = config.es_map.size() * code_size + 5;
 	uint8_t report_id = (config.protocol_version == 1) ? 0x0B : 0x0C;
 
 	uint8_t *buf = new uint8_t[packet_length];
@@ -873,7 +873,7 @@ AimoKeyboardDriver::set_easyshift_remap(uint8_t profile, std::vector<uint32_t> v
 
 	auto temp = uint_vec_to_le_array(values, code_size, config.protocol_version != 1);
 
-	memcpy(buf + 3, temp.data(), 20 * code_size);
+	memcpy(buf + 3, temp.data(), config.es_map.size() * code_size);
 
 	generate_checksum(buf, packet_length, 2);
 

@@ -550,6 +550,25 @@ namespace AimoKeyMaps {
 		{ "B",              0x13 },
 	};
 
+	inline std::unordered_map<std::string, uint8_t> EasyShiftMagmaMini = {
+		{ "Q",              0x00 },
+		{ "W",              0x01 },
+		{ "E",              0x02 },
+		{ "R",              0x03 },
+		{ "T",              0x04 },
+
+		{ "A",              0x05 },
+		{ "S",              0x06 },
+		{ "D",              0x07 },
+		{ "F",              0x08 },
+		
+		{ "Z",              0x09 },
+		{ "X",              0x0A },
+		{ "C",              0x0B },
+		{ "V",              0x0C },
+		{ "Space",          0x0D },
+	};
+
 	inline std::unordered_map<std::string, uint8_t> FNRemapGenTKL = {
 		{ "F1 (Gamemode)",              0x00 },
 		{ "F2 (Gamemode)",              0x01 },

@@ -40,6 +40,7 @@ class AimoKeyboardDriver {
 		std::unordered_map<std::string, uint8_t> gamemode_map;
 		std::unordered_map<std::string, uint8_t> fn_map;
 		std::optional<std::unordered_map<std::string, uint8_t>> fn_extra_map;
+		std::unordered_map<std::string, uint8_t> es_map;
 	};
 
 	enum PhysicalLayout {
@@ -195,7 +196,7 @@ class AimoKeyboardDriver {
 
 	using VoidError = std::optional<std::string>;
 
-	AimoKeyboardDriver(){};
+	AimoKeyboardDriver() {};
 	AimoKeyboardDriver(std::string name, std::vector<hid_device *> hiddev, uint16_t pid);
 	~AimoKeyboardDriver();
 
@@ -291,14 +292,14 @@ class AimoKeyboardDriver {
 inline std::unordered_map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {
 	{ROCCAT_VULCAN_100_AIMO_PID,
 	 {1, false, true, true, 144, 126, AimoKeyMaps::Vulcan100LED, AimoKeyMaps::Vulcan100Remap,
-	  AimoKeyMaps::FNRemapGen1FullGen1, AimoKeyMaps::FNRemapExtra}},
+	  AimoKeyMaps::FNRemapGen1FullGen1, AimoKeyMaps::FNRemapExtra, AimoKeyMaps::EasyShift}},
 	{ROCCAT_VULCAN_TKL_PID,
 	 {1, false, true, true, 144, 126, AimoKeyMaps::VulcanTKLLED, AimoKeyMaps::VulcanTKLRemap,
-	  AimoKeyMaps::FNRemapGenTKL, std::nullopt}},
+	  AimoKeyMaps::FNRemapGenTKL, std::nullopt, AimoKeyMaps::EasyShift}},
 	{ROCCAT_VULCAN_TKL_PRO_PID,
 	 {2, true, false, true, 96, 126, AimoKeyMaps::VulcanTKLLED, AimoKeyMaps::VulcanTKLRemap,
-	  AimoKeyMaps::FNRemapGenTKL, std::nullopt}},
+	  AimoKeyMaps::FNRemapGenTKL, std::nullopt, AimoKeyMaps::EasyShift}},
 	{ROCCAT_MAGMA_MINI_PID,
 	 {2, true, false, false, 5, 144, AimoKeyMaps::MagmaLED, AimoKeyMaps::MagmaMiniRemap,
-	  AimoKeyMaps::FNRemapMagmaMini, std::nullopt}}
+	  AimoKeyMaps::FNRemapMagmaMini, std::nullopt, AimoKeyMaps::EasyShiftMagmaMini}}
 };
