@@ -127,7 +127,7 @@ AimoKeyboardDriver::set_page_to_read(uint8_t profile, uint8_t page_or_key, bool 
 		return "can't use this function with gen 1";
 
 	uint8_t buf[4] = {
-		0x04, profile, static_cast<uint8_t>((is_macro) ? page_or_key - 0x10 : page_or_key), is_macro
+		0x04, profile, static_cast<uint8_t>((is_macro) ? page_or_key + 0x10 : page_or_key), is_macro
 	};
 	int written = hid_send_feature_report(ctrl_device, buf, 4);
 
@@ -1277,7 +1277,7 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_macro(
 	buf[0x01] = packet_length % 256;
 	buf[0x02] = packet_length >> 8;
 	buf[0x03] = profile;
-	buf[0x04] = key_id - 0x10;
+	buf[0x04] = key_id + 0x10;
 	buf[0x05] = 0x01; // unkown meaning
 
 	memcpy(buf + 0x06, foldername_utf8.data(), 40);
