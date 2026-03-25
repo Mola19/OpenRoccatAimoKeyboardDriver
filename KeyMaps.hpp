@@ -495,33 +495,152 @@ namespace AimoKeyMaps {
 	};
 
 	inline std::unordered_map<std::string, uint8_t> MagmaMiniRemap = {
-		{ "W",              0x02 },
-		{ "SPACE",          0x04 },
-		{ "RIGHT_SHIFT",    0x0A },
-		{ "LEFT_CONTROL",   0x0C },
-		{ "LEFT_SHIFT",     0x14 },
-		{ "LEFT_WINDOWS",   0x21 },
-		// the software is apparently broken and sets ansi backslash instead of pound with iso keyboard
-		{ "ISO_POUND",      0x22 },
-		{ "A",              0x2A },
-		{ "QUOTE",          0x2B },
-		{ "S",              0x32 },
-		{ "D",              0x3A },
-		// this is probably correct but i can't test it
-		{ "ANSI_BACKSLASH", 0x40 },
-		{ "ENTER",          0x44 },
-		{ "ISO_BACKSLASH",  0x4B },
-		{ "X",              0x4C },
-		{ "R",              0x68 },
-		{ "T",              0x69 },
-		{ "F",              0x6A },
-		{ "V",              0x6C },
-		{ "E",              0x70 },
-		{ "C",              0x74 },
-		{ "Q",              0x78 },
-		{ "TAB",            0x79 },
-		{ "Z",              0x7C },
-		{ "LEFT_ALT",       0x82 },
+		
+		// 0x00 LANG1
+		// 0x01 Num0
+		{ "W",              0x02 }, // Gamemode remap
+		{ "9",              0x03 },
+		{ "SPACE",          0x04 }, // Gamemode remap
+		// 0x05 0x00
+		// 0x06 0x00
+		// 0x07 LANG2
+		// 0x08 0x00
+		// 0x09 Num5
+		{ "RIGHT_SHIFT",    0x0A }, // Gamemode remap
+		// 0x0B 0x00
+		{ "LEFT_CONTROL",   0x0C }, // Gamemode remap
+		// 0x0D 0x00
+		// 0x0E 0x00
+		{ "7",              0x0F },
+		// 0x10 ScrollLock
+		// 0x11 0x00
+		// 0x13 Num1
+		{ "LEFT_SHIFT",     0x14 }, // Gamemode remap
+		{ "RIGHT_ALT",      0x15 },
+		// 0x16 F9
+		{ "2",              0x17 },
+		// 0x18 Num+
+		// 0x19 Num4
+		// 0x1A NumEnter
+		// 0x1B 0x00
+		// 0x1C Num*
+		{ "6",              0x1D },
+		// 0x1E Home
+		// 0x1F End
+		// 0x20 Num9
+		{ "LEFT_WINDOWS",   0x21 }, // Gamemode remap
+		// the software is apparently broken and sets ansi backslash instead of pound with iso keyboards
+		{ "ISO_POUND",      0x22 }, // Gamemode remap
+		// 0x23 Num.
+		// 0x24 0x00
+		// 0x25 Num-
+		// 0x26 PageUp
+		{ "5",              0x27 },
+		{ "O",              0x28 },
+		// 0x29 F7
+		{ "A",              0x2A }, // Gamemode remap
+		{ "QUOTE",          0x2B }, // Gamemode remap
+		{ "PERIOD",         0x2C },
+		{ "MENU",           0x2D },
+		// 0x2E F8
+		// 0x2F 0x00
+		// 0x30 Num8
+		// 0x31 F11
+		{ "S",              0x32 }, // Gamemode remap
+		// 0x33 0x00
+		// 0x34 Num/
+		{ "4",              0x35 },
+		// 0x36 Insert
+		// 0x37 0x00
+		{ "U",              0x38 },
+		{ "Y",              0x39 },
+		{ "D",              0x3A }, // Gamemode remap
+		{ "H",              0x3B },
+		{ "M",              0x3C },
+		{ "N",              0x3D },
+		{ "LEFT_ARROW",     0x3E },
+		// 0x3F 0x00
+		// this is probably correct since swarm does it, but i can't test it
+		{ "ANSI_BACKSLASH", 0x40 }, // Gamemode remap
+		{ "BACKSPACE",      0x41 },
+		// 0x42 International 3
+		// 0x43 Num2
+		{ "ENTER",          0x44 }, // Gamemode remap
+		// 0x45 F12
+		// 0x46 0x00
+		{ "3",              0x47 },
+		{ "CAPS_LOCK",      0x48 },
+		// 0x49 0x00
+		{ "K",              0x4A },
+		{ "ISO_BACKSLASH",  0x4B }, // Gamemode remap
+		{ "X",              0x4C }, // Gamemode remap
+		// 0x4D International 4
+		// 0x4E F2
+		// 0x4F PrintScreen
+		{ "P",              0x50 },
+		{ "LEFT_BRACKET",   0x51 },
+		{ "SEMICOLON",      0x52 },
+		// 0x53 0x00
+		// 0x54 Num3
+		{ "FORWARD_SLASH",  0x55 },
+		{ "MINUS",          0x56 },
+		{ "0",              0x57 },
+		// 0x58 0x00
+		// 0x59 Num6
+		// 0x5A 0x00
+		// 0x5B 0x00
+		// 0x5C 0x00
+		// 0x5D 0x00
+		{ "8",              0x5E },
+		{ "RIGHT_ARROW",    0x5F },
+		{ "I",              0x60 },
+		{ "RIGHT_BRACKET",  0x61 },
+		// 0x62 0x00
+		// 0x63 F6
+		{ "COMMA",          0x64 },
+		// 0x65 International 1
+		{ "EQUALS",         0x66 },
+		{ "UP_ARROW",       0x67 },
+		{ "R",              0x68 }, // Gamemode remap
+		{ "T",              0x69 }, // Gamemode remap
+		{ "F",              0x6A }, // Gamemode remap
+		{ "G",              0x6B },
+		{ "V",              0x6C }, // Gamemode remap
+		{ "B",              0x6D },
+		// 0x6E PageDown
+		// 0x6F 0x00
+		{ "E",              0x70 }, // Gamemode remap
+		// 0x71 F3
+		{ "L",              0x72 },
+		// 0x73 F4
+		{ "C",              0x74 }, // Gamemode remap
+		// 0x75 International 2
+		// 0x76 F2
+		// 0x77 F10
+		{ "Q",              0x78 }, // Gamemode remap
+		{ "TAB",            0x79 }, // Gamemode remap
+		{ "J",              0x7A },
+		// 0x7B Escape
+		{ "Z",              0x7C }, // Gamemode remap
+		// 0x7D International 5
+		{ "BACK_TICK",      0x7E },
+		// 0x7F F5
+		// 0x80 Num7
+		// 0x81 Num, 
+		{ "LEFT_ALT",       0x82 }, // Gamemode remap
+		// 0x83 0x00
+		// 0x84 NumLock
+		{ "DOWN_ARROW",     0x85 },
+		// 0x86 Delete
+		// 0x87 0x00
+		// 0x88 Pause
+		// 0x89 0x00
+		// 0x8A 0x00
+		// 0x8B 0x00
+		// 0x8C Media Back
+		// 0x8D 0x00
+		{ "RIGHT_CONTROL",  0x8E },
+		{ "1",              0x8F },
 	};
 
 	inline std::unordered_map<std::string, uint8_t> EasyShift = {
