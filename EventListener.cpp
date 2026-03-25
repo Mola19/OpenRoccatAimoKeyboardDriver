@@ -285,6 +285,13 @@ void EventListener::read_thread_fn() {
 					if (profile_handler)
 						profile_handler.value()(res[3]);
 					break;
+				case 0x03:
+					if (macro_handler) {
+						macro_handler.value()(
+							{.key_id = static_cast<uint8_t>(res[3] - 0x10),
+							 .released = static_cast<bool>(res[5])}
+						);
+					}
 				case 0x08:
 					if (reset_handler)
 						reset_handler.value()(res[3]);
