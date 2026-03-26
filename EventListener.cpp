@@ -302,6 +302,7 @@ void EventListener::read_thread_fn() {
 							{.function = res[3], .released = static_cast<bool>(res[4])}
 						);
 					break;
+				// not from vulcan tkl pro
 				case 0x11:
 					if (state_handler) {
 						state_handler.value()({.state = 5, .active = static_cast<bool>(res[3])});
