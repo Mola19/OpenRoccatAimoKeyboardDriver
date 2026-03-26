@@ -16,6 +16,7 @@
 #define ROCCAT_VULCAN_TKL_PID 0x2FEE
 #define ROCCAT_VULCAN_TKL_PRO_PID 0x311A
 #define ROCCAT_MAGMA_MINI_PID 0x69A0
+#define ROCCAT_MAGMA_PID 0x3124
 
 class AimoKeyboardDriver {
   public:
@@ -301,5 +302,9 @@ inline std::unordered_map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_co
 	  AimoKeyMaps::FNRemapGenTKL, std::nullopt, AimoKeyMaps::EasyShift}},
 	{ROCCAT_MAGMA_MINI_PID,
 	 {2, true, false, false, 5, 144, AimoKeyMaps::MagmaLED, AimoKeyMaps::MagmaMiniRemap,
-	  AimoKeyMaps::FNRemapMagmaMini, std::nullopt, AimoKeyMaps::EasyShiftMagmaMini}}
+	  AimoKeyMaps::FNRemapMagmaMini, std::nullopt, AimoKeyMaps::EasyShiftMagmaMini}},
+	{ROCCAT_MAGMA_PID,
+	 {2, true, false, false, 5, 144, AimoKeyMaps::MagmaLED, AimoKeyMaps::MagmaMiniRemap,
+	  AimoKeyMaps::FNRemapMagmaMini, std::nullopt, AimoKeyMaps::EasyShift}},
+	 
 };
