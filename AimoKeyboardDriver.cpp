@@ -421,6 +421,7 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::LightingInfo> AimoKeyboardDriver::
 		case ROCCAT_MAGMA_MINI_PID:
 			packet_length = 26;
 			block_size = 5;
+			break;
 		default:
 			return std::unexpected("This device is not supported by the function");
 	}
@@ -449,7 +450,8 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::LightingInfo> AimoKeyboardDriver::
 		return std::unexpected("checksum didn't match");
 
 	uint8_t brightness_index = (config.protocol_version == 1) ? 5 : 4;
-	uint8_t colours_start_index = 7 + header_length;
+	// even if the header is 1 byte (magma) there is a byte of padding before the colors
+	uint8_t colours_start_index = 9;
 
 	std::vector<RGBColor> colors(config.led_length);
 
@@ -547,7 +549,8 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
 	buf[6 + header_length] = (!is_custom_color << 7) + theme % 0b0111'1111;
 
 	auto color_bytes = generate_color_bytes(colors);
-	memcpy(buf + 7 + header_length, color_bytes.data(), config.led_length * 3);
+	// even if the header is 1 byte (magma) there is a byte of padding before the colors
+	memcpy(buf + 9, color_bytes.data(), config.led_length * 3);
 
 	generate_checksum(buf, packet_length, 2);
 
@@ -599,13 +602,18 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_direct_lighting(std::vecto
 				// big endian
 				buf[3] = total_length / 256;
 				buf[4] = total_length % 256;
+				bytes_to_send = 60;
 			} else {
-				// little endian
-				buf[3] = total_length % 256;
-				buf[4] = total_length / 256;
+				if (total_length <= 64) {
+					buf[3] = total_length;
+					bytes_to_send = 61;
+				} else {
+					// little endian
+					buf[3] = total_length % 256;
+					buf[4] = total_length / 256;
+					bytes_to_send = 60;
+				}
 			}
-
-			bytes_to_send = 60;
 		} else {
 			buf[0] = 0x00;
 			if (config.protocol_version == 2) {
