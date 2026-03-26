@@ -419,6 +419,7 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::LightingInfo> AimoKeyboardDriver::
 			block_size = 12;
 			break;
 		case ROCCAT_MAGMA_MINI_PID:
+		case ROCCAT_MAGMA_PID:
 			packet_length = 26;
 			block_size = 5;
 			break;
@@ -520,6 +521,7 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
 			packet_length = 299;
 			break;
 		case ROCCAT_MAGMA_MINI_PID:
+		case ROCCAT_MAGMA_PID:
 			packet_length = 26;
 			break;
 		default:
@@ -576,6 +578,7 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_direct_lighting(std::vecto
 			total_length = 308;
 			break;
 		case ROCCAT_MAGMA_MINI_PID:
+		case ROCCAT_MAGMA_PID:
 			total_length = 64;
 			break;
 		default:
@@ -651,6 +654,7 @@ std::vector<uint8_t> AimoKeyboardDriver::generate_color_bytes(std::vector<RGBCol
 			block_size = 12;
 			break;
 		case ROCCAT_MAGMA_MINI_PID:
+		case ROCCAT_MAGMA_PID:
 			block_size = 5;
 			break;
 	}
