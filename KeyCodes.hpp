@@ -458,6 +458,7 @@ namespace AimoKeyCodes {
 		{ "Brightness +", 0x08090000 },
 		{ "Brightness -", 0x080A0000 },
 		{ "Gamemode toggle", 0x080B0000 },
+		// doesn't work with magma mini
 		{ "lighting mode -", 0x080C0000 },
 		{ "lighting mode +", 0x080D0000 },
 
