@@ -687,6 +687,7 @@ AimoKeyboardDriver::get_gamemode_remap() {
 			packet_length = 134;
 			break;
 		case ROCCAT_MAGMA_MINI_PID:
+		case ROCCAT_MAGMA_PID:
 			packet_length = 150;
 			break;
 		default:
@@ -749,6 +750,7 @@ AimoKeyboardDriver::set_gamemode_remap(uint8_t profile, std::vector<uint8_t> val
 			packet_length = 134;
 			break;
 		case ROCCAT_MAGMA_MINI_PID:
+		case ROCCAT_MAGMA_PID:
 			packet_length = 150;
 			break;
 		default:

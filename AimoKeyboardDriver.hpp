@@ -304,7 +304,7 @@ inline std::unordered_map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_co
 	 {2, true, false, false, 5, 144, AimoKeyMaps::MagmaLED, AimoKeyMaps::MagmaMiniRemap,
 	  AimoKeyMaps::FNRemapMagmaMini, std::nullopt, AimoKeyMaps::EasyShiftMagmaMini}},
 	{ROCCAT_MAGMA_PID,
-	 {2, true, false, false, 5, 144, AimoKeyMaps::MagmaLED, AimoKeyMaps::MagmaMiniRemap,
+	 {2, true, false, false, 5, 144, AimoKeyMaps::MagmaLED, AimoKeyMaps::MagmaRemap,
 	  AimoKeyMaps::FNRemapMagmaMini, std::nullopt, AimoKeyMaps::EasyShift}},
 	 
 };

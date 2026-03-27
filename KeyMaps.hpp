@@ -575,7 +575,7 @@ namespace AimoKeyMaps {
 		{ "ISO_BACKSLASH",  0x4B }, // Gamemode remap
 		{ "X",              0x4C }, // Gamemode remap
 		// 0x4D International 4
-		// 0x4E F2
+		// 0x4E F1
 		// 0x4F PrintScreen
 		{ "P",              0x50 },
 		{ "LEFT_BRACKET",   0x51 },
@@ -642,6 +642,158 @@ namespace AimoKeyMaps {
 		{ "RIGHT_CONTROL",  0x8E },
 		{ "1",              0x8F },
 	};
+
+	// every key can be remapped, besides F1-F12, Print, Scoll, Pause, CapsLock and FN
+	inline std::unordered_map<std::string, uint8_t> MagmaRemap = {
+		
+		// 0x00 LANG1
+		{ "NUMPAD_0",       0x01 },
+		{ "W",              0x02 },
+		{ "9",              0x03 },
+		{ "SPACE",          0x04 },
+		// 0x05 0x00
+		// 0x06 0x00
+		// 0x07 LANG2
+		// 0x08 0x00
+		{ "NUMPAD_5",       0x09 },
+		{ "RIGHT_SHIFT",    0x0A },
+		// 0x0B 0x00
+		{ "LEFT_CONTROL",   0x0C },
+		// 0x0D 0x00
+		// 0x0E 0x00
+		{ "7",              0x0F },
+		{ "SCROLL_LOCK",    0x10 },
+		// 0x11 0x00
+		// 0x12 0x00
+		{ "NUMPAD_1",       0x13 },
+		{ "LEFT_SHIFT",     0x14 },
+		{ "RIGHT_ALT",      0x15 },
+		{ "F9",             0x16 },
+		{ "2",              0x17 },
+		{ "NUMPAD_PLUS",    0x18 },
+		{ "NUMPAD_4",       0x19 },
+		{ "NUMPAD_ENTER",   0x1A },
+		// 0x1B 0x00
+		{ "NUMPAD_TIMES",   0x1C },
+		{ "6",              0x1D },
+		{ "HOME",           0x1E },
+		{ "END",            0x1F },
+		{ "NUMPAD_9",       0x20 },
+		{ "LEFT_WINDOWS",   0x21 },
+		// the software is apparently broken and sets ansi backslash instead of pound with iso keyboards
+		{ "ISO_POUND",      0x22 },
+		{ "NUMPAD_PERIOD",  0x23 },
+		// 0x24 0x00
+		{ "NUMPAD_MINUS",   0x25 },
+		{ "PAGE_UP",        0x26 },
+		{ "5",              0x27 },
+		{ "O",              0x28 },
+		{ "F7",             0x29 },
+		{ "A",              0x2A },
+		{ "QUOTE",          0x2B },
+		{ "PERIOD",         0x2C },
+		{ "MENU",           0x2D },
+		{ "F8",             0x2E },
+		// 0x2F 0x00
+		{ "NUMPAD_8",       0x30 },
+		{ "F11",            0x31 },
+		{ "S",              0x32 },
+		// 0x33 0x00
+		{ "NUMPAD_DIVIDE",  0x34 },
+		{ "4",              0x35 },
+		{ "INSERT",         0x36 },
+		// 0x37 0x00
+		{ "U",              0x38 },
+		{ "Y",              0x39 },
+		{ "D",              0x3A },
+		{ "H",              0x3B },
+		{ "M",              0x3C },
+		{ "N",              0x3D },
+		{ "LEFT_ARROW",     0x3E },
+		// 0x3F 0x00
+		// this is probably correct since swarm does it, but i can't test it
+		{ "ANSI_BACKSLASH", 0x40 },
+		{ "BACKSPACE",      0x41 },
+		// 0x42 International 3
+		{ "NUMPAD_2",       0x43 },
+		{ "ENTER",          0x44 },
+		{ "F12",            0x45 },
+		// 0x46 0x00
+		{ "3",              0x47 },
+		{ "CAPS_LOCK",      0x48 },
+		// 0x49 0x00
+		{ "K",              0x4A },
+		{ "ISO_BACKSLASH",  0x4B },
+		{ "X",              0x4C },
+		// 0x4D International 4
+		{ "F1",             0x4E },
+		{ "PRINT_SCREEN",   0x4F },
+		{ "P",              0x50 },
+		{ "LEFT_BRACKET",   0x51 },
+		{ "SEMICOLON",      0x52 },
+		// 0x53 0x00
+		{ "NUMPAD_3",       0x54 },
+		{ "FORWARD_SLASH",  0x55 },
+		{ "MINUS",          0x56 },
+		{ "0",              0x57 },
+		// 0x58 0x00
+		{ "NUMPAD_6",       0x59 },
+		// 0x5A 0x00
+		// 0x5B 0x00
+		// 0x5C 0x00
+		// 0x5D 0x00
+		{ "8",              0x5E },
+		{ "RIGHT_ARROW",    0x5F },
+		{ "I",              0x60 },
+		{ "RIGHT_BRACKET",  0x61 },
+		// 0x62 0x00
+		{ "F6",             0x63 },
+		{ "COMMA",          0x64 },
+		// 0x65 International 1
+		{ "EQUALS",         0x66 },
+		{ "UP_ARROW",       0x67 },
+		{ "R",              0x68 },
+		{ "T",              0x69 },
+		{ "F",              0x6A },
+		{ "G",              0x6B },
+		{ "V",              0x6C },
+		{ "B",              0x6D },
+		{ "PAGE_DOWN",      0x6E },
+		// 0x6F 0x00
+		{ "E",              0x70 },
+		{ "F3",             0x71 },
+		{ "L",              0x72 },
+		{ "F4",             0x73 },
+		{ "C",              0x74 },
+		// 0x75 International 2
+		{ "F2",             0x76 },
+		{ "F10",            0x77 },
+		{ "Q",              0x78 },
+		{ "TAB",            0x79 },
+		{ "J",              0x7A },
+		{ "ESCAPE",         0x7B },
+		{ "Z",              0x7C },
+		// 0x7D International 5
+		{ "BACK_TICK",      0x7E },
+		{ "F5",             0x7F },
+		{ "NUMPAD_7",       0x80 },
+		// 0x81 Num, 
+		{ "LEFT_ALT",       0x82 },
+		// 0x83 0x00
+		{ "NUMPAD_LOCK",    0x84 },
+		{ "DOWN_ARROW",     0x85 },
+		{ "DELETE",         0x86 },
+		// 0x87 0x00
+		{ "PAUSE_BREAK",    0x88 },
+		// 0x89 0x00
+		// 0x8A 0x00
+		// 0x8B 0x00
+		// 0x8C Media Back
+		// 0x8D 0x00
+		{ "RIGHT_CONTROL",  0x8E },
+		{ "1",              0x8F },
+	};
+
 
 	inline std::unordered_map<std::string, uint8_t> EasyShift = {
 		{ "1",              0x00 },
