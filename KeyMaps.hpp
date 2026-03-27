@@ -643,7 +643,8 @@ namespace AimoKeyMaps {
 		{ "1",              0x8F },
 	};
 
-	// every key can be remapped, besides F1-F12, Print, Scoll, Pause, CapsLock and FN
+	// every key can be remapped, besides F1-F12, Print, Scoll, Pause, CapsLock, FN and arrow keys
+	// note: the gui shows remap function for arrow keys, but it doesn't work
 	inline std::unordered_map<std::string, uint8_t> MagmaRemap = {
 		
 		// 0x00 LANG1
@@ -1017,5 +1018,51 @@ namespace AimoKeyMaps {
 		{ "Right Alt (FN)",            0x21 },
 		{ "Application (FN)",          0x22 },
 		{ "Right Ctrl (FN)",           0x23 },
+	};
+
+	inline std::unordered_map<std::string, uint8_t> FNRemapMagma = {
+		{ "F1 (Gamemode)",              0x00 },
+		{ "F2 (Gamemode)",              0x01 },
+		{ "F3 (Gamemode)",              0x02 },
+		{ "F4 (Gamemode)",              0x03 },
+		{ "F5 (Gamemode)",              0x04 },
+		{ "F6 (Gamemode)",              0x05 },
+		{ "F7 (Gamemode)",              0x06 },
+		{ "F8 (Gamemode)",              0x07 },
+		{ "F9 (Gamemode)",              0x08 },
+		{ "F10 (Gamemode)",             0x09 },
+		{ "F11 (Gamemode)",             0x0A },
+		{ "F12 (Gamemode)",             0x0B },
+
+		{ "PRINTSCREEN (Gamemode)",     0x0C },
+		{ "SCROLLLOCK (Gamemode)",      0x0D },
+		{ "PAUSE (Gamemode)",           0x0E },
+
+		{ "UP_ARROW (Gamemode)",        0x0F },
+		{ "LEFT_ARROW (Gamemode)",      0x10 },
+		{ "DOWN_ARROW (Gamemode)",      0x11 },
+		{ "RIGHT_ARROW (Gamemode)",     0x12 },
+
+		{ "F1 (FN)",                    0x13 },
+		{ "F2 (FN)",                    0x14 },
+		{ "F3 (FN)",                    0x15 },
+		{ "F4 (FN)",                    0x16 },
+		{ "F5 (FN)",                    0x17 },
+		{ "F6 (FN)",                    0x18 },
+		{ "F7 (FN)",                    0x19 },
+		{ "F8 (FN)",                    0x1A },
+		{ "F9 (FN)",                    0x1B },
+		{ "F10 (FN)",                   0x1C },
+		{ "F11 (FN)",                   0x1D },
+		{ "F12 (FN)",                   0x1E },
+
+		{ "PRINTSCREEN (FN)",           0x1F },
+		{ "SCROLLLOCK (FN)",            0x20 },
+		{ "PAUSE (FN)",                 0x21 },
+
+		{ "UP_ARROW (FN)",              0x22 },
+		{ "LEFT_ARROW (FN)",            0x23 },
+		{ "DOWN_ARROW (FN)",            0x24 },
+		{ "RIGHT_ARROW (FN)",           0x25 },
 	};
 }

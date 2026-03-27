@@ -916,6 +916,9 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::LongRemapInfo> AimoKeyboardDriver:
 		case ROCCAT_MAGMA_MINI_PID:
 			packet_length = 294;
 			break;
+		case ROCCAT_MAGMA_PID:
+			packet_length = 157;
+			break;
 		default:
 			return std::unexpected("This device is not supported by the function");
 	}
@@ -987,6 +990,9 @@ AimoKeyboardDriver::set_fn_remap(uint8_t profile, std::vector<uint32_t> values) 
 			break;
 		case ROCCAT_MAGMA_MINI_PID:
 			packet_length = 294;
+			break;
+		case ROCCAT_MAGMA_PID:
+			packet_length = 157;
 			break;
 		default:
 			return "This device is not supported by the function";
