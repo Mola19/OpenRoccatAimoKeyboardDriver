@@ -11,6 +11,7 @@
 |   🛠    | The feature is partially implemented for this device        |
 |   🚧    | The device supports this feature, but it is not implemented |
 |   ❌    | This device does not support this feature                   |
+|   ⚠    | There is a problem with this feature                        |
 
 ## Overview
 
@@ -39,12 +40,14 @@
 | Roccat Vulcan TKL              |        ✔        |        ❌         |       ✔        |
 | Roccat Vulcan Pro              |        🚧        |        🚧         |       🚧        |
 | Roccat Vulcan TKL Pro          |        ✔        |        ✔         |       ✔        |
-| Roccat Pyro                    |        🚧        |        🚧         |       🚧        |
+| Roccat Pyro                    |       ⚠*        |        🚧         |       🚧        |
 | Roccat Magma                   |        ✔        |        ✔         |       ✔        |
 | Roccat Magma Mini              |        ✔        |        ✔         |       ✔        |
 | Roccat Vulcan II               |        🚧        |        🚧         |       🚧        |
 | Roccat Vulcan II Max           |        🚧        |        🚧         |       🚧        |
 | Roccat Vulcan II Mini          |        🚧        |        🚧         |       🚧        |
+
+* The layout values are weird, i am not sure how to interpret them
 
 These functions are not the same for Generation 1 and 2. For convenience use the wrapper functions `get_software_state` and `set_software_state` in combination with the config variable `has_adjustable_time_to_sleep`.
 

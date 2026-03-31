@@ -17,6 +17,7 @@
 #define ROCCAT_VULCAN_TKL_PRO_PID 0x311A
 #define ROCCAT_MAGMA_MINI_PID 0x69A0
 #define ROCCAT_MAGMA_PID 0x3124
+#define ROCCAT_PYRO_PID 0x314C
 
 class AimoKeyboardDriver {
   public:
@@ -290,21 +291,103 @@ class AimoKeyboardDriver {
 	le_array_to_uint_vec(uint8_t *buf, int out_size, uint8_t bytes, bool is_le);
 };
 
+// clang-format off
+
 inline std::unordered_map<uint16_t, AimoKeyboardDriver::Config> aimo_keyboard_config = {
-	{ROCCAT_VULCAN_100_AIMO_PID,
-	 {1, false, true, true, 144, 126, AimoKeyMaps::Vulcan100LED, AimoKeyMaps::Vulcan100Remap,
-	  AimoKeyMaps::FNRemapGen1FullGen1, AimoKeyMaps::FNRemapExtra, AimoKeyMaps::EasyShift}},
-	{ROCCAT_VULCAN_TKL_PID,
-	 {1, false, true, true, 144, 126, AimoKeyMaps::VulcanTKLLED, AimoKeyMaps::VulcanTKLRemap,
-	  AimoKeyMaps::FNRemapGenTKL, std::nullopt, AimoKeyMaps::EasyShift}},
-	{ROCCAT_VULCAN_TKL_PRO_PID,
-	 {2, true, false, true, 96, 126, AimoKeyMaps::VulcanTKLLED, AimoKeyMaps::VulcanTKLRemap,
-	  AimoKeyMaps::FNRemapGenTKL, std::nullopt, AimoKeyMaps::EasyShift}},
-	{ROCCAT_MAGMA_MINI_PID,
-	 {2, true, false, false, 5, 144, AimoKeyMaps::MagmaLED, AimoKeyMaps::MagmaMiniRemap,
-	  AimoKeyMaps::FNRemapMagmaMini, std::nullopt, AimoKeyMaps::EasyShiftMagmaMini}},
-	{ROCCAT_MAGMA_PID,
-	 {2, true, false, false, 5, 144, AimoKeyMaps::MagmaLED, AimoKeyMaps::MagmaRemap,
-	  AimoKeyMaps::FNRemapMagma, std::nullopt, AimoKeyMaps::EasyShift}},
-	 
+	{
+		ROCCAT_VULCAN_100_AIMO_PID,
+		{
+			1,
+			false,
+			true,
+			true,
+			144,
+			126,
+			AimoKeyMaps::Vulcan100LED,
+			AimoKeyMaps::Vulcan100Remap,
+			AimoKeyMaps::FNRemapGen1FullGen1,
+			AimoKeyMaps::FNRemapExtra,
+			AimoKeyMaps::EasyShift
+		}
+	},
+	{
+		ROCCAT_VULCAN_TKL_PID,
+		{
+			1,
+			false,
+			true,
+			true,
+			144,
+			126,
+			AimoKeyMaps::VulcanTKLLED,
+			AimoKeyMaps::VulcanTKLRemap,
+			AimoKeyMaps::FNRemapGenTKL,
+			std::nullopt,
+			AimoKeyMaps::EasyShift
+		}
+	},
+	{
+		ROCCAT_VULCAN_TKL_PRO_PID,
+		{
+			2,
+			true,
+			false,
+			true,
+			96,
+			126,
+			AimoKeyMaps::VulcanTKLLED,
+			AimoKeyMaps::VulcanTKLRemap,
+			AimoKeyMaps::FNRemapGenTKL,
+			std::nullopt,
+			AimoKeyMaps::EasyShift
+		}
+	},
+	{
+		ROCCAT_MAGMA_MINI_PID,
+		{
+			2,
+			true,
+			false,
+			false,
+			5,
+			144,
+			AimoKeyMaps::MagmaLED,
+			AimoKeyMaps::MagmaMiniRemap,
+			AimoKeyMaps::FNRemapMagmaMini,
+			std::nullopt,
+			AimoKeyMaps::EasyShiftMagmaMini
+		}
+	},
+	{
+		ROCCAT_MAGMA_PID,
+		{
+			2,
+			true,
+			false,
+			false,
+			5,
+			144,
+			AimoKeyMaps::MagmaLED,
+			AimoKeyMaps::MagmaRemap,
+			AimoKeyMaps::FNRemapMagma,
+			std::nullopt,
+			AimoKeyMaps::EasyShift
+		}
+	},
+	{
+		ROCCAT_PYRO_PID,
+		{
+			2,
+			true,
+			false,
+			false,
+			0,
+			0,
+			AimoKeyMaps::MagmaLED,
+			AimoKeyMaps::MagmaRemap,
+			AimoKeyMaps::FNRemapMagma,
+			std::nullopt,
+			AimoKeyMaps::EasyShift
+		}
+	},
 };

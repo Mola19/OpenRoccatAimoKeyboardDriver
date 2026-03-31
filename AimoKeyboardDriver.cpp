@@ -65,6 +65,8 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::DeviceInfo> AimoKeyboardDriver::ge
 			// ._unknown4 = buf[4],
 		};
 	} else {
+		// pyro sends visual_layout as 0 (or physical as 0, there is only one 1 there for an ISO-DE
+		// keyboard, which should be 2x 1), but swarm still detects it as german
 		return AimoKeyboardDriver::DeviceInfo{
 			.version_string = version,
 			.minor_version = static_cast<uint8_t>(buf[2] % 100),
@@ -565,8 +567,8 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
 	return std::nullopt;
 }
 
-AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_direct_lighting(std::vector<RGBColor> colors
-) {
+AimoKeyboardDriver::VoidError
+AimoKeyboardDriver::set_direct_lighting(std::vector<RGBColor> colors) {
 	uint16_t total_length;
 
 	switch (pid) {
@@ -848,7 +850,9 @@ AimoKeyboardDriver::get_easyshift_remap() {
 	if (!check_checksum(buf, packet_length, 2))
 		return std::unexpected("checksum didn't match");
 
-	auto values = le_array_to_uint_vec(buf + 3, config.es_map.size(), code_size, config.protocol_version != 1);
+	auto values = le_array_to_uint_vec(
+		buf + 3, config.es_map.size(), code_size, config.protocol_version != 1
+	);
 
 	LongRemapInfo info = {
 		.profile = (config.protocol_version == 1) ? std::nullopt : std::make_optional(buf[2]),
@@ -871,7 +875,8 @@ AimoKeyboardDriver::VoidError
 AimoKeyboardDriver::set_easyshift_remap(uint8_t profile, std::vector<uint32_t> values) {
 	if (values.size() != config.es_map.size())
 		return std::format(
-			"values vector size is {}, but it must be {} for this device", values.size(), config.es_map.size()
+			"values vector size is {}, but it must be {} for this device", values.size(),
+			config.es_map.size()
 		);
 
 	uint8_t code_size = (config.protocol_version == 1) ? 3 : 4;
