@@ -23,7 +23,7 @@
 | Roccat Vulcan TKL              |     1      |          ✔          |         ✔          |       ✔       |    ✔     |   ✔    |
 | Roccat Vulcan Pro              |     2      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
 | Roccat Vulcan TKL Pro          |     2      |          ✔          |         ✔          |       ✔       |    ✔     |   ✔    |
-| Roccat Pyro                    |     2      |          🛠          |         ✔          |       🚧       |    🛠     |   🛠    |
+| Roccat Pyro                    |     2      |          🛠          |         ✔          |       🚧       |    ✔     |   🛠    |
 | Roccat Magma                   |     2      |          ✔          |         ✔          |       ✔       |    ✔     |   ✔    |
 | Roccat Magma Mini              |     2      |          ✔          |         ✔          |       ✔       |    ✔     |   ✔    |
 | Roccat Vulcan II               |     2      |          🚧          |         🚧          |       🚧       |    🚧     |   🚧    |
@@ -116,7 +116,7 @@ Generation 1 devices don't support setting time to sleep (as far as we know).
 | Roccat Vulcan TKL              |      ✔       |      ✔       |          ✔          |         ✔          |         ✔          |
 | Roccat Vulcan Pro              |      🚧       |      🚧       |          🚧          |         ❌          |         ❌          |
 | Roccat Vulcan TKL Pro          |      ✔       |      ✔       |          ✔          |         ❌          |         ❌          |
-| Roccat Pyro                    |      🚧       |      🚧       |          🚧          |         ❌          |         ❌          |
+| Roccat Pyro                    |      ✔       |      ✔       |          ✔          |         ❌          |         ❌          |
 | Roccat Magma                   |      ✔       |      ✔       |          ✔          |         ❌          |         ❌          |
 | Roccat Magma Mini              |      ✔       |      ✔       |          ✔          |         ❌          |         ❌          |
 | Roccat Vulcan II               |      🚧       |      🚧       |          🚧          |         ❌          |         ❌          |

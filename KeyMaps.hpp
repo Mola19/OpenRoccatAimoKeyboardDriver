@@ -243,6 +243,135 @@ namespace AimoKeyMaps {
 		{ "RIGHT_ARROW",    0x5F },
 	};
 
+	inline std::unordered_map<std::string, uint8_t> PyroLED = {
+		{ "ESCAPE",          0x02 },
+		{ "BACK_TICK",       0x03 },
+		{ "TAB",             0x04 },
+		{ "CAPS_LOCK",       0x05 },
+		{ "LEFT_SHIFT",      0x00 },
+		{ "LEFT_CONTROL",    0x01 },
+
+		{ "1",               0x08 },
+		{ "ISO_BACK_SLASH",  0x06 },
+		{ "LEFT_WINDOWS",    0x07 },
+
+		{ "F1",              0x0D },
+		{ "2",               0x0E },
+		{ "Q",               0x09 },
+		{ "A",               0x0A },
+		{ "Z",               0x0B },
+		{ "LEFT_ALT",        0x0C },
+
+		{ "F2",              0x14 },
+		{ "3",               0x15 },
+		{ "W",               0x0F },
+		{ "S",               0x10 },
+		{ "X",               0x11 },
+
+		{ "F3",              0x19 },
+		{ "4",               0x1A },
+		{ "E",               0x16 },
+		{ "D",               0x17 },
+		{ "C",               0x18 },
+
+		{ "F4",              0x1E },
+		{ "5",               0x1F },
+		{ "R",               0x1B },
+		{ "F",               0x1C },
+		{ "V",               0x1D },
+
+		{ "6",               0x24 },
+		{ "T",               0x20 },
+		{ "G",               0x21 },
+		{ "B",               0x22 },
+		{ "SPACE",           0x23 },
+
+		{ "F5",              0x28 },
+		{ "7",               0x29 },
+		{ "Y",               0x25 },
+		{ "H",               0x26 },
+		{ "N",               0x27 },
+
+		{ "F6",              0x2F },
+		{ "8",               0x30 },
+		{ "U",               0x2A },
+		{ "J",               0x2B },
+		{ "M",               0x2C },
+
+		{ "F7",              0x35 },
+		{ "9",               0x36 },
+		{ "I",               0x31 },
+		{ "K",               0x32 },
+		{ "COMMA",           0x33 },
+
+		{ "F8",             0x3B },
+		{ "0",              0x3C },
+		{ "O",              0x37 },
+		{ "L",              0x38 },
+		{ "PERIOD",         0x39 },
+		{ "RIGHT_ALT",      0x3A },
+
+		{ "F9",             0x41 },
+		{ "MINUS",          0x42 },
+		{ "P",              0x3D },
+		{ "SEMICOLON",      0x3E },
+		{ "FORWARD_SLASH",  0x3F },
+		{ "RIGHT_FUNCTION", 0x40 },
+
+		{ "F10",            0x47 },
+		{ "EQUALS",         0x48 },
+		{ "LEFT_BRACKET",   0x43 },
+		{ "QUOTE",          0x44 },
+		{ "MENU",           0x46 },
+
+		{ "F11",            0x4D },
+		{ "BACKSPACE",      0x50 },
+		{ "RIGHT_BRACKET",  0x49 },
+		{ "POUND",          0x4A },
+		{ "RIGHT_SHIFT",    0x4B },
+
+		{ "F12",            0x4F },
+		{ "ISO_ENTER",      0x52 },
+		{ "RIGHT_CONTROL",  0x4C },
+
+		{ "PRINT_SCREEN",   0x53 },
+		{ "INSERT",         0x54 },
+		{ "DELETE",         0x55 },
+		{ "LEFT_ARROW",     0x56 },
+
+		{ "SCROLL_LOCK",    0x57 },
+		{ "HOME",           0x58 },
+		{ "END",            0x59 },
+		{ "UP_ARROW",       0x5A },
+		{ "DOWN_ARROW",     0x5B },
+
+		{ "PAUSE_BREAK",    0x5C },
+		{ "PAGE_UP",        0x5D },
+		{ "PAGE_DOWN",      0x5E },
+		{ "RIGHT_ARROW",    0x5F },
+
+		{ "NUMPAD_LOCK",    0x61 },
+		{ "NUMPAD_7",       0x62 },
+		{ "NUMPAD_4",       0x63 },
+		{ "NUMPAD_1",       0x64 },
+		{ "NUMPAD_0",       0x65 },
+
+		{ "NUMPAD_DIVIDE",  0x67 },
+		{ "NUMPAD_8",       0x68 },
+		{ "NUMPAD_5",       0x69 },
+		{ "NUMPAD_2",       0x6A },
+
+		{ "NUMPAD_TIMES",   0x6C },
+		{ "NUMPAD_9",       0x6D },
+		{ "NUMPAD_6",       0x6E },
+		{ "NUMPAD_3",       0x6F },
+		{ "NUMPAD_PERIOD",  0x70 },
+
+		{ "NUMPAD_MINUS",   0x72 },
+		{ "NUMPAD_PLUS",    0x73 },
+		{ "NUMPAD_ENTER",   0x75 }
+	};
+
 	inline std::unordered_map<std::string, uint8_t> MagmaLED = {
 		{ "LED 1",  0x00 },
 		{ "LED 2",  0x01 },

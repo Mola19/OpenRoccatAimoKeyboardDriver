@@ -425,6 +425,10 @@ AimoKeyboardDriver::Error<AimoKeyboardDriver::LightingInfo> AimoKeyboardDriver::
 			packet_length = 26;
 			block_size = 5;
 			break;
+		case ROCCAT_PYRO_PID:
+			packet_length = 365;
+			block_size = 1;
+			break;
 		default:
 			return std::unexpected("This device is not supported by the function");
 	}
@@ -526,6 +530,9 @@ AimoKeyboardDriver::VoidError AimoKeyboardDriver::set_lighting(
 		case ROCCAT_MAGMA_PID:
 			packet_length = 26;
 			break;
+		case ROCCAT_PYRO_PID:
+			packet_length = 365;
+			break;
 		default:
 			return "This device is not supported by the function";
 	}
@@ -582,6 +589,9 @@ AimoKeyboardDriver::set_direct_lighting(std::vector<RGBColor> colors) {
 		case ROCCAT_MAGMA_MINI_PID:
 		case ROCCAT_MAGMA_PID:
 			total_length = 64;
+			break;
+		case ROCCAT_PYRO_PID:
+			total_length = 378;
 			break;
 		default:
 			return "This device is not supported by the function";
@@ -658,6 +668,9 @@ std::vector<uint8_t> AimoKeyboardDriver::generate_color_bytes(std::vector<RGBCol
 		case ROCCAT_MAGMA_MINI_PID:
 		case ROCCAT_MAGMA_PID:
 			block_size = 5;
+			break;
+		case ROCCAT_PYRO_PID:
+			block_size = 1;
 			break;
 	}
 
